@@ -8,21 +8,20 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Mock fetching user bookings
-    setTimeout(() => {
-      setBookings([
-        {
-          id: "b1",
-          therapist: "Dr. Sarah Smith",
-          date: "2026-03-01",
-          time: "10:00 AM - 11:00 AM",
-          status: "CONFIRMED",
-          payment: "SUCCESS",
-          type: "Video Session",
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
+    const fetchBookings = async () => {
+      try {
+        const res = await fetch("/api/bookings/my");
+        if (res.ok) {
+          const data = await res.json();
+          setBookings(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch bookings");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBookings();
   }, []);
 
   return (
@@ -72,11 +71,10 @@ export default function Dashboard() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`text-sm font-medium pb-4 -mb-4 border-b-2 transition-colors ${
-                activeTab === tab
-                  ? "border-indigo-600 text-indigo-600"
-                  : "border-transparent text-slate-500 hover:text-slate-700"
-              }`}
+              className={`text-sm font-medium pb-4 -mb-4 border-b-2 transition-colors ${activeTab === tab
+                ? "border-indigo-600 text-indigo-600"
+                : "border-transparent text-slate-500 hover:text-slate-700"
+                }`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
@@ -95,10 +93,10 @@ export default function Dashboard() {
                       <Video className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-bold text-slate-900">{b.therapist}</h4>
+                      <h4 className="text-lg font-bold text-slate-900">{b.therapist?.user?.name || "Therapist"}</h4>
                       <div className="flex items-center gap-3 text-sm text-slate-600 mt-1">
-                        <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {b.date}</span>
-                        <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {b.time}</span>
+                        <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {new Date(b.startTime).toLocaleDateString()}</span>
+                        <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {new Date(b.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                       </div>
                     </div>
                   </div>

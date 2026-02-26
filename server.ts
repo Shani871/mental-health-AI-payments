@@ -98,12 +98,12 @@ async function startServer() {
 
   // Therapists
   app.get('/api/therapists', (req, res) => {
-    const therapists = db.prepare(\`
+    const therapists = db.prepare(`
       SELECT t.*, u.name, u.email 
       FROM therapists t 
       JOIN users u ON t.user_id = u.id 
       WHERE t.verified = 1
-    \`).all();
+    `).all();
     res.json(therapists);
   });
 
@@ -117,12 +117,12 @@ async function startServer() {
   app.post('/api/bookings', (req, res) => {
     const { user_id, therapist_id, slot_id } = req.body;
     const id = 'b' + Date.now();
-    
+
     try {
       db.transaction(() => {
         const slot = db.prepare('SELECT is_booked FROM availability_slots WHERE id = ?').get(slot_id) as any;
         if (slot.is_booked) throw new Error('Slot already booked');
-        
+
         db.prepare('UPDATE availability_slots SET is_booked = 1 WHERE id = ?').run(slot_id);
         db.prepare('INSERT INTO bookings (id, user_id, therapist_id, slot_id, status) VALUES (?, ?, ?, ?, ?)')
           .run(id, user_id, therapist_id, slot_id, 'CONFIRMED');
@@ -154,7 +154,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(\`Server running on http://localhost:\${PORT}\`);
+    console.log(`Server running on http://localhost:${PORT}`);
   });
 }
 

@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Brain, Calendar, LayoutDashboard, MessageSquareHeart } from "lucide-react";
+import { Brain, Calendar, LayoutDashboard, MessageSquareHeart, ShieldCheck } from "lucide-react";
 import { cn } from "../lib/utils";
 
 export default function Layout() {
@@ -10,6 +10,7 @@ export default function Layout() {
     { path: "/triage", label: "AI Triage", icon: MessageSquareHeart },
     { path: "/therapists", label: "Therapists", icon: Calendar },
     { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { path: "/admin", label: "Admin", icon: ShieldCheck },
   ];
 
   return (

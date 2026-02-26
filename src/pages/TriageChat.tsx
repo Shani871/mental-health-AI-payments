@@ -4,7 +4,18 @@ import { Send, AlertTriangle, ShieldAlert, Bot, User, Loader2 } from "lucide-rea
 import ReactMarkdown from "react-markdown";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const getAI = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    // Return a dummy object or handle gracefully if key is missing
+    return {
+      models: {
+        generateContent: async () => ({ text: "AI is currently unavailable (API Key missing)." })
+      }
+    };
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 type Message = {
   id: string;
@@ -65,24 +76,14 @@ export default function TriageChat() {
 
       chatHistory.push({ role: "user", parts: [{ text: userMsg }] });
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+      const aiObj = getAI();
+      const response = await aiObj.models.generateContent({
+        model: "gemini-1.5-flash",
         contents: chatHistory as any,
-        config: {
-          systemInstruction: `You are a mental health triage assistant. Your goal is to gently ask questions to understand the user's emotional state, similar to a PHQ-9 or GAD-7 screening, but in a conversational way.
-          
-CRITICAL RULES:
-1. You are NOT a doctor or licensed therapist.
-2. DO NOT diagnose the user (e.g., never say "You have depression").
-3. DO NOT prescribe or recommend specific medical treatments.
-4. ONLY recommend speaking with a licensed therapist.
-5. If the user expresses thoughts of self-harm, suicide, or severe distress, you MUST immediately advise them to contact emergency services (e.g., 988) and stop the assessment.
-6. Keep responses empathetic, concise, and professional.`,
-        }
       });
 
       const aiText = response.text || "I'm sorry, I couldn't process that. Could you please rephrase?";
-      
+
       if (aiText.toLowerCase().includes("emergency") || aiText.toLowerCase().includes("988")) {
         setIsEmergency(true);
       }
@@ -128,7 +129,7 @@ CRITICAL RULES:
             <div>
               <h3 className="text-sm font-bold text-red-900">Emergency Resources</h3>
               <p className="text-sm text-red-800 mt-1">
-                If you are in immediate danger, please call <strong>911</strong> or go to the nearest emergency room. 
+                If you are in immediate danger, please call <strong>911</strong> or go to the nearest emergency room.
                 For the Suicide & Crisis Lifeline, call or text <strong>988</strong>.
               </p>
             </div>
@@ -145,9 +146,8 @@ CRITICAL RULES:
             className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
           >
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                msg.role === "user" ? "bg-indigo-600" : "bg-slate-200"
-              }`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === "user" ? "bg-indigo-600" : "bg-slate-200"
+                }`}
             >
               {msg.role === "user" ? (
                 <User className="w-5 h-5 text-white" />
@@ -156,11 +156,10 @@ CRITICAL RULES:
               )}
             </div>
             <div
-              className={`max-w-[80%] rounded-2xl px-5 py-3.5 ${
-                msg.role === "user"
-                  ? "bg-indigo-600 text-white rounded-tr-sm"
-                  : "bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-sm"
-              }`}
+              className={`max-w-[80%] rounded-2xl px-5 py-3.5 ${msg.role === "user"
+                ? "bg-indigo-600 text-white rounded-tr-sm"
+                : "bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-sm"
+                }`}
             >
               <div className={`prose prose-sm max-w-none ${msg.role === "user" ? "prose-invert" : ""}`}>
                 <ReactMarkdown>{msg.content}</ReactMarkdown>

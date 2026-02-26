@@ -4,20 +4,24 @@ import { Star, Clock, Video, Calendar as CalendarIcon, Loader2 } from "lucide-re
 
 type Therapist = {
   id: string;
-  name: string;
+  user?: {
+    name: string;
+    email: string;
+  };
   specialization: string;
-  experience_years: number;
-  hourly_rate: number;
+  experienceYears: number;
+  hourlyRate: number;
 };
 
 type Slot = {
   id: string;
-  date: string;
-  start_time: string;
-  end_time: string;
+  startTime: string;
+  endTime: string;
+  booked: boolean;
 };
 
 export default function Therapists() {
+  // ... (omitting middle parts for clarity if replace_file_content allows, but actually I should provide full context)
   const [therapists, setTherapists] = useState<Therapist[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTherapist, setSelectedTherapist] = useState<string | null>(null);
@@ -25,40 +29,40 @@ export default function Therapists() {
   const [bookingLoading, setBookingLoading] = useState(false);
 
   useEffect(() => {
-    fetch("/api/therapists")
+    fetch("/api/therapists/all")
       .then((res) => res.json())
       .then((data) => {
         setTherapists(data);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const fetchSlots = async (id: string) => {
     setSelectedTherapist(id);
-    const res = await fetch(`/api/therapists/${id}/slots`);
-    const data = await res.json();
-    setSlots(data);
+    try {
+      const res = await fetch(`/api/therapists/${id}/slots`);
+      const data = await res.json();
+      setSlots(data);
+    } catch (err) {
+      console.error("Failed to fetch slots");
+    }
   };
 
   const bookSlot = async (slotId: string) => {
     setBookingLoading(true);
     try {
-      const res = await fetch("/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: "u1", // Hardcoded for demo
-          therapist_id: selectedTherapist,
-          slot_id: slotId,
-        }),
+      const res = await fetch(`/api/bookings/create?slotId=${slotId}`, {
+        method: "POST"
       });
       if (res.ok) {
         alert("Booking confirmed!");
         if (selectedTherapist) fetchSlots(selectedTherapist);
       } else {
-        const error = await res.json();
-        alert(`Booking failed: ${error.error}`);
+        alert("Booking failed. Make sure you are logged in.");
       }
+    } catch (err) {
+      alert("Booking failed due to network error.");
     } finally {
       setBookingLoading(false);
     }
@@ -87,27 +91,26 @@ export default function Therapists() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className={`bg-white p-6 rounded-2xl border transition-all ${
-                selectedTherapist === t.id
-                  ? "border-indigo-600 shadow-md ring-1 ring-indigo-600"
-                  : "border-slate-200 shadow-sm hover:border-indigo-300"
-              }`}
+              className={`bg-white p-6 rounded-2xl border transition-all ${selectedTherapist === t.id
+                ? "border-indigo-600 shadow-md ring-1 ring-indigo-600"
+                : "border-slate-200 shadow-sm hover:border-indigo-300"
+                }`}
             >
               <div className="flex items-start gap-4">
                 <img
                   src={`https://picsum.photos/seed/${t.id}/100/100`}
-                  alt={t.name}
+                  alt={t.user?.name || "Therapist"}
                   className="w-20 h-20 rounded-full object-cover border border-slate-200"
                   referrerPolicy="no-referrer"
                 />
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900">{t.name}</h3>
+                      <h3 className="text-xl font-bold text-slate-900">{t.user?.name || "Anonymous"}</h3>
                       <p className="text-indigo-600 font-medium text-sm">{t.specialization}</p>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-slate-900">${t.hourly_rate}</div>
+                      <div className="text-lg font-bold text-slate-900">${t.hourlyRate}</div>
                       <div className="text-xs text-slate-500">per session</div>
                     </div>
                   </div>
@@ -120,7 +123,7 @@ export default function Therapists() {
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
-                      <span>{t.experience_years} yrs exp.</span>
+                      <span>{t.experienceYears} yrs exp.</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Video className="w-4 h-4" />
@@ -148,7 +151,7 @@ export default function Therapists() {
               <CalendarIcon className="w-5 h-5 text-indigo-600" />
               Available Slots
             </h3>
-            
+
             {!selectedTherapist ? (
               <div className="text-center py-8 text-slate-500 text-sm">
                 Select a therapist to view their available booking slots.
@@ -164,9 +167,9 @@ export default function Therapists() {
                     key={slot.id}
                     className="p-4 border border-slate-200 rounded-xl hover:border-indigo-300 transition-colors"
                   >
-                    <div className="font-medium text-slate-900">{slot.date}</div>
+                    <div className="font-medium text-slate-900">{new Date(slot.startTime).toLocaleDateString()}</div>
                     <div className="text-sm text-slate-600 mb-3">
-                      {slot.start_time} - {slot.end_time}
+                      {new Date(slot.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(slot.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                     <button
                       onClick={() => bookSlot(slot.id)}

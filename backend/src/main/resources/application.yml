@@ -1,0 +1,50 @@
+app:
+  security:
+    encryption:
+      key: ${ENCRYPTION_KEY:my-super-secret-key-12345} # Replace with at least 16 chars in prod
+
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/mental_health_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  redis:
+    host: localhost
+    port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:your-email@gmail.com}
+    password: ${MAIL_PASSWORD:your-app-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expirationMs: 86400000
+
+razorpay:
+  keyId: ${RAZORPAY_KEY_ID:rzp_test_placeholder}
+  keySecret: ${RAZORPAY_KEY_SECRET:rzp_test_secret_placeholder}
+
+ai:
+  openai:
+    apiKey: ${OPENAI_API_KEY:sk-placeholder}
+    model: ${OPENAI_MODEL:gpt-4o}
+
+zoom:
+  accountId: ${ZOOM_ACCOUNT_ID:placeholder}
+  clientId: ${ZOOM_CLIENT_ID:placeholder}
+  clientSecret: ${ZOOM_CLIENT_SECRET:placeholder}
