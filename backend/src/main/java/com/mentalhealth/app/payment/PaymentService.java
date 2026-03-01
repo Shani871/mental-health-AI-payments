@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class PaymentService {
@@ -65,6 +68,25 @@ public class PaymentService {
             client.payments.refund(paymentId, refundRequest);
             return true;
         } catch (RazorpayException e) {
+            return false;
+        }
+    }
+
+    public boolean verifyWebhookSignature(String payload, String signature) {
+        if (signature == null || signature.isBlank() || payload == null) {
+            return false;
+        }
+        try {
+            Mac sha256 = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secretKey = new SecretKeySpec(keySecret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            sha256.init(secretKey);
+            byte[] digest = sha256.doFinal(payload.getBytes(StandardCharsets.UTF_8));
+            StringBuilder computed = new StringBuilder();
+            for (byte b : digest) {
+                computed.append(String.format("%02x", b));
+            }
+            return computed.toString().equals(signature);
+        } catch (Exception e) {
             return false;
         }
     }

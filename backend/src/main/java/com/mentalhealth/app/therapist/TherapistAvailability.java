@@ -22,7 +22,8 @@ public class TherapistAvailability {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    private Boolean isBooked = false;
+    @Column(name = "is_booked")
+    private Boolean booked = false;
 
     public TherapistAvailability() {
     }
@@ -66,10 +67,10 @@ public class TherapistAvailability {
     }
 
     public Boolean getBooked() {
-        return isBooked;
+        return booked;
     }
 
     public void setBooked(Boolean booked) {
-        isBooked = booked;
+        this.booked = booked;
     }
 }

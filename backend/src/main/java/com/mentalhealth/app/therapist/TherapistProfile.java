@@ -21,6 +21,8 @@ public class TherapistProfile {
     private String bio;
 
     private String profilePictureUrl;
+    private String licenseDocumentUrl;
+    private String idDocumentUrl;
 
     private Double rating = 0.0;
 
@@ -63,6 +65,22 @@ public class TherapistProfile {
 
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public String getLicenseDocumentUrl() {
+        return licenseDocumentUrl;
+    }
+
+    public void setLicenseDocumentUrl(String licenseDocumentUrl) {
+        this.licenseDocumentUrl = licenseDocumentUrl;
+    }
+
+    public String getIdDocumentUrl() {
+        return idDocumentUrl;
+    }
+
+    public void setIdDocumentUrl(String idDocumentUrl) {
+        this.idDocumentUrl = idDocumentUrl;
     }
 
     public Double getRating() {

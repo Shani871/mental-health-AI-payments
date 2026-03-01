@@ -1,20 +1,74 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# MindBridge Health Platform
 
-# Run and deploy your AI Studio app
+Full-stack mental health SaaS using Spring Boot + React, built phase-wise from the development report.
 
-This contains everything you need to run your app locally.
+## Implemented Scope
 
-View your app in AI Studio: https://ai.studio/apps/51ea6bd0-a642-4603-a3a3-e55b536b9ffc
+- Phase 1: JWT auth, refresh token, role-based guards, rate limiting, global API responses, Swagger support
+- Phase 2: therapist profiles, document uploads, slot management, Redis slot locking, booking lifecycle + reschedule/cancel policies
+- Phase 3: payments (Razorpay + Stripe-style flow + Cash), webhooks, invoice generation, refunds, payouts, commission engine
+- Phase 4: structured PHQ-9/GAD-7 assessment, risk classification, emergency alerts, encrypted AI chat history, mood tracking, therapist AI summaries
+- Phase 5: Zoom meeting creation, meeting metadata entity, attendance tracking, email reminders, SMS service hook, in-app notifications, review moderation flow
+- Phase 6: structured request logging, security headers, actuator/prometheus metrics, Docker + Nginx setup, CI pipeline with OWASP dependency scan
 
-## Run Locally
+## Local Run
 
-**Prerequisites:**  Node.js
+### 1) Start infra (PostgreSQL + Redis)
+```bash
+cd backend
+docker compose up -d db redis
+```
 
+### 2) Run backend (PostgreSQL profile defaults)
+```bash
+cd ..
+npm run dev:backend
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 3) Run frontend
+```bash
+npm install
+npm run dev
+```
+
+Frontend: `http://localhost:5173`  
+Backend API: `http://localhost:8080`  
+Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+
+## Full Docker Stack (frontend + backend + db + redis + nginx)
+
+```bash
+cd backend
+docker compose up --build
+```
+
+Nginx entrypoint: `http://localhost`
+
+## Default Admin
+
+- Email: `admin@mentalsaas.com`
+- Password: `admin123`
+
+## What You Need To Provide (Your Side)
+
+Set these environment variables before production-like usage:
+
+- `OPENAI_API_KEY` for AI backend calls
+- `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` for live Razorpay payments/webhooks
+- `MAIL_USERNAME`, `MAIL_PASSWORD` for transactional emails
+- `ZOOM_ACCOUNT_ID`, `ZOOM_CLIENT_ID`, `ZOOM_CLIENT_SECRET` for real Zoom meetings
+- `SMS_PROVIDER` (+ provider-specific credentials if replacing mock SMS)
+- `ENCRYPTION_KEY` (strong secret, min 16 chars) for encrypted fields
+
+Optional production infrastructure:
+
+- AWS S3 bucket (if replacing local file storage with S3)
+- HTTPS certificate + domain for Nginx SSL
+- Prometheus/Grafana deployment for monitoring
+- GitHub Actions secrets for CI/CD deploy steps
+
+## Notes
+
+- Backend dev profile now points to PostgreSQL by default via `npm run dev:backend`.
+- If you need H2 fallback: `npm run dev:backend:h2`.
+- Current backend tests may fail on Java 25 due Mockito agent-attach restrictions; compile/build are passing.

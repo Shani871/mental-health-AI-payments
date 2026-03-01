@@ -25,6 +25,12 @@ export default function Home() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
+            to="/signup"
+            className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-white bg-slate-900 hover:bg-slate-800 shadow-sm transition-all hover:shadow-md"
+          >
+            Create Account
+          </Link>
+          <Link
             to="/triage"
             className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-all hover:shadow-md"
           >

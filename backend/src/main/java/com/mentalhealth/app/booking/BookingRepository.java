@@ -13,6 +13,12 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
     List<Booking> findByTherapistId(UUID therapistId);
 
+    List<Booking> findByTherapist_User_Id(UUID therapistUserId);
+
+    List<Booking> findByTherapist_User_IdAndStatusIn(UUID therapistUserId, List<BookingStatus> statuses);
+
     List<Booking> findByStatusAndAvailabilitySlot_StartTimeBetween(BookingStatus status, LocalDateTime start,
             LocalDateTime end);
+
+    List<Booking> findByStatusAndCreatedAtBefore(BookingStatus status, LocalDateTime createdBefore);
 }

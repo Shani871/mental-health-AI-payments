@@ -3,7 +3,8 @@ package com.mentalhealth.app.auth.dto;
 import java.util.UUID;
 
 public class JwtResponse {
-    private String token;
+    private String accessToken;
+    private String refreshToken;
     private String type = "Bearer";
     private UUID id;
     private String name;
@@ -13,8 +14,9 @@ public class JwtResponse {
     public JwtResponse() {
     }
 
-    public JwtResponse(String token, UUID id, String name, String email, String role) {
-        this.token = token;
+    public JwtResponse(String accessToken, String refreshToken, UUID id, String name, String email, String role) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.id = id;
         this.name = name;
         this.email = email;
@@ -22,11 +24,27 @@ public class JwtResponse {
     }
 
     public String getToken() {
-        return token;
+        return accessToken;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.accessToken = token;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getType() {

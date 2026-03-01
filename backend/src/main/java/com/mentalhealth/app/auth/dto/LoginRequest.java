@@ -1,10 +1,12 @@
 package com.mentalhealth.app.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
 
 public class LoginRequest {
 
     @NotBlank
+    @Email
     private String email;
 
     @NotBlank
