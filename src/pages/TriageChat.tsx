@@ -1,208 +1,297 @@
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Send, AlertTriangle, ShieldAlert, Bot, User, Loader2 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import { GoogleGenAI } from "@google/genai";
+import { useEffect, useMemo, useState } from "react";
+import { AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
+import { apiFetch } from "../lib/api";
 
-const getAI = () => {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    // Return a dummy object or handle gracefully if key is missing
-    return {
-      models: {
-        generateContent: async () => ({ text: "AI is currently unavailable (API Key missing)." })
-      }
-    };
-  }
-  return new GoogleGenAI({ apiKey });
+type Question = {
+  key: string;
+  text: string;
 };
 
-type Message = {
+type Assessment = {
   id: string;
-  role: "user" | "model";
-  content: string;
+  riskLevel: "LOW" | "MODERATE" | "HIGH" | "EMERGENCY" | null;
+  phq9Score: number | null;
+  gad7Score: number | null;
+  score: number | null;
+  summary: string | null;
+  completed: boolean;
 };
+
+type MoodTrend = {
+  averageMood: number;
+  minMood: number;
+  maxMood: number;
+  entries: number;
+  history: Array<{ id: string; score: number; note?: string; createdAt: string }>;
+};
+
+const answerOptions = [
+  { value: 0, label: "Not at all" },
+  { value: 1, label: "Several days" },
+  { value: 2, label: "More than half the days" },
+  { value: 3, label: "Nearly every day" },
+];
 
 export default function TriageChat() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      role: "model",
-      content: "Hello. I am the MindTriage AI assistant. I'm here to help understand what you're experiencing so we can connect you with the right support. \n\n**Please note: I am an AI, not a doctor. I cannot diagnose conditions or provide medical treatment. If you are in immediate danger or experiencing a medical emergency, please call your local emergency services immediately.**\n\nHow have you been feeling over the past two weeks?",
-    },
-  ]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isEmergency, setIsEmergency] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [tool, setTool] = useState<"COMBINED" | "PHQ9" | "GAD7">("COMBINED");
+  const [consent, setConsent] = useState(false);
+  const [assessmentId, setAssessmentId] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [note, setNote] = useState("");
+  const [result, setResult] = useState<Assessment | null>(null);
+  const [moodScore, setMoodScore] = useState(7);
+  const [moodNote, setMoodNote] = useState("");
+  const [moodTrend, setMoodTrend] = useState<MoodTrend | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const allAnswered = useMemo(
+    () => questions.length > 0 && questions.every((q) => answers[q.key] !== undefined),
+    [questions, answers]
+  );
+
+  const loadMoodTrend = async () => {
+    try {
+      const trend = await apiFetch<MoodTrend>("/api/ai/mood/trend?days=30");
+      setMoodTrend(trend);
+    } catch {
+      // keep page functional even if mood endpoints fail
+    }
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    loadMoodTrend();
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
-
-    const userMsg = input.trim();
-    setInput("");
-    setMessages((prev) => [...prev, { id: Date.now().toString(), role: "user", content: userMsg }]);
-    setIsLoading(true);
-
+  const start = async () => {
+    if (!consent) {
+      setError("You must accept the AI disclaimer to start.");
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    setResult(null);
     try {
-      const emergencyKeywords = ["suicide", "kill myself", "end it all", "want to die", "hurt myself"];
-      if (emergencyKeywords.some((kw) => userMsg.toLowerCase().includes(kw))) {
-        setIsEmergency(true);
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now().toString(),
-            role: "model",
-            content: "**EMERGENCY ALERT:** It sounds like you are going through an incredibly difficult time. Please know that you are not alone and help is available right now. **Please call 988 (Suicide & Crisis Lifeline) or go to the nearest emergency room immediately.**",
-          },
-        ]);
-        setIsLoading(false);
-        return;
-      }
-
-      const chatHistory = messages.map((m) => ({
-        role: m.role,
-        parts: [{ text: m.content }],
-      }));
-
-      chatHistory.push({ role: "user", parts: [{ text: userMsg }] });
-
-      const aiObj = getAI();
-      const response = await aiObj.models.generateContent({
-        model: "gemini-1.5-flash",
-        contents: chatHistory as any,
-      });
-
-      const aiText = response.text || "I'm sorry, I couldn't process that. Could you please rephrase?";
-
-      if (aiText.toLowerCase().includes("emergency") || aiText.toLowerCase().includes("988")) {
-        setIsEmergency(true);
-      }
-
-      setMessages((prev) => [...prev, { id: Date.now().toString(), role: "model", content: aiText }]);
-    } catch (error) {
-      console.error("Chat error:", error);
-      setMessages((prev) => [
-        ...prev,
-        { id: Date.now().toString(), role: "model", content: "I'm sorry, I encountered an error connecting to the service. Please try again." },
-      ]);
+      const assessment = await apiFetch<Assessment>(`/api/ai/structured/start?tool=${tool}`, { method: "POST" });
+      await apiFetch(`/api/ai/accept-disclaimer/${assessment.id}`, { method: "POST" });
+      const q = await apiFetch<Question[]>(`/api/ai/structured/questions?tool=${tool}`);
+      setAssessmentId(assessment.id);
+      setQuestions(q);
+      setAnswers({});
+      setNote("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to start assessment.");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
+    }
+  };
+
+  const submit = async () => {
+    if (!assessmentId || !allAnswered) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const completed = await apiFetch<Assessment>(`/api/ai/structured/${assessmentId}/submit`, {
+        method: "POST",
+        body: JSON.stringify({ responses: answers, note }),
+      });
+      setResult(completed);
+      await loadMoodTrend();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to submit assessment.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const submitMood = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await apiFetch(`/api/ai/mood/checkin?score=${moodScore}&note=${encodeURIComponent(moodNote)}`, {
+        method: "POST",
+      });
+      setMoodNote("");
+      await loadMoodTrend();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save mood check-in.");
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-12rem)] flex flex-col bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-      <div className="bg-slate-50 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="bg-indigo-100 p-2 rounded-lg">
-            <Bot className="w-5 h-5 text-indigo-700" />
-          </div>
-          <div>
-            <h2 className="text-lg font-semibold text-slate-900">AI Triage Assistant</h2>
-            <p className="text-xs text-slate-500">Confidential & Secure</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
-          <ShieldAlert className="w-4 h-4 text-amber-500" />
-          Not medical advice
-        </div>
-      </div>
+    <div className="max-w-5xl mx-auto space-y-6">
+      <section className="bg-white border border-slate-200 rounded-2xl p-6">
+        <h1 className="text-3xl font-bold text-slate-900">AI Structured Assessment</h1>
+        <p className="text-slate-600 mt-2">
+          This assistant is not a medical diagnosis tool. It provides triage guidance and recommends professional help.
+        </p>
 
-      <AnimatePresence>
-        {isEmergency && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            className="bg-red-50 border-b border-red-100 px-6 py-4 flex items-start gap-3"
-          >
-            <AlertTriangle className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
-            <div>
-              <h3 className="text-sm font-bold text-red-900">Emergency Resources</h3>
-              <p className="text-sm text-red-800 mt-1">
-                If you are in immediate danger, please call <strong>911</strong> or go to the nearest emergency room.
-                For the Suicide & Crisis Lifeline, call or text <strong>988</strong>.
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <div className="mt-4 p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-sm">
+          If you are in immediate danger or having self-harm thoughts, call your local emergency number or 988 (US).
+        </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-slate-50/50">
-        {messages.map((msg) => (
-          <motion.div
-            key={msg.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`flex gap-4 ${msg.role === "user" ? "flex-row-reverse" : ""}`}
+        {error && <div className="mt-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3">{error}</div>}
+
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+          {(["COMBINED", "PHQ9", "GAD7"] as const).map((option) => (
+            <button
+              key={option}
+              onClick={() => setTool(option)}
+              className={`px-4 py-3 rounded-xl border text-sm font-medium ${tool === option ? "border-indigo-300 bg-indigo-50 text-indigo-700" : "border-slate-200 bg-white text-slate-700"}`}
+            >
+              {option === "COMBINED" ? "PHQ-9 + GAD-7" : option}
+            </button>
+          ))}
+        </div>
+
+        <label className="mt-5 flex items-start gap-3 text-sm text-slate-700">
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            className="mt-1"
+          />
+          I understand this AI does not provide medical diagnosis and I consent to use it for triage only.
+        </label>
+
+        <button
+          onClick={start}
+          disabled={loading}
+          className="mt-5 px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium disabled:opacity-60"
+        >
+          {loading ? "Starting..." : "Start Assessment"}
+        </button>
+      </section>
+
+      {questions.length > 0 && (
+        <section className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h2 className="text-xl font-bold text-slate-900">Questions</h2>
+          <div className="space-y-6 mt-4">
+            {questions.map((question, idx) => (
+              <div key={question.key}>
+                <div className="text-sm font-medium text-slate-900">
+                  {idx + 1}. {question.text}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                  {answerOptions.map((option) => (
+                    <label key={option.value} className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name={question.key}
+                        checked={answers[question.key] === option.value}
+                        onChange={() => setAnswers((prev) => ({ ...prev, [question.key]: option.value }))}
+                      />
+                      {option.label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder="Optional note for therapist summary..."
+            className="w-full mt-5 p-3 border border-slate-200 rounded-lg text-sm min-h-[88px]"
+          />
+
+          <button
+            onClick={submit}
+            disabled={!allAnswered || submitting}
+            className="mt-4 px-5 py-2.5 bg-slate-900 text-white rounded-lg text-sm font-medium disabled:opacity-60 inline-flex items-center gap-2"
           >
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === "user" ? "bg-indigo-600" : "bg-slate-200"
-                }`}
-            >
-              {msg.role === "user" ? (
-                <User className="w-5 h-5 text-white" />
-              ) : (
-                <Bot className="w-5 h-5 text-slate-600" />
-              )}
+            {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
+            {submitting ? "Submitting..." : "Submit Assessment"}
+          </button>
+        </section>
+      )}
+
+      {result && (
+        <section className="bg-white border border-slate-200 rounded-2xl p-6">
+          <h2 className="text-xl font-bold text-slate-900 inline-flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+            Assessment Result
+          </h2>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+            <div className="p-3 border border-slate-200 rounded-lg">
+              <div className="text-slate-500">Risk</div>
+              <div className="font-semibold text-slate-900">{result.riskLevel || "-"}</div>
             </div>
-            <div
-              className={`max-w-[80%] rounded-2xl px-5 py-3.5 ${msg.role === "user"
-                ? "bg-indigo-600 text-white rounded-tr-sm"
-                : "bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-sm"
-                }`}
-            >
-              <div className={`prose prose-sm max-w-none ${msg.role === "user" ? "prose-invert" : ""}`}>
-                <ReactMarkdown>{msg.content}</ReactMarkdown>
+            <div className="p-3 border border-slate-200 rounded-lg">
+              <div className="text-slate-500">PHQ-9</div>
+              <div className="font-semibold text-slate-900">{result.phq9Score ?? "-"}</div>
+            </div>
+            <div className="p-3 border border-slate-200 rounded-lg">
+              <div className="text-slate-500">GAD-7</div>
+              <div className="font-semibold text-slate-900">{result.gad7Score ?? "-"}</div>
+            </div>
+            <div className="p-3 border border-slate-200 rounded-lg">
+              <div className="text-slate-500">Computed Score</div>
+              <div className="font-semibold text-slate-900">{result.score ?? "-"}</div>
+            </div>
+          </div>
+
+          <p className="mt-4 text-sm text-slate-700">{result.summary || "No summary available."}</p>
+
+          {result.riskLevel === "HIGH" || result.riskLevel === "EMERGENCY" ? (
+            <div className="mt-4 p-4 rounded-xl border border-red-200 bg-red-50 text-red-900 text-sm inline-flex gap-2">
+              <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+              High-risk detected. Please book a therapist immediately. Emergency resources should be used if needed.
+            </div>
+          ) : null}
+        </section>
+      )}
+
+      <section className="bg-white border border-slate-200 rounded-2xl p-6">
+        <h2 className="text-xl font-bold text-slate-900">Daily Mood Tracker</h2>
+        <form onSubmit={submitMood} className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
+          <input
+            type="number"
+            min={1}
+            max={10}
+            value={moodScore}
+            onChange={(e) => setMoodScore(Number(e.target.value))}
+            className="p-2 border border-slate-200 rounded-lg text-sm"
+          />
+          <input
+            value={moodNote}
+            onChange={(e) => setMoodNote(e.target.value)}
+            placeholder="Optional note"
+            className="md:col-span-2 p-2 border border-slate-200 rounded-lg text-sm"
+          />
+          <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium">Save Mood</button>
+        </form>
+
+        {moodTrend && (
+          <div className="mt-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div className="p-3 border border-slate-200 rounded-lg">
+                <div className="text-slate-500">Average (30d)</div>
+                <div className="font-semibold text-slate-900">{moodTrend.averageMood}</div>
+              </div>
+              <div className="p-3 border border-slate-200 rounded-lg">
+                <div className="text-slate-500">Min / Max</div>
+                <div className="font-semibold text-slate-900">{moodTrend.minMood} / {moodTrend.maxMood}</div>
+              </div>
+              <div className="p-3 border border-slate-200 rounded-lg">
+                <div className="text-slate-500">Entries</div>
+                <div className="font-semibold text-slate-900">{moodTrend.entries}</div>
               </div>
             </div>
-          </motion.div>
-        ))}
-        {isLoading && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-4">
-            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center shrink-0">
-              <Bot className="w-5 h-5 text-slate-600" />
+            <div className="mt-4 space-y-2">
+              {moodTrend.history.slice(-7).reverse().map((item) => (
+                <div key={item.id} className="p-3 border border-slate-200 rounded-lg text-sm">
+                  <div className="font-semibold text-slate-900">Score: {item.score}</div>
+                  {item.note && <div className="text-slate-600 mt-1">{item.note}</div>}
+                  <div className="text-xs text-slate-500 mt-1">{new Date(item.createdAt).toLocaleString()}</div>
+                </div>
+              ))}
             </div>
-            <div className="bg-white border border-slate-200 rounded-2xl rounded-tl-sm px-5 py-4 shadow-sm flex items-center gap-2">
-              <Loader2 className="w-4 h-4 text-slate-400 animate-spin" />
-              <span className="text-sm text-slate-500">Analyzing response...</span>
-            </div>
-          </motion.div>
+          </div>
         )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      <div className="p-4 bg-white border-t border-slate-200">
-        <form onSubmit={handleSubmit} className="relative flex items-center">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message here..."
-            disabled={isLoading}
-            className="w-full bg-slate-50 border border-slate-300 rounded-full pl-6 pr-14 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:opacity-50 transition-shadow"
-          />
-          <button
-            type="submit"
-            disabled={!input.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center hover:bg-indigo-700 disabled:opacity-50 disabled:hover:bg-indigo-600 transition-colors"
-          >
-            <Send className="w-4 h-4 ml-0.5" />
-          </button>
-        </form>
-        <p className="text-center text-[10px] text-slate-400 mt-3">
-          AI-generated responses may be inaccurate. Do not use for medical emergencies.
-        </p>
-      </div>
+      </section>
     </div>
   );
 }

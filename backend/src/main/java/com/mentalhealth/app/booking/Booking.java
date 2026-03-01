@@ -4,6 +4,11 @@ import com.mentalhealth.app.therapist.Therapist;
 import com.mentalhealth.app.therapist.TherapistAvailability;
 import com.mentalhealth.app.user.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -33,6 +38,22 @@ public class Booking {
     private String paymentId;
 
     private String meetingLink;
+
+    @Column(nullable = false)
+    private Boolean cancellationFeeApplied = false;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal cancellationFeeAmount = BigDecimal.ZERO;
+
+    private String cancelledByRole;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 
     public Booking() {
     }
@@ -98,5 +119,37 @@ public class Booking {
 
     public void setMeetingLink(String meetingLink) {
         this.meetingLink = meetingLink;
+    }
+
+    public Boolean getCancellationFeeApplied() {
+        return cancellationFeeApplied;
+    }
+
+    public void setCancellationFeeApplied(Boolean cancellationFeeApplied) {
+        this.cancellationFeeApplied = cancellationFeeApplied;
+    }
+
+    public BigDecimal getCancellationFeeAmount() {
+        return cancellationFeeAmount;
+    }
+
+    public void setCancellationFeeAmount(BigDecimal cancellationFeeAmount) {
+        this.cancellationFeeAmount = cancellationFeeAmount;
+    }
+
+    public String getCancelledByRole() {
+        return cancelledByRole;
+    }
+
+    public void setCancelledByRole(String cancelledByRole) {
+        this.cancelledByRole = cancelledByRole;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

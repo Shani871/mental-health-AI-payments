@@ -21,24 +21,35 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${jwt.expirationMs}")
-    private int jwtExpirationMs;
+    private int accessTokenExpirationMs;
+
+    @Value("${jwt.refreshExpirationMs}")
+    private int refreshTokenExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        return Jwts.builder()
-                .setSubject((userDetails.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key(), SignatureAlgorithm.HS256)
-                .compact();
+        return generateAccessToken(authentication);
     }
 
-    public String generateTokenFromEmail(String email) {
+    public String generateAccessToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return generateToken(userDetails.getUsername(), accessTokenExpirationMs, "access");
+    }
+
+    public String generateRefreshToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return generateToken(userDetails.getUsername(), refreshTokenExpirationMs, "refresh");
+    }
+
+    public String generateAccessTokenFromEmail(String email) {
+        return generateToken(email, accessTokenExpirationMs, "access");
+    }
+
+    private String generateToken(String email, int expirationMs, String tokenType) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("tokenType", tokenType)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date((new Date()).getTime() + expirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -48,8 +59,13 @@ public class JwtUtils {
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key()).build()
-                .parseClaimsJws(token).getBody().getSubject();
+        return parseClaims(token).getSubject();
+    }
+
+    public boolean isRefreshToken(String token) {
+        Claims claims = parseClaims(token);
+        String tokenType = claims.get("tokenType", String.class);
+        return "refresh".equals(tokenType);
     }
 
     public boolean validateJwtToken(String authToken) {
@@ -67,5 +83,10 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    private Claims parseClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key()).build()
+                .parseClaimsJws(token).getBody();
     }
 }

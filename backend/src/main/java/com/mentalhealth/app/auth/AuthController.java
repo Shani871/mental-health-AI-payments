@@ -2,8 +2,10 @@ package com.mentalhealth.app.auth;
 
 import com.mentalhealth.app.auth.dto.JwtResponse;
 import com.mentalhealth.app.auth.dto.LoginRequest;
+import com.mentalhealth.app.auth.dto.RefreshTokenRequest;
 import com.mentalhealth.app.auth.dto.SignupRequest;
 import com.mentalhealth.app.auth.dto.TherapistSignupRequest;
+import com.mentalhealth.app.common.ApiResponse;
 import com.mentalhealth.app.security.JwtUtils;
 import com.mentalhealth.app.therapist.Therapist;
 import com.mentalhealth.app.therapist.TherapistRepository;
@@ -19,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@Validated
 public class AuthController {
 
         private final AuthenticationManager authenticationManager;
@@ -45,32 +49,35 @@ public class AuthController {
         }
 
         @PostMapping("/signin")
-        public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        public ResponseEntity<ApiResponse<JwtResponse>> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
                 Authentication authentication = authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                                                 loginRequest.getPassword()));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                String jwt = jwtUtils.generateJwtToken(authentication);
+                String accessToken = jwtUtils.generateAccessToken(authentication);
+                String refreshToken = jwtUtils.generateRefreshToken(authentication);
 
                 UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
                 User user = userRepository.findByEmail(userPrincipal.getUsername()).orElseThrow();
 
-                return ResponseEntity.ok(new JwtResponse(
-                                jwt,
+                JwtResponse tokenResponse = new JwtResponse(
+                                accessToken,
+                                refreshToken,
                                 user.getId(),
                                 user.getName(),
                                 user.getEmail(),
-                                user.getRole().name()));
+                                user.getRole().name());
+                return ResponseEntity.ok(ApiResponse.success("Login successful", tokenResponse));
         }
 
         @PostMapping("/signup")
-        public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        public ResponseEntity<ApiResponse<String>> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
                 if (userRepository.existsByEmail(signUpRequest.getEmail())) {
                         return ResponseEntity
                                         .badRequest()
-                                        .body("Error: Email is already in use!");
+                                        .body(ApiResponse.error("Email is already in use", null));
                 }
 
                 User user = new User(
@@ -82,15 +89,15 @@ public class AuthController {
 
                 userRepository.save(user);
 
-                return ResponseEntity.ok("User registered successfully!");
+                return ResponseEntity.ok(ApiResponse.success("User registered successfully", null));
         }
 
         @PostMapping("/therapist/signup")
-        public ResponseEntity<?> registerTherapist(@Valid @RequestBody TherapistSignupRequest signUpRequest) {
+        public ResponseEntity<ApiResponse<String>> registerTherapist(@Valid @RequestBody TherapistSignupRequest signUpRequest) {
                 if (userRepository.existsByEmail(signUpRequest.getEmail())) {
                         return ResponseEntity
                                         .badRequest()
-                                        .body("Error: Email is already in use!");
+                                        .body(ApiResponse.error("Email is already in use", null));
                 }
 
                 User user = new User(
@@ -110,6 +117,32 @@ public class AuthController {
 
                 therapistRepository.save(therapist);
 
-                return ResponseEntity.ok("Therapist registered successfully! Awaiting admin approval.");
+                return ResponseEntity.ok(ApiResponse.success(
+                                "Therapist registered successfully. Account is pending admin approval.",
+                                null));
+        }
+
+        @PostMapping("/refresh")
+        public ResponseEntity<ApiResponse<JwtResponse>> refreshAccessToken(
+                        @Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+                String refreshToken = refreshTokenRequest.getRefreshToken();
+
+                if (!jwtUtils.validateJwtToken(refreshToken) || !jwtUtils.isRefreshToken(refreshToken)) {
+                        return ResponseEntity.badRequest()
+                                        .body(ApiResponse.error("Invalid or expired refresh token", null));
+                }
+
+                String email = jwtUtils.getUserNameFromJwtToken(refreshToken);
+                User user = userRepository.findByEmail(email).orElseThrow();
+                String newAccessToken = jwtUtils.generateAccessTokenFromEmail(email);
+
+                JwtResponse tokenResponse = new JwtResponse(
+                                newAccessToken,
+                                refreshToken,
+                                user.getId(),
+                                user.getName(),
+                                user.getEmail(),
+                                user.getRole().name());
+                return ResponseEntity.ok(ApiResponse.success("Access token refreshed", tokenResponse));
         }
 }

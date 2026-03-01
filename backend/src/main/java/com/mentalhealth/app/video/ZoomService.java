@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class ZoomService {
@@ -27,6 +28,10 @@ public class ZoomService {
     }
 
     public String createMeeting(String topic, String startTime) {
+        return createMeetingDetails(topic, startTime).getJoinUrl();
+    }
+
+    public MeetingDetails createMeetingDetails(String topic, String startTime) {
         String accessToken = getAccessToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -46,13 +51,21 @@ public class ZoomService {
             ResponseEntity<Map> response = restTemplate.postForEntity("https://api.zoom.us/v2/users/me/meetings",
                     entity, Map.class);
             if (response.getStatusCode() == HttpStatus.CREATED && response.getBody() != null) {
-                return (String) response.getBody().get("join_url");
+                String meetingId = String.valueOf(response.getBody().get("id"));
+                String joinUrl = String.valueOf(response.getBody().get("join_url"));
+                String hostUrl = String.valueOf(response.getBody().getOrDefault("start_url", joinUrl));
+                return new MeetingDetails(meetingId, joinUrl, hostUrl, 60, "ZOOM");
             }
         } catch (Exception e) {
             System.err.println("Error creating Zoom meeting: " + e.getMessage());
         }
 
-        return "https://zoom.us/mock-meeting-link"; // Fallback for demo/dev
+        return new MeetingDetails(
+                "mock-" + UUID.randomUUID(),
+                "https://zoom.us/mock-meeting-link",
+                "https://zoom.us/mock-host-link",
+                60,
+                "JITSI_FALLBACK");
     }
 
     private String getAccessToken() {
@@ -74,5 +87,41 @@ public class ZoomService {
         }
 
         return "mock-token";
+    }
+
+    public static class MeetingDetails {
+        private final String meetingId;
+        private final String joinUrl;
+        private final String hostUrl;
+        private final Integer sessionDuration;
+        private final String provider;
+
+        public MeetingDetails(String meetingId, String joinUrl, String hostUrl, Integer sessionDuration, String provider) {
+            this.meetingId = meetingId;
+            this.joinUrl = joinUrl;
+            this.hostUrl = hostUrl;
+            this.sessionDuration = sessionDuration;
+            this.provider = provider;
+        }
+
+        public String getMeetingId() {
+            return meetingId;
+        }
+
+        public String getJoinUrl() {
+            return joinUrl;
+        }
+
+        public String getHostUrl() {
+            return hostUrl;
+        }
+
+        public Integer getSessionDuration() {
+            return sessionDuration;
+        }
+
+        public String getProvider() {
+            return provider;
+        }
     }
 }

@@ -8,6 +8,8 @@ import com.mentalhealth.app.booking.Booking;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class InvoiceService {
@@ -42,16 +44,17 @@ public class InvoiceService {
                     .format(booking.getAvailabilitySlot().getStartTime())));
             document.add(new Paragraph("\n"));
 
-            // Financials (Mocking hourly rate for now or fetch from therapist)
-            double amount = 1000.0; // Base amount (should be from therapist.hourlyRate)
-            double gstRate = 0.18;
-            double gstAmount = amount * gstRate;
-            double total = amount + gstAmount;
+            BigDecimal amount = booking.getTherapist().getHourlyRate() == null
+                    ? new BigDecimal("0.00")
+                    : booking.getTherapist().getHourlyRate().setScale(2, RoundingMode.HALF_UP);
+            BigDecimal gstRate = new BigDecimal("0.18");
+            BigDecimal gstAmount = amount.multiply(gstRate).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal total = amount.add(gstAmount).setScale(2, RoundingMode.HALF_UP);
 
             document.add(new Paragraph("--------------------------------------------------"));
-            document.add(new Paragraph("Base Consultation Fee: " + amount));
-            document.add(new Paragraph("GST (18%): " + gstAmount));
-            document.add(new Paragraph("TOTAL AMOUNT PAID: " + total).setBold());
+            document.add(new Paragraph("Base Consultation Fee: INR " + amount));
+            document.add(new Paragraph("GST (18%): INR " + gstAmount));
+            document.add(new Paragraph("TOTAL AMOUNT PAID: INR " + total).setBold());
             document.add(new Paragraph("--------------------------------------------------"));
             document.add(new Paragraph("\n"));
 
