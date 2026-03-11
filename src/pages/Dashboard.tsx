@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { Calendar, Clock, Video } from "lucide-react";
-import { apiFetch } from "../lib/api";
+import { apiFetch, apiFetchBlob } from "../lib/api";
 
 type Slot = {
   id: string;
@@ -41,6 +41,7 @@ export default function Dashboard() {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewComment, setReviewComment] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [downloadingCalendarFor, setDownloadingCalendarFor] = useState<string | null>(null);
 
   const loadBookings = async () => {
     setLoading(true);
@@ -166,6 +167,25 @@ export default function Dashboard() {
     }
   };
 
+  const downloadCalendarInvite = async (bookingId: string) => {
+    setDownloadingCalendarFor(bookingId);
+    try {
+      const blob = await apiFetchBlob(`/api/bookings/${bookingId}/calendar.ics`);
+      const objectUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = objectUrl;
+      anchor.download = `mindtriage-session-${bookingId}.ics`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to download calendar invite.");
+    } finally {
+      setDownloadingCalendarFor(null);
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8 flex items-center justify-between">
@@ -250,6 +270,15 @@ export default function Dashboard() {
                         >
                           Join
                         </a>
+                      )}
+                      {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
+                        <button
+                          disabled={downloadingCalendarFor === booking.id}
+                          onClick={() => downloadCalendarInvite(booking.id)}
+                          className="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 disabled:opacity-60"
+                        >
+                          {downloadingCalendarFor === booking.id ? "Downloading..." : "Calendar .ics"}
+                        </button>
                       )}
                       {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
                         <>

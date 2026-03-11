@@ -10,9 +10,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/therapists")
@@ -31,7 +33,7 @@ public class TherapistController {
 
     @PostMapping("/profile")
     @PreAuthorize("hasRole('THERAPIST')")
-    public ResponseEntity<TherapistProfile> updateProfile(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> updateProfile(@RequestBody Map<String, String> request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Therapist therapist = therapistRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Therapist record not found for user"));
@@ -47,7 +49,7 @@ public class TherapistController {
                 request.get("profilePictureUrl"),
                 request.get("licenseDocumentUrl"),
                 request.get("idDocumentUrl"));
-        return ResponseEntity.ok(profile);
+        return ResponseEntity.ok(toProfileMap(profile));
     }
 
     @PostMapping("/profile/documents")
@@ -83,7 +85,7 @@ public class TherapistController {
 
     @PostMapping("/availability")
     @PreAuthorize("hasRole('THERAPIST')")
-    public ResponseEntity<TherapistAvailability> addSlot(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> addSlot(@RequestBody Map<String, String> request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Therapist therapist = therapistRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Therapist record not found for user"));
@@ -92,12 +94,12 @@ public class TherapistController {
         LocalDateTime end = LocalDateTime.parse(request.get("endTime"));
 
         TherapistAvailability availability = therapistService.addAvailabilitySlot(therapist.getId(), start, end);
-        return ResponseEntity.ok(availability);
+        return ResponseEntity.ok(toSlotMap(availability));
     }
 
     @PutMapping("/availability/{slotId}")
     @PreAuthorize("hasRole('THERAPIST')")
-    public ResponseEntity<TherapistAvailability> updateSlot(@PathVariable UUID slotId, @RequestBody Map<String, String> request) {
+    public ResponseEntity<?> updateSlot(@PathVariable UUID slotId, @RequestBody Map<String, String> request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Therapist therapist = therapistRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Therapist record not found for user"));
@@ -105,21 +107,25 @@ public class TherapistController {
         LocalDateTime start = LocalDateTime.parse(request.get("startTime"));
         LocalDateTime end = LocalDateTime.parse(request.get("endTime"));
         TherapistAvailability availability = therapistService.updateAvailabilitySlot(therapist.getId(), slotId, start, end);
-        return ResponseEntity.ok(availability);
+        return ResponseEntity.ok(toSlotMap(availability));
     }
 
     @GetMapping("/me/slots")
     @PreAuthorize("hasRole('THERAPIST')")
-    public ResponseEntity<List<TherapistAvailability>> getMySlots() {
+    public ResponseEntity<?> getMySlots() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Therapist therapist = therapistRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Therapist record not found for user"));
-        return ResponseEntity.ok(therapistService.getTherapistSlots(therapist.getId()));
+        return ResponseEntity.ok(therapistService.getTherapistSlots(therapist.getId()).stream()
+                .map(this::toSlotMap)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}/slots")
-    public ResponseEntity<List<TherapistAvailability>> getSlots(@PathVariable UUID id) {
-        return ResponseEntity.ok(therapistService.getAvailableSlots(id));
+    public ResponseEntity<?> getSlots(@PathVariable UUID id) {
+        return ResponseEntity.ok(therapistService.getAvailableSlots(id).stream()
+                .map(this::toSlotMap)
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}/profile")
@@ -153,5 +159,27 @@ public class TherapistController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Map<String, Object>> getTherapistSlotUtilization(@PathVariable UUID id) {
         return ResponseEntity.ok(therapistService.getSlotUtilization(id));
+    }
+
+    private Map<String, Object> toSlotMap(TherapistAvailability slot) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", slot.getId());
+        data.put("startTime", slot.getStartTime());
+        data.put("endTime", slot.getEndTime());
+        data.put("booked", slot.getBooked());
+        data.put("therapistId", slot.getTherapist() == null ? null : slot.getTherapist().getId());
+        return data;
+    }
+
+    private Map<String, Object> toProfileMap(TherapistProfile profile) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", profile.getId());
+        data.put("bio", profile.getBio());
+        data.put("profilePictureUrl", profile.getProfilePictureUrl());
+        data.put("licenseDocumentUrl", profile.getLicenseDocumentUrl());
+        data.put("idDocumentUrl", profile.getIdDocumentUrl());
+        data.put("rating", profile.getRating());
+        data.put("therapistId", profile.getTherapist() == null ? null : profile.getTherapist().getId());
+        return data;
     }
 }

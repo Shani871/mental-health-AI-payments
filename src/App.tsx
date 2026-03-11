@@ -10,6 +10,7 @@ import Payments from "./pages/Payments";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import TherapistSignup from "./pages/TherapistSignup";
+import Prediction from "./pages/Prediction";
 import RoleGuard from "./components/RoleGuard";
 
 export default function App() {
@@ -42,6 +43,14 @@ export default function App() {
             element={
               <RoleGuard allowedRoles={["USER"]}>
                 <Dashboard />
+              </RoleGuard>
+            }
+          />
+          <Route
+            path="predict"
+            element={
+              <RoleGuard allowedRoles={["USER"]}>
+                <Prediction />
               </RoleGuard>
             }
           />

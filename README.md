@@ -13,16 +13,21 @@ Full-stack mental health SaaS using Spring Boot + React, built phase-wise from t
 
 ## Local Run
 
-### 1) Start infra (PostgreSQL + Redis)
+### 1) Start infra (MySQL + Redis)
 ```bash
 cd backend
 docker compose up -d db redis
 ```
 
-### 2) Run backend (PostgreSQL profile defaults)
+### 2) Run backend (MySQL `Health` database defaults)
 ```bash
 cd ..
 npm run dev:backend
+```
+
+If MySQL needs a password/user, run with your credentials:
+```bash
+DB_USERNAME=root DB_PASSWORD='your_mysql_password' npm run dev:backend
 ```
 
 ### 3) Run frontend
@@ -35,7 +40,7 @@ Frontend: `http://localhost:5173`
 Backend API: `http://localhost:8080`  
 Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
-## Full Docker Stack (frontend + backend + db + redis + nginx)
+## Full Docker Stack (frontend + backend + mysql + redis + nginx)
 
 ```bash
 cd backend
@@ -69,6 +74,6 @@ Optional production infrastructure:
 
 ## Notes
 
-- Backend dev profile now points to PostgreSQL by default via `npm run dev:backend`.
-- If you need H2 fallback: `npm run dev:backend:h2`.
+- Backend dev profile now points to MySQL (`Health`) by default via `npm run dev:backend`.
+- Optional H2 fallback: `npm run dev:backend:h2`.
 - Current backend tests may fail on Java 25 due Mockito agent-attach restrictions; compile/build are passing.

@@ -142,6 +142,49 @@ async function startServer() {
     res.json({ id });
   });
 
+  // Predictions
+  app.post('/api/predict', (req, res) => {
+    import('child_process').then(cp => {
+      // Use the python executable from the virtual environment if it exists, otherwise fallback to python3
+      const isWin = process.platform === "win32";
+      const pythonExe = process.env.NODE_ENV === 'production' ? 'python3' : (isWin ? '.\\venv\\Scripts\\python.exe' : './venv/bin/python');
+
+      const scriptPath = path.join(__dirname, 'api', 'predict.py');
+      const inputData = JSON.stringify(req.body);
+
+      // Escape single quotes in JSON string to avoid shell injection
+      const escapedInput = inputData.replace(/'/g, "'\\''");
+
+      const cmd = `${pythonExe} ${scriptPath} '${escapedInput}'`;
+
+      cp.exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Prediction error: ${error.message}`);
+          return res.status(500).json({ error: 'Failed to run prediction model', details: error.message });
+        }
+        if (stderr) {
+          console.warn(`Prediction stderr: ${stderr}`);
+        }
+
+        try {
+          // Find the JSON block from output (in case pandas outputs some warning)
+          const outputLines = stdout.trim().split('\n');
+          const jsonLine = outputLines[outputLines.length - 1]; // We expect the last line to be the JSON prediction
+          const result = JSON.parse(jsonLine);
+
+          if (result.error) {
+            return res.status(400).json({ error: result.error });
+          }
+
+          res.json(result);
+        } catch (e) {
+          console.error(`Parse output error: ${e.message}`, stdout);
+          res.status(500).json({ error: 'Failed to parse prediction result' });
+        }
+      });
+    });
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({

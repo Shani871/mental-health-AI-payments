@@ -213,6 +213,14 @@ export default function AdminDashboard() {
     }
   };
 
+  const toDocumentHref = (rawUrl?: string) => {
+    if (!rawUrl) return null;
+    if (rawUrl.startsWith("http://") || rawUrl.startsWith("https://") || rawUrl.startsWith("/")) {
+      return rawUrl;
+    }
+    return `/api/public/files/${rawUrl.replace(/^\/+/, "")}`;
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-8">
@@ -248,6 +256,8 @@ export default function AdminDashboard() {
                           : 0,
                       }
                     : null;
+                  const licenseHref = toDocumentHref(overview?.licenseDocumentUrl);
+                  const idHref = toDocumentHref(overview?.idDocumentUrl);
                   return (
                     <motion.div key={therapist.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="p-4 border border-slate-200 rounded-xl">
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -262,6 +272,23 @@ export default function AdminDashboard() {
                               Slots: {utilization.bookedSlots}/{utilization.totalSlots} ({utilization.utilizationPercent}%)
                             </div>
                           )}
+                          <div className="mt-2 text-xs text-slate-700 flex flex-wrap gap-2">
+                            <span className="font-semibold">Documents:</span>
+                            {licenseHref ? (
+                              <a href={licenseHref} target="_blank" rel="noreferrer" className="text-indigo-700 hover:underline">
+                                License
+                              </a>
+                            ) : (
+                              <span className="text-slate-500">License missing</span>
+                            )}
+                            {idHref ? (
+                              <a href={idHref} target="_blank" rel="noreferrer" className="text-indigo-700 hover:underline">
+                                ID
+                              </a>
+                            ) : (
+                              <span className="text-slate-500">ID missing</span>
+                            )}
+                          </div>
                         </div>
                         <div className="flex gap-2">
                           <button
@@ -382,6 +409,33 @@ export default function AdminDashboard() {
                         </div>
                         <div className="text-xs text-slate-600 mt-1">
                           Slots: {therapist.bookedSlots}/{therapist.totalSlots} booked ({therapist.openSlots} open)
+                        </div>
+                        <div className="text-xs text-slate-700 mt-2 flex flex-wrap gap-2">
+                          <span className="font-semibold">Documents:</span>
+                          {toDocumentHref(therapist.licenseDocumentUrl) ? (
+                            <a
+                              href={toDocumentHref(therapist.licenseDocumentUrl) as string}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-indigo-700 hover:underline"
+                            >
+                              License
+                            </a>
+                          ) : (
+                            <span className="text-slate-500">License missing</span>
+                          )}
+                          {toDocumentHref(therapist.idDocumentUrl) ? (
+                            <a
+                              href={toDocumentHref(therapist.idDocumentUrl) as string}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-indigo-700 hover:underline"
+                            >
+                              ID
+                            </a>
+                          ) : (
+                            <span className="text-slate-500">ID missing</span>
+                          )}
                         </div>
                       </div>
                     </div>
