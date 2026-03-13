@@ -19,6 +19,7 @@ CACHE_VERSION = "1"
 
 TARGET_DEPRESSION = "Do you have Depression?"
 TARGET_ANXIETY = "Do you have Anxiety?"
+TARGET_PANIC = "Do you have Panic attack?"
 
 COL_GENDER = "Choose your gender"
 COL_AGE = "Age"
@@ -99,8 +100,8 @@ def build_artifacts():
 
     df[TARGET_DEPRESSION] = df[TARGET_DEPRESSION].apply(yes_no_to_binary)
     df[TARGET_ANXIETY] = df[TARGET_ANXIETY].apply(yes_no_to_binary)
-    if "Do you have Panic attack?" in df.columns:
-        df["Do you have Panic attack?"] = df["Do you have Panic attack?"].apply(yes_no_to_binary)
+    df[TARGET_PANIC] = df[TARGET_PANIC].apply(yes_no_to_binary)
+    
     if "Did you seek any specialist for a treatment?" in df.columns:
         df["Did you seek any specialist for a treatment?"] = df[
             "Did you seek any specialist for a treatment?"
@@ -125,7 +126,7 @@ def build_artifacts():
 
     feature_columns = [COL_GENDER, COL_AGE, COL_COURSE, COL_YEAR, COL_MARITAL, COL_CGPA]
     X = df[feature_columns].copy()
-    y = df[[TARGET_DEPRESSION, TARGET_ANXIETY]].copy()
+    y = df[[TARGET_DEPRESSION, TARGET_ANXIETY, TARGET_PANIC]].copy()
 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
@@ -264,14 +265,17 @@ def predict(payload, artifacts):
     prediction = model.predict(scaled_vector)
     depression = int(prediction[0][0])
     anxiety = int(prediction[0][1])
+    panic = int(prediction[0][2])
 
     depression_probability = positive_probability(model.estimators_[0], scaled_vector)
     anxiety_probability = positive_probability(model.estimators_[1], scaled_vector)
+    panic_probability = positive_probability(model.estimators_[2], scaled_vector)
 
+    risk_score = depression + anxiety + panic
     overall_status = "Moderate Risk"
-    if depression == 0 and anxiety == 0:
+    if risk_score == 0:
         overall_status = "Low Risk"
-    elif depression == 1 and anxiety == 1:
+    elif risk_score == 3:
         overall_status = "High Risk"
 
     recommendation = {
@@ -283,9 +287,11 @@ def predict(payload, artifacts):
     return {
         "depressionRisk": "High" if depression == 1 else "Low",
         "anxietyRisk": "High" if anxiety == 1 else "Low",
+        "panicRisk": "High" if panic == 1 else "Low",
         "overallStatus": overall_status,
         "depressionProbability": round(depression_probability, 4),
         "anxietyProbability": round(anxiety_probability, 4),
+        "panicProbability": round(panic_probability, 4),
         "recommendation": recommendation,
     }
 
