@@ -254,6 +254,27 @@ public class PaymentController {
         return ResponseEntity.ok(paymentLedgerService.getUserPaymentHistory(requester.getId()));
     }
 
+    @GetMapping("/overview")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getMyPaymentOverview() {
+        User requester = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(paymentLedgerService.getUserPaymentOverview(requester.getId()));
+    }
+
+    @GetMapping("/refund-eligible")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getRefundEligibleBookings() {
+        User requester = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(paymentLedgerService.getRefundEligibleBookings(requester.getId()));
+    }
+
+    @GetMapping("/quote/{bookingId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getBookingQuote(@PathVariable UUID bookingId) {
+        User requester = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(paymentLedgerService.getBookingQuote(bookingId, requester));
+    }
+
     @PostMapping("/refund-request")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> requestRefund(

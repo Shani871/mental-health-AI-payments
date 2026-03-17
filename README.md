@@ -2,6 +2,8 @@
 
 Full-stack mental health SaaS using Spring Boot + React, built phase-wise from the development report.
 
+Full project documentation: [docs/PROJECT_DOCUMENTATION.md](docs/PROJECT_DOCUMENTATION.md)
+
 ## Implemented Scope
 
 - Phase 1: JWT auth, refresh token, role-based guards, rate limiting, global API responses, Swagger support

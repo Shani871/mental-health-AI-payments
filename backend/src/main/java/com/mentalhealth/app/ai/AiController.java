@@ -150,6 +150,13 @@ public class AiController {
         return ResponseEntity.ok(aiService.getMoodTrend(user.getId(), days));
     }
 
+    @GetMapping("/care-insights")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getCareInsights() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(aiService.getUserCareInsights(user.getId()));
+    }
+
     @GetMapping("/therapist/summaries")
     @PreAuthorize("hasRole('THERAPIST')")
     public ResponseEntity<?> getTherapistSummaries() {
