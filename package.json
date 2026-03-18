@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "dev:legacy": "tsx server.ts",
-    "dev:backend": "cd backend && SPRING_PROFILES_ACTIVE=dev DB_URL=jdbc:postgresql://localhost:5432/mental_health_db DB_USERNAME=postgres DB_PASSWORD=password DB_DRIVER=org.postgresql.Driver DB_DIALECT=org.hibernate.dialect.PostgreSQLDialect ./mvnw spring-boot:run",
-    "dev:backend:h2": "cd backend && SPRING_PROFILES_ACTIVE=dev ./mvnw spring-boot:run",
+    "dev:backend": "cd backend && SPRING_PROFILES_ACTIVE=dev DB_URL='jdbc:mysql://localhost:3306/Health?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC' DB_USERNAME=${DB_USERNAME:-root} DB_PASSWORD=${DB_PASSWORD:-} DB_DRIVER=com.mysql.cj.jdbc.Driver DB_DIALECT=org.hibernate.dialect.MySQLDialect ./mvnw spring-boot:run",
+    "dev:backend:h2": "cd backend && SPRING_PROFILES_ACTIVE=dev DB_URL='jdbc:h2:file:./data/mental_health_db;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH' DB_USERNAME=sa DB_PASSWORD= DB_DRIVER=org.h2.Driver DB_DIALECT=org.hibernate.dialect.H2Dialect ./mvnw spring-boot:run",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",

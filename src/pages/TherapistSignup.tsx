@@ -72,74 +72,88 @@ export default function TherapistSignup() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
-        <h1 className="text-2xl font-bold text-slate-900">Therapist Registration</h1>
-        <p className="text-sm text-slate-600 mt-1">Submit details for admin verification.</p>
+    <div className="auth-shell">
+      <div className="auth-card">
+        <aside className="auth-aside">
+          <h2 className="display-font text-2xl font-bold">Therapist onboarding</h2>
+          <p className="mt-3 text-sm text-teal-50/90">
+            Register your professional profile. Admin approval enables availability, session management, and payouts.
+          </p>
+          <div className="mt-6 space-y-2 text-sm">
+            <p>• Slot and schedule management</p>
+            <p>• Earnings and payout tracking</p>
+            <p>• AI summary visibility for assigned clients</p>
+          </div>
+        </aside>
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-3">
-          <input
-            value={form.name}
-            onChange={(e) => onChange("name", e.target.value)}
-            placeholder="Full name"
-            required
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
-          />
-          <input
-            type="email"
-            value={form.email}
-            onChange={(e) => onChange("email", e.target.value)}
-            placeholder="Email"
-            required
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
-          />
-          <input
-            type="password"
-            value={form.password}
-            onChange={(e) => onChange("password", e.target.value)}
-            placeholder="Password"
-            required
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
-          />
-          <input
-            value={form.specialization}
-            onChange={(e) => onChange("specialization", e.target.value)}
-            placeholder="Specialization (e.g., Anxiety)"
-            required
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
-          />
-          <input
-            type="number"
-            min="0"
-            value={form.experienceYears}
-            onChange={(e) => onChange("experienceYears", e.target.value)}
-            placeholder="Experience years"
-            required
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
-          />
-          <input
-            type="number"
-            min="1"
-            step="0.01"
-            value={form.hourlyRate}
-            onChange={(e) => onChange("hourlyRate", e.target.value)}
-            placeholder="Hourly rate"
-            required
-            className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm"
-          />
-          {error && <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-2">{error}</div>}
-          {success && <div className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-2">{success}</div>}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-60"
-          >
-            {loading ? "Submitting..." : "Register as Therapist"}
-          </button>
-        </form>
+        <div className="auth-main">
+          <h1 className="display-font text-2xl font-bold text-slate-900">Therapist Registration</h1>
+          <p className="text-sm text-slate-600 mt-1">Submit details for admin verification.</p>
 
-        <div className="mt-4 text-sm text-slate-600">
-          Already registered? <Link to="/login" className="text-indigo-700 font-medium hover:underline">Login</Link>
+          <form onSubmit={handleSubmit} className="mt-5 space-y-3">
+            <input
+              value={form.name}
+              onChange={(e) => onChange("name", e.target.value)}
+              placeholder="Full name"
+              required
+              className="field-input"
+            />
+            <input
+              type="email"
+              value={form.email}
+              onChange={(e) => onChange("email", e.target.value)}
+              placeholder="Email"
+              required
+              className="field-input"
+            />
+            <input
+              type="password"
+              value={form.password}
+              onChange={(e) => onChange("password", e.target.value)}
+              placeholder="Password"
+              required
+              className="field-input"
+            />
+            <input
+              value={form.specialization}
+              onChange={(e) => onChange("specialization", e.target.value)}
+              placeholder="Specialization (e.g., Anxiety)"
+              required
+              className="field-input"
+            />
+            <input
+              type="number"
+              min="0"
+              value={form.experienceYears}
+              onChange={(e) => onChange("experienceYears", e.target.value)}
+              placeholder="Experience years"
+              required
+              className="field-input"
+            />
+            <input
+              type="number"
+              min="1"
+              step="0.01"
+              value={form.hourlyRate}
+              onChange={(e) => onChange("hourlyRate", e.target.value)}
+              placeholder="Hourly rate"
+              required
+              className="field-input"
+            />
+            {error && <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-2">{error}</div>}
+            {success && <div className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-2">{success}</div>}
+            <button
+              type="submit"
+              disabled={loading}
+              className="brand-button w-full py-2.5 rounded-xl text-sm font-semibold disabled:opacity-60"
+            >
+              {loading ? "Submitting..." : "Register as Therapist"}
+            </button>
+          </form>
+
+          <div className="mt-4 text-sm text-slate-600">
+            Already registered? <Link to="/login" className="text-teal-700 font-semibold hover:underline">Login</Link>
+          </div>
         </div>
       </div>
     </div>

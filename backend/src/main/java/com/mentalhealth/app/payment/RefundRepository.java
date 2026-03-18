@@ -11,4 +11,6 @@ public interface RefundRepository extends JpaRepository<Refund, UUID> {
     List<Refund> findByRequestedByIdOrderByCreatedAtDesc(UUID userId);
 
     List<Refund> findByStatusOrderByCreatedAtAsc(RefundStatus status);
+
+    List<Refund> findByBookingIdOrderByCreatedAtDesc(UUID bookingId);
 }

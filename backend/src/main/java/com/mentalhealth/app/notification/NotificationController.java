@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -40,6 +41,13 @@ public class NotificationController {
     @PreAuthorize("hasAnyRole('USER','THERAPIST','ADMIN')")
     public ResponseEntity<?> markRead(@PathVariable UUID id) {
         User requester = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(notificationService.markRead(id, requester.getId()));
+        InAppNotification notification = notificationService.markRead(id, requester.getId());
+        return ResponseEntity.ok(Map.of(
+                "id", notification.getId(),
+                "type", notification.getType(),
+                "message", notification.getMessage(),
+                "read", notification.getRead(),
+                "payload", notification.getPayload(),
+                "createdAt", notification.getCreatedAt()));
     }
 }

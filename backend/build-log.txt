@@ -1,0 +1,1715 @@
+Apache Maven 3.9.12 (848fbb4bf2d427b72bdb2471c22fced7ebd9a7a1)
+Maven home: /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197
+Java version: 25.0.1, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home
+Default locale: en_IN, platform encoding: UTF-8
+OS name: "mac os x", version: "26.3", arch: "aarch64", family: "mac"
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: javax.annotation.* < plexus.core
+[DEBUG]   Imported: javax.annotation.security.* < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution.scope < plexus.core
+[DEBUG]   Imported: org.apache.maven.graph < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.util < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.fusesource.jansi.* < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: org.slf4j.event.* < plexus.core
+[DEBUG]   Imported: org.slf4j.helpers.* < plexus.core
+[DEBUG]   Imported: org.slf4j.spi.* < plexus.core
+[DEBUG] Populating class realm maven.api
+[DEBUG] Created adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gaecv, file-gav, file-hgaecv, file-hgav, file-static, gaecv, gav, static]
+[INFO] Error stacktraces are turned on.
+[DEBUG] Message scheme: color
+[DEBUG] Message styles: debug info warning error success failure strong mojo project
+[DEBUG] Reading global settings from /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197/conf/settings.xml
+[DEBUG] Reading user settings from /Users/shanichauhan/.m2/settings.xml
+[DEBUG] Reading global toolchains from /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197/conf/toolchains.xml
+[DEBUG] Reading user toolchains from /Users/shanichauhan/.m2/toolchains.xml
+[DEBUG] Using local repository at /Users/shanichauhan/.m2/repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for /Users/shanichauhan/.m2/repository
+[INFO] Scanning for projects...
+[DEBUG] Creating adapter using nameMapper 'gaecv' and factory 'rwlock-local'
+[DEBUG] Extension realms for project com.mentalhealth:app:jar:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.springframework.boot:spring-boot-starter-parent:pom:3.4.2: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.springframework.boot:spring-boot-dependencies:pom:3.4.2: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: com.mentalhealth:app:jar:0.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, install]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] ------------------------< com.mentalhealth:app >------------------------
+[INFO] Building MentalHealthApp 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       com.mentalhealth:app:0.0.1-SNAPSHOT
+[DEBUG] Dependencies (collect): [compile+runtime]
+[DEBUG] Dependencies (resolve): [compile, compile+runtime, runtime, test]
+[DEBUG] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <delimiters>
+    <delimiter>@</delimiter>
+  </delimiters>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <propertiesEncoding>UTF-8</propertiesEncoding>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.resources.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true">false</useDefaultDelimiters>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+    </path>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok-mapstruct-binding</artifactId>
+      <version>0.2.0</version>
+    </path>
+    <path>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>1.6.3</version>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compilePath default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}">${maven.compiler.outputDirectory}</outputDirectory>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">true</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">21</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">21</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:testResources (default-testResources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <delimiters>
+    <delimiter>@</delimiter>
+  </delimiters>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <propertiesEncoding>UTF-8</propertiesEncoding>
+  <resources default-value="${project.testResources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true">false</useDefaultDelimiters>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.30</version>
+    </path>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok-mapstruct-binding</artifactId>
+      <version>0.2.0</version>
+    </path>
+    <path>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>1.6.3</version>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compileSourceRoots default-value="${project.testCompileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac-test"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedTestSourcesDirectory default-value="${project.build.directory}/generated-test-sources/test-annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">true</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skip>${maven.test.skip}</skip>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">21</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">21</target>
+  <testPath default-value="${project.testClasspathElements}"/>
+  <testRelease>${maven.compiler.testRelease}</testRelease>
+  <testSource>${maven.compiler.testSource}</testSource>
+  <testTarget>${maven.compiler.testTarget}</testTarget>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <useModulePath default-value="true"/>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-surefire-plugin:3.5.2:test (default-test)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <additionalClasspathDependencies>${maven.test.additionalClasspathDependencies}</additionalClasspathDependencies>
+  <additionalClasspathElements>${maven.test.additionalClasspath}</additionalClasspathElements>
+  <argLine>${argLine}</argLine>
+  <basedir default-value="${basedir}"/>
+  <childDelegation default-value="false">${childDelegation}</childDelegation>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <classpathDependencyExcludes>${maven.test.dependency.excludes}</classpathDependencyExcludes>
+  <debugForkedProcess>${maven.surefire.debug}</debugForkedProcess>
+  <dependenciesToScan>${dependenciesToScan}</dependenciesToScan>
+  <disableXmlReport default-value="false">${disableXmlReport}</disableXmlReport>
+  <enableAssertions default-value="true">${enableAssertions}</enableAssertions>
+  <enableOutErrElements default-value="true">${enableOutErrElements}</enableOutErrElements>
+  <enableProcessChecker>${surefire.enableProcessChecker}</enableProcessChecker>
+  <enablePropertiesElement default-value="true">${enablePropertiesElement}</enablePropertiesElement>
+  <encoding default-value="${project.reporting.outputEncoding}">${surefire.encoding}</encoding>
+  <excludeJUnit5Engines>${surefire.excludeJUnit5Engines}</excludeJUnit5Engines>
+  <excludedEnvironmentVariables>${surefire.excludedEnvironmentVariables}</excludedEnvironmentVariables>
+  <excludedGroups>${excludedGroups}</excludedGroups>
+  <excludes>${surefire.excludes}</excludes>
+  <excludesFile>${surefire.excludesFile}</excludesFile>
+  <failIfNoSpecifiedTests default-value="true">${surefire.failIfNoSpecifiedTests}</failIfNoSpecifiedTests>
+  <failIfNoTests default-value="false">${failIfNoTests}</failIfNoTests>
+  <failOnFlakeCount default-value="0">${surefire.failOnFlakeCount}</failOnFlakeCount>
+  <forkCount default-value="1">${forkCount}</forkCount>
+  <forkNode>${surefire.forkNode}</forkNode>
+  <forkedProcessExitTimeoutInSeconds default-value="30">${surefire.exitTimeout}</forkedProcessExitTimeoutInSeconds>
+  <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
+  <groups>${groups}</groups>
+  <includeJUnit5Engines>${surefire.includeJUnit5Engines}</includeJUnit5Engines>
+  <includes>${surefire.includes}</includes>
+  <includesFile>${surefire.includesFile}</includesFile>
+  <junitArtifactName default-value="junit:junit">${junitArtifactName}</junitArtifactName>
+  <jvm>${jvm}</jvm>
+  <objectFactory>${objectFactory}</objectFactory>
+  <parallel>${parallel}</parallel>
+  <parallelMavenExecution default-value="${session.parallel}"/>
+  <parallelOptimized default-value="true">${parallelOptimized}</parallelOptimized>
+  <parallelTestsTimeoutForcedInSeconds>${surefire.parallel.forcedTimeout}</parallelTestsTimeoutForcedInSeconds>
+  <parallelTestsTimeoutInSeconds>${surefire.parallel.timeout}</parallelTestsTimeoutInSeconds>
+  <perCoreThreadCount default-value="true">${perCoreThreadCount}</perCoreThreadCount>
+  <pluginArtifactMap>${plugin.artifactMap}</pluginArtifactMap>
+  <pluginDescriptor default-value="${plugin}"/>
+  <printSummary default-value="true">${surefire.printSummary}</printSummary>
+  <project default-value="${project}"/>
+  <projectArtifactMap>${project.artifactMap}</projectArtifactMap>
+  <projectBuildDirectory default-value="${project.build.directory}"/>
+  <promoteUserPropertiesToSystemProperties default-value="true"/>
+  <redirectTestOutputToFile default-value="false">${maven.test.redirectTestOutputToFile}</redirectTestOutputToFile>
+  <reportFormat default-value="brief">${surefire.reportFormat}</reportFormat>
+  <reportNameSuffix default-value="">${surefire.reportNameSuffix}</reportNameSuffix>
+  <reportsDirectory default-value="${project.build.directory}/surefire-reports"/>
+  <rerunFailingTestsCount default-value="0">${surefire.rerunFailingTestsCount}</rerunFailingTestsCount>
+  <reuseForks default-value="true">${reuseForks}</reuseForks>
+  <runOrder default-value="filesystem">${surefire.runOrder}</runOrder>
+  <runOrderRandomSeed>${surefire.runOrder.random.seed}</runOrderRandomSeed>
+  <session default-value="${session}"/>
+  <shutdown default-value="exit">${surefire.shutdown}</shutdown>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <skipAfterFailureCount default-value="0">${surefire.skipAfterFailureCount}</skipAfterFailureCount>
+  <skipExec>${maven.test.skip.exec}</skipExec>
+  <skipTests default-value="false">${skipTests}</skipTests>
+  <suiteXmlFiles>${surefire.suiteXmlFiles}</suiteXmlFiles>
+  <systemPropertiesFile>${surefire.systemPropertiesFile}</systemPropertiesFile>
+  <tempDir default-value="surefire">${tempDir}</tempDir>
+  <test>${test}</test>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <testFailureIgnore default-value="false">${maven.test.failure.ignore}</testFailureIgnore>
+  <testNGArtifactName default-value="org.testng:testng">${testNGArtifactName}</testNGArtifactName>
+  <testSourceDirectory default-value="${project.build.testSourceDirectory}"/>
+  <threadCount>${threadCount}</threadCount>
+  <threadCountClasses default-value="0">${threadCountClasses}</threadCountClasses>
+  <threadCountMethods default-value="0">${threadCountMethods}</threadCountMethods>
+  <threadCountSuites default-value="0">${threadCountSuites}</threadCountSuites>
+  <trimStackTrace default-value="false">${trimStackTrace}</trimStackTrace>
+  <useFile default-value="true">${surefire.useFile}</useFile>
+  <useManifestOnlyJar default-value="true">${surefire.useManifestOnlyJar}</useManifestOnlyJar>
+  <useModulePath default-value="true">${surefire.useModulePath}</useModulePath>
+  <useSystemClassLoader default-value="true">${surefire.useSystemClassLoader}</useSystemClassLoader>
+  <useUnlimitedThreads default-value="false">${useUnlimitedThreads}</useUnlimitedThreads>
+  <workingDirectory>${basedir}</workingDirectory>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-jar-plugin:3.4.2:jar (default-jar)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <archive>
+    <manifest>
+      <mainClass>${start-class}</mainClass>
+      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+    </manifest>
+  </archive>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <detectMultiReleaseJar default-value="true">${maven.jar.detectMultiReleaseJar}</detectMultiReleaseJar>
+  <finalName default-value="${project.build.finalName}"/>
+  <forceCreation default-value="false">${maven.jar.forceCreation}</forceCreation>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skipIfEmpty default-value="false"/>
+  <useDefaultManifestFile default-value="false">${jar.useDefaultManifestFile}</useDefaultManifestFile>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.springframework.boot:spring-boot-maven-plugin:3.4.2:repackage (repackage)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <attach default-value="true"/>
+  <excludeDevtools default-value="true">${spring-boot.repackage.excludeDevtools}</excludeDevtools>
+  <excludeDockerCompose default-value="true">${spring-boot.repackage.excludeDockerCompose}</excludeDockerCompose>
+  <excludeGroupIds default-value="">${spring-boot.excludeGroupIds}</excludeGroupIds>
+  <excludes>${spring-boot.excludes}</excludes>
+  <executable default-value="false"/>
+  <finalName default-value="${project.build.finalName}"/>
+  <includeSystemScope default-value="false"/>
+  <includeTools default-value="true"/>
+  <includes>${spring-boot.includes}</includes>
+  <layout>${spring-boot.repackage.layout}</layout>
+  <mainClass>${start-class}</mainClass>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${spring-boot.repackage.skip}</skip>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-install-plugin:3.1.3:install (default-install)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <allowIncompleteProjects default-value="false">${allowIncompleteProjects}</allowIncompleteProjects>
+  <installAtEnd default-value="false">${installAtEnd}</installAtEnd>
+  <pluginDescriptor default-value="${plugin}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.install.skip}</skip>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for vaadin-snapshots (http://oss.sonatype.org/content/repositories/vaadin-snapshots/).
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for vaadin-releases (http://oss.sonatype.org/content/repositories/vaadin-releases/).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=633375, ConflictMarker.markTime=220834, ConflictMarker.nodeCount=408, ConflictIdSorter.graphTime=356250, ConflictIdSorter.topsortTime=145708, ConflictIdSorter.conflictIdCount=167, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=9032500, ConflictResolver.conflictItemCount=358, DfDependencyCollector.collectTime=195958167, DfDependencyCollector.transformTime=10975375}
+[DEBUG] com.mentalhealth:app:jar:0.0.1-SNAPSHOT
+[DEBUG]    org.springframework.boot:spring-boot-starter-data-jpa:jar:3.4.2:compile
+[DEBUG]       org.springframework.boot:spring-boot-starter:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.springframework.boot:spring-boot-starter-logging:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]             ch.qos.logback:logback-classic:jar:1.5.16:compile (version managed from 1.5.16)
+[DEBUG]                ch.qos.logback:logback-core:jar:1.5.16:compile (version managed from 1.5.16)
+[DEBUG]             org.apache.logging.log4j:log4j-to-slf4j:jar:2.24.3:compile (version managed from 2.24.3)
+[DEBUG]                org.apache.logging.log4j:log4j-api:jar:2.24.3:compile (version managed from 2.24.3)
+[DEBUG]             org.slf4j:jul-to-slf4j:jar:2.0.16:compile (version managed from 2.0.16)
+[DEBUG]          jakarta.annotation:jakarta.annotation-api:jar:2.1.1:compile (version managed from 2.1.1)
+[DEBUG]          org.yaml:snakeyaml:jar:2.3:compile (version managed from 2.3)
+[DEBUG]       org.springframework.boot:spring-boot-starter-jdbc:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          com.zaxxer:HikariCP:jar:5.1.0:compile (version managed from 5.1.0)
+[DEBUG]          org.springframework:spring-jdbc:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]       org.hibernate.orm:hibernate-core:jar:6.6.5.Final:compile (version managed from 6.6.5.Final)
+[DEBUG]          jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile (version managed from 3.1.0)
+[DEBUG]          jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile (version managed from 2.0.1)
+[DEBUG]          org.jboss.logging:jboss-logging:jar:3.6.1.Final:compile (version managed from 3.5.0.Final)
+[DEBUG]          org.hibernate.common:hibernate-commons-annotations:jar:7.0.3.Final:runtime
+[DEBUG]          io.smallrye:jandex:jar:3.2.0:runtime
+[DEBUG]          com.fasterxml:classmate:jar:1.7.0:compile (version managed from 1.5.1)
+[DEBUG]          net.bytebuddy:byte-buddy:jar:1.15.11:runtime (version managed from 1.15.11)
+[DEBUG]          org.glassfish.jaxb:jaxb-runtime:jar:4.0.5:runtime (version managed from 4.0.2)
+[DEBUG]             org.glassfish.jaxb:jaxb-core:jar:4.0.5:runtime (version managed from 4.0.5)
+[DEBUG]                org.glassfish.jaxb:txw2:jar:4.0.5:runtime (version managed from 4.0.5)
+[DEBUG]                com.sun.istack:istack-commons-runtime:jar:4.1.2:runtime (version managed from 4.1.2)
+[DEBUG]          jakarta.inject:jakarta.inject-api:jar:2.0.1:runtime (version managed from 2.0.1)
+[DEBUG]          org.antlr:antlr4-runtime:jar:4.13.0:compile
+[DEBUG]       org.springframework.data:spring-data-jpa:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.springframework.data:spring-data-commons:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.springframework:spring-orm:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]          org.springframework:spring-context:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]          org.springframework:spring-tx:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]          org.springframework:spring-beans:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]       org.springframework:spring-aspects:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]          org.aspectj:aspectjweaver:jar:1.9.22.1:compile (version managed from 1.9.22.1)
+[DEBUG]    org.springframework.boot:spring-boot-starter-security:jar:3.4.2:compile
+[DEBUG]       org.springframework:spring-aop:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]       org.springframework.security:spring-security-config:jar:6.4.2:compile (version managed from 6.4.2)
+[DEBUG]       org.springframework.security:spring-security-web:jar:6.4.2:compile (version managed from 6.4.2)
+[DEBUG]          org.springframework:spring-expression:jar:6.2.2:compile (version managed from 6.2.1)
+[DEBUG]    org.springframework.boot:spring-boot-starter-validation:jar:3.4.2:compile
+[DEBUG]       org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.34:compile (version managed from 10.1.34)
+[DEBUG]       org.hibernate.validator:hibernate-validator:jar:8.0.2.Final:compile (version managed from 8.0.2.Final)
+[DEBUG]          jakarta.validation:jakarta.validation-api:jar:3.0.2:compile (version managed from 3.0.2)
+[DEBUG]    org.springframework.boot:spring-boot-starter-web:jar:3.4.2:compile
+[DEBUG]       org.springframework.boot:spring-boot-starter-json:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:2.18.2:compile (version managed from 2.18.2)
+[DEBUG]          com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.18.2:compile (version managed from 2.18.2)
+[DEBUG]          com.fasterxml.jackson.module:jackson-module-parameter-names:jar:2.18.2:compile (version managed from 2.18.2)
+[DEBUG]       org.springframework.boot:spring-boot-starter-tomcat:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.apache.tomcat.embed:tomcat-embed-core:jar:10.1.34:compile (version managed from 10.1.34)
+[DEBUG]          org.apache.tomcat.embed:tomcat-embed-websocket:jar:10.1.34:compile (version managed from 10.1.34)
+[DEBUG]       org.springframework:spring-web:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]       org.springframework:spring-webmvc:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]    org.springframework.boot:spring-boot-starter-data-redis:jar:3.4.2:compile
+[DEBUG]       io.lettuce:lettuce-core:jar:6.4.2.RELEASE:compile (version managed from 6.4.2.RELEASE)
+[DEBUG]          io.netty:netty-common:jar:4.1.117.Final:compile (version managed from 4.1.107.Final)
+[DEBUG]          io.netty:netty-handler:jar:4.1.117.Final:compile (version managed from 4.1.107.Final)
+[DEBUG]             io.netty:netty-resolver:jar:4.1.117.Final:compile (version managed from 4.1.117.Final)
+[DEBUG]             io.netty:netty-buffer:jar:4.1.117.Final:compile (version managed from 4.1.117.Final)
+[DEBUG]             io.netty:netty-transport-native-unix-common:jar:4.1.117.Final:compile (version managed from 4.1.117.Final)
+[DEBUG]             io.netty:netty-codec:jar:4.1.117.Final:compile (version managed from 4.1.117.Final)
+[DEBUG]          io.netty:netty-transport:jar:4.1.117.Final:compile (version managed from 4.1.107.Final)
+[DEBUG]          io.projectreactor:reactor-core:jar:3.7.2:compile (version managed from 3.6.6)
+[DEBUG]             org.reactivestreams:reactive-streams:jar:1.0.4:compile (version managed from 1.0.4)
+[DEBUG]       org.springframework.data:spring-data-redis:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.springframework.data:spring-data-keyvalue:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.springframework:spring-oxm:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]    org.springframework.boot:spring-boot-starter-mail:jar:3.4.2:compile
+[DEBUG]       org.springframework:spring-context-support:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]       org.eclipse.angus:jakarta.mail:jar:2.0.3:compile (version managed from 2.0.3)
+[DEBUG]          jakarta.activation:jakarta.activation-api:jar:2.1.3:compile (version managed from 2.1.3)
+[DEBUG]          org.eclipse.angus:angus-activation:jar:2.0.2:runtime (version managed from 2.0.2)
+[DEBUG]    org.projectlombok:lombok:jar:1.18.36:compile (optional)
+[DEBUG]    org.mapstruct:mapstruct:jar:1.6.3:compile
+[DEBUG]    org.springframework.boot:spring-boot-starter-actuator:jar:3.4.2:compile
+[DEBUG]       org.springframework.boot:spring-boot-actuator-autoconfigure:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]          org.springframework.boot:spring-boot-actuator:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]       io.micrometer:micrometer-observation:jar:1.14.3:compile (version managed from 1.14.3)
+[DEBUG]          io.micrometer:micrometer-commons:jar:1.14.3:compile (version managed from 1.14.3)
+[DEBUG]       io.micrometer:micrometer-jakarta9:jar:1.14.3:compile (version managed from 1.14.3)
+[DEBUG]    io.micrometer:micrometer-registry-prometheus:jar:1.14.3:compile
+[DEBUG]       io.micrometer:micrometer-core:jar:1.14.3:compile (version managed from 1.14.3)
+[DEBUG]          org.hdrhistogram:HdrHistogram:jar:2.2.2:runtime
+[DEBUG]          org.latencyutils:LatencyUtils:jar:2.0.3:runtime
+[DEBUG]       io.prometheus:prometheus-metrics-core:jar:1.3.5:compile (version managed from 1.3.5)
+[DEBUG]          io.prometheus:prometheus-metrics-model:jar:1.3.5:compile (version managed from 1.3.5)
+[DEBUG]          io.prometheus:prometheus-metrics-config:jar:1.3.5:compile (version managed from 1.3.5)
+[DEBUG]       io.prometheus:prometheus-metrics-tracer-common:jar:1.3.5:compile (version managed from 1.3.5)
+[DEBUG]       io.prometheus:prometheus-metrics-exposition-formats:jar:1.3.5:runtime (version managed from 1.3.5)
+[DEBUG]          io.prometheus:prometheus-metrics-exposition-textformats:jar:1.3.5:runtime
+[DEBUG]    net.logstash.logback:logstash-logback-encoder:jar:7.4:compile
+[DEBUG]       com.fasterxml.jackson.core:jackson-databind:jar:2.18.2:compile (version managed from 2.15.2)
+[DEBUG]          com.fasterxml.jackson.core:jackson-annotations:jar:2.18.2:compile (version managed from 2.18.2)
+[DEBUG]          com.fasterxml.jackson.core:jackson-core:jar:2.18.2:compile (version managed from 2.18.2)
+[DEBUG]    com.bucket4j:bucket4j-core:jar:8.10.1:compile
+[DEBUG]    org.postgresql:postgresql:jar:42.7.5:runtime
+[DEBUG]       org.checkerframework:checker-qual:jar:3.48.3:runtime
+[DEBUG]    com.h2database:h2:jar:2.3.232:runtime
+[DEBUG]    com.razorpay:razorpay-java:jar:1.4.3:compile
+[DEBUG]       org.json:json:jar:20180130:compile
+[DEBUG]       com.squareup.okhttp3:okhttp:jar:3.10.0:compile
+[DEBUG]          com.squareup.okio:okio:jar:1.14.0:compile
+[DEBUG]       com.squareup.okhttp3:logging-interceptor:jar:3.10.0:compile
+[DEBUG]       commons-codec:commons-codec:jar:1.17.2:compile (version managed from 1.11)
+[DEBUG]       org.apache.commons:commons-text:jar:1.3:compile
+[DEBUG]          org.apache.commons:commons-lang3:jar:3.17.0:compile (version managed from 3.7)
+[DEBUG]    com.itextpdf:kernel:jar:7.2.5:compile
+[DEBUG]       org.bouncycastle:bcpkix-jdk15on:jar:1.70:compile
+[DEBUG]          org.bouncycastle:bcutil-jdk15on:jar:1.70:compile
+[DEBUG]       org.bouncycastle:bcprov-jdk15on:jar:1.70:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:2.0.16:compile (version managed from 1.7.36)
+[DEBUG]    com.itextpdf:layout:jar:7.2.5:compile
+[DEBUG]    com.itextpdf:io:jar:7.2.5:compile
+[DEBUG]       com.itextpdf:commons:jar:7.2.5:compile
+[DEBUG]    com.itextpdf:html2pdf:jar:4.0.5:compile
+[DEBUG]       com.itextpdf:forms:jar:7.2.5:compile
+[DEBUG]       com.itextpdf:svg:jar:7.2.5:compile
+[DEBUG]          com.itextpdf:styled-xml-parser:jar:7.2.5:compile
+[DEBUG]    org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.8.5:compile
+[DEBUG]       org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.8.5:compile
+[DEBUG]          org.springdoc:springdoc-openapi-starter-common:jar:2.8.5:compile
+[DEBUG]             io.swagger.core.v3:swagger-core-jakarta:jar:2.2.28:compile
+[DEBUG]                io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.28:compile
+[DEBUG]                io.swagger.core.v3:swagger-models-jakarta:jar:2.2.28:compile
+[DEBUG]                com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.18.2:compile (version managed from 2.18.2)
+[DEBUG]       org.webjars:swagger-ui:jar:5.18.3:compile
+[DEBUG]       org.webjars:webjars-locator-lite:jar:1.0.1:compile (version managed from 1.0.1)
+[DEBUG]          org.jspecify:jspecify:jar:1.0.0:compile (version managed from 1.0.0)
+[DEBUG]    io.jsonwebtoken:jjwt-api:jar:0.11.5:compile
+[DEBUG]    io.jsonwebtoken:jjwt-impl:jar:0.11.5:runtime
+[DEBUG]    io.jsonwebtoken:jjwt-jackson:jar:0.11.5:runtime
+[DEBUG]    org.springframework.boot:spring-boot-starter-test:jar:3.4.2:test
+[DEBUG]       org.springframework.boot:spring-boot-test:jar:3.4.2:test (version managed from 3.4.2)
+[DEBUG]       org.springframework.boot:spring-boot-test-autoconfigure:jar:3.4.2:test (version managed from 3.4.2)
+[DEBUG]       com.jayway.jsonpath:json-path:jar:2.9.0:test (version managed from 2.9.0)
+[DEBUG]       jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.2:compile (version managed from 4.0.2)
+[DEBUG]       net.minidev:json-smart:jar:2.5.1:test (version managed from 2.5.1)
+[DEBUG]          net.minidev:accessors-smart:jar:2.5.1:test
+[DEBUG]             org.ow2.asm:asm:jar:9.6:test
+[DEBUG]       org.assertj:assertj-core:jar:3.26.3:test (version managed from 3.26.3)
+[DEBUG]       org.awaitility:awaitility:jar:4.2.2:test (version managed from 4.2.2)
+[DEBUG]       org.hamcrest:hamcrest:jar:2.2:test (version managed from 2.2)
+[DEBUG]       org.junit.jupiter:junit-jupiter:jar:5.11.4:test (version managed from 5.11.4)
+[DEBUG]          org.junit.jupiter:junit-jupiter-api:jar:5.11.4:test (version managed from 5.11.4)
+[DEBUG]             org.opentest4j:opentest4j:jar:1.3.0:test
+[DEBUG]             org.junit.platform:junit-platform-commons:jar:1.11.4:test (version managed from 1.11.4)
+[DEBUG]             org.apiguardian:apiguardian-api:jar:1.1.2:test
+[DEBUG]          org.junit.jupiter:junit-jupiter-params:jar:5.11.4:test (version managed from 5.11.4)
+[DEBUG]          org.junit.jupiter:junit-jupiter-engine:jar:5.11.4:test (version managed from 5.11.4)
+[DEBUG]             org.junit.platform:junit-platform-engine:jar:1.11.4:test (version managed from 1.11.4)
+[DEBUG]       org.mockito:mockito-core:jar:5.14.2:test (version managed from 5.14.2)
+[DEBUG]          net.bytebuddy:byte-buddy-agent:jar:1.15.11:test (version managed from 1.15.4)
+[DEBUG]          org.objenesis:objenesis:jar:3.3:test
+[DEBUG]       org.mockito:mockito-junit-jupiter:jar:5.14.2:test (version managed from 5.14.2)
+[DEBUG]       org.skyscreamer:jsonassert:jar:1.5.3:test (version managed from 1.5.3)
+[DEBUG]          com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+[DEBUG]       org.springframework:spring-core:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]          org.springframework:spring-jcl:jar:6.2.2:compile (version managed from 6.2.2)
+[DEBUG]       org.springframework:spring-test:jar:6.2.2:test (version managed from 6.2.2)
+[DEBUG]       org.xmlunit:xmlunit-core:jar:2.10.0:test (version managed from 2.10.0)
+[DEBUG]    org.springframework.security:spring-security-test:jar:6.4.2:test
+[DEBUG]       org.springframework.security:spring-security-core:jar:6.4.2:compile (version managed from 6.4.2)
+[DEBUG]          org.springframework.security:spring-security-crypto:jar:6.4.2:compile (version managed from 6.4.2)
+[DEBUG]    org.springframework.boot:spring-boot-devtools:jar:3.4.2:compile (optional)
+[DEBUG]       org.springframework.boot:spring-boot:jar:3.4.2:compile (version managed from 3.4.2)
+[DEBUG]       org.springframework.boot:spring-boot-autoconfigure:jar:3.4.2:compile (version managed from 3.4.2)
+[INFO] 
+[INFO] --- clean:3.4.0:clean (default-clean) @ app ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=16167, ConflictMarker.markTime=10791, ConflictMarker.nodeCount=2, ConflictIdSorter.graphTime=19667, ConflictIdSorter.topsortTime=4708, ConflictIdSorter.conflictIdCount=2, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=29708, ConflictResolver.conflictItemCount=2, DfDependencyCollector.collectTime=3950708, DfDependencyCollector.transformTime=87917}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:3.4.0
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.1:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.4.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.1
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.4.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@5bc2b487]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean:default-clean' with basic configurator -->
+[DEBUG]   (f) directory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[DEBUG]   (f) reportDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@29a98d9f
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target
+[INFO] Deleting file /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/maven-status/maven-compiler-plugin/compile/default-compile
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/maven-status/maven-compiler-plugin/compile
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/maven-status/maven-compiler-plugin
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/maven-status
+[INFO] Deleting file /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/application.yml
+[INFO] Deleting file /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/application-dev.yml
+[INFO] Deleting file /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/application-prod.yml
+[INFO] Deleting file /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/logback-spring.xml
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources
+[INFO] Deleting directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target
+[DEBUG] Skipping non-existing directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[DEBUG] Skipping non-existing directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/test-classes
+[DEBUG] Skipping non-existing directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ app ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=24125, ConflictMarker.markTime=12542, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=18125, ConflictIdSorter.topsortTime=7125, ConflictIdSorter.conflictIdCount=9, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=73334, ConflictResolver.conflictItemCount=13, DfDependencyCollector.collectTime=12197541, DfDependencyCollector.transformTime=147167}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.26:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]    commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.12.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@5bc2b487]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources:default-resources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (s) delimiters = [@]
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.mentalhealth:app:0.0.1-SNAPSHOT @ /Users/shanichauhan/Developer/mental-health-AI-payments/backend/pom.xml
+[DEBUG]   (f) propertiesEncoding = UTF-8
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: true, FileSet {directory: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources, PatternSet [includes: {**/application*.yml, **/application*.yaml, **/application*.properties}, excludes: {}]}}, Resource {targetPath: null, filtering: false, FileSet {directory: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources, PatternSet [includes: {}, excludes: {**/application*.yml, **/application*.yaml, **/application*.properties}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@29a98d9f
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = false
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] activemq.version: 6.1.5
+[DEBUG] angus-mail.version: 2.0.3
+[DEBUG] apple.awt.application.name: Launcher
+[DEBUG] artemis.version: 2.37.0
+[DEBUG] aspectj.version: 1.9.22.1
+[DEBUG] assertj.version: 3.26.3
+[DEBUG] awaitility.version: 4.2.2
+[DEBUG] brave.version: 6.0.3
+[DEBUG] build-helper-maven-plugin.version: 3.6.0
+[DEBUG] byte-buddy.version: 1.15.11
+[DEBUG] cache2k.version: 2.6.1.Final
+[DEBUG] caffeine.version: 3.1.8
+[DEBUG] cassandra-driver.version: 4.18.1
+[DEBUG] classmate.version: 1.7.0
+[DEBUG] classworlds.conf: /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197/bin/m2.conf
+[DEBUG] commons-codec.version: 1.17.2
+[DEBUG] commons-dbcp2.version: 2.12.0
+[DEBUG] commons-lang3.version: 3.17.0
+[DEBUG] commons-pool.version: 1.6
+[DEBUG] commons-pool2.version: 2.12.0
+[DEBUG] couchbase-client.version: 3.7.7
+[DEBUG] crac.version: 1.5.0
+[DEBUG] cyclonedx-maven-plugin.version: 2.9.1
+[DEBUG] db2-jdbc.version: 11.5.9.0
+[DEBUG] dependency-management-plugin.version: 1.1.7
+[DEBUG] derby.version: 10.16.1.1
+[DEBUG] ehcache3.version: 3.10.8
+[DEBUG] elasticsearch-client.version: 8.15.5
+[DEBUG] env.ANTIGRAVITY_AGENT: 1
+[DEBUG] env.ANTIGRAVITY_CLI_ALIAS: agy
+[DEBUG] env.BUNDLED_DEBUGPY_PATH: /Users/shanichauhan/.antigravity/extensions/ms-python.debugpy-2025.18.0-darwin-arm64/bundled/libs/debugpy
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.COMMAND_MODE: unix2003
+[DEBUG] env.GIT_ASKPASS: /Applications/Antigravity.app/Contents/Resources/app/extensions/git/dist/askpass.sh
+[DEBUG] env.HOME: /Users/shanichauhan
+[DEBUG] env.HOMEBREW_CELLAR: /opt/homebrew/Cellar
+[DEBUG] env.HOMEBREW_PREFIX: /opt/homebrew
+[DEBUG] env.HOMEBREW_REPOSITORY: /opt/homebrew
+[DEBUG] env.INFOPATH: /opt/homebrew/share/info:/opt/homebrew/share/info:
+[DEBUG] env.LANG: C.UTF-8
+[DEBUG] env.LOGNAME: shanichauhan
+[DEBUG] env.MAVEN_CMD_LINE_ARGS:  clean install -X -DskipTests
+[DEBUG] env.MAVEN_PROJECTBASEDIR: /Users/shanichauhan/Developer/mental-health-AI-payments/backend
+[DEBUG] env.MallocNanoZone: 0
+[DEBUG] env.OLDPWD: /Users/shanichauhan/Developer/mental-health-AI-payments/backend
+[DEBUG] env.OSLogRateLimit: 64
+[DEBUG] env.PAGER: cat
+[DEBUG] env.PATH: /opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.14/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/Users/shanichauhan/.antigravity/extensions/ms-python.debugpy-2025.18.0-darwin-arm64/bundled/scripts/noConfigScripts:/Users/shanichauhan/.antigravity/extensions/vscjava.vscode-java-debug-0.58.5-universal/bundled/scripts/noConfigScripts
+[DEBUG] env.PWD: /Users/shanichauhan/Developer/mental-health-AI-payments/backend
+[DEBUG] env.PYDEVD_DISABLE_FILE_VALIDATION: 1
+[DEBUG] env.PYTHONSTARTUP: /Users/shanichauhan/Library/Application Support/Antigravity/User/workspaceStorage/3a31ee499a2bf6ce02895063b303fed2/ms-python.python/pythonrc.py
+[DEBUG] env.PYTHON_BASIC_REPL: 1
+[DEBUG] env.SHELL: /bin/zsh
+[DEBUG] env.SHLVL: 1
+[DEBUG] env.SSH_AUTH_SOCK: /private/tmp/com.apple.launchd.IqZ5wsC3qp/Listeners
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TERM_PROGRAM: vscode
+[DEBUG] env.TERM_PROGRAM_VERSION: 1.107.0
+[DEBUG] env.TMPDIR: /var/folders/ql/5gb81xwd78b0qf5nkj5pt1h00000gn/T/
+[DEBUG] env.USER: shanichauhan
+[DEBUG] env.USER_ZDOTDIR: /Users/shanichauhan
+[DEBUG] env.VSCODE_DEBUGPY_ADAPTER_ENDPOINTS: /Users/shanichauhan/.antigravity/extensions/ms-python.debugpy-2025.18.0-darwin-arm64/.noConfigDebugAdapterEndpoints/endpoint-1962b0ae2c31273c.txt
+[DEBUG] env.VSCODE_GIT_ASKPASS_EXTRA_ARGS: 
+[DEBUG] env.VSCODE_GIT_ASKPASS_MAIN: /Applications/Antigravity.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
+[DEBUG] env.VSCODE_GIT_ASKPASS_NODE: /Applications/Antigravity.app/Contents/Frameworks/Antigravity Helper (Plugin).app/Contents/MacOS/Antigravity Helper (Plugin)
+[DEBUG] env.VSCODE_GIT_IPC_HANDLE: /var/folders/ql/5gb81xwd78b0qf5nkj5pt1h00000gn/T/vscode-git-37531f8e87.sock
+[DEBUG] env.VSCODE_INJECTION: 1
+[DEBUG] env.VSCODE_JAVA_EXEC: /Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home/bin/java
+[DEBUG] env.VSCODE_JDWP_ADAPTER_ENDPOINTS: /Users/shanichauhan/.antigravity/extensions/vscjava.vscode-java-debug-0.58.5-universal/.noConfigDebugAdapterEndpoints/endpoint-1962b0ae2c31273c.txt
+[DEBUG] env.VSCODE_LOGIN_INITIALIZED: 1
+[DEBUG] env.VSCODE_PROFILE_INITIALIZED: 1
+[DEBUG] env.VSCODE_PYTHON_AUTOACTIVATE_GUARD: 1
+[DEBUG] env.XPC_FLAGS: 0x0
+[DEBUG] env.XPC_SERVICE_NAME: 0
+[DEBUG] env.ZDOTDIR: /Users/shanichauhan
+[DEBUG] env.__CFBundleIdentifier: com.google.antigravity
+[DEBUG] env.__CF_USER_TEXT_ENCODING: 0x1F5:0x0:0x0
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: /
+[DEBUG] flyway.version: 10.20.1
+[DEBUG] freemarker.version: 2.3.34
+[DEBUG] ftp.nonProxyHosts: local|*.local|169.254/16|*.169.254/16
+[DEBUG] git-commit-id-maven-plugin.version: 9.0.1
+[DEBUG] glassfish-jaxb.version: 4.0.5
+[DEBUG] glassfish-jstl.version: 3.0.1
+[DEBUG] graphql-java.version: 22.3
+[DEBUG] groovy.version: 4.0.24
+[DEBUG] gson.version: 2.11.0
+[DEBUG] h2.version: 2.3.232
+[DEBUG] hamcrest.version: 2.2
+[DEBUG] hazelcast.version: 5.5.0
+[DEBUG] hibernate-validator.version: 8.0.2.Final
+[DEBUG] hibernate.version: 6.6.5.Final
+[DEBUG] hikaricp.version: 5.1.0
+[DEBUG] hsqldb.version: 2.7.3
+[DEBUG] htmlunit.version: 4.5.0
+[DEBUG] http.nonProxyHosts: local|*.local|169.254/16|*.169.254/16
+[DEBUG] httpasyncclient.version: 4.1.5
+[DEBUG] httpclient5.version: 5.4.1
+[DEBUG] httpcore.version: 4.4.16
+[DEBUG] httpcore5.version: 5.3.2
+[DEBUG] infinispan.version: 15.0.12.Final
+[DEBUG] influxdb-java.version: 2.24
+[DEBUG] jackson-bom.version: 2.18.2
+[DEBUG] jakarta-activation.version: 2.1.3
+[DEBUG] jakarta-annotation.version: 2.1.1
+[DEBUG] jakarta-inject.version: 2.0.1
+[DEBUG] jakarta-jms.version: 3.1.0
+[DEBUG] jakarta-json-bind.version: 3.0.1
+[DEBUG] jakarta-json.version: 2.1.3
+[DEBUG] jakarta-mail.version: 2.1.3
+[DEBUG] jakarta-management.version: 1.1.4
+[DEBUG] jakarta-persistence.version: 3.1.0
+[DEBUG] jakarta-servlet-jsp-jstl.version: 3.0.2
+[DEBUG] jakarta-servlet.version: 6.0.0
+[DEBUG] jakarta-transaction.version: 2.0.1
+[DEBUG] jakarta-validation.version: 3.0.2
+[DEBUG] jakarta-websocket.version: 2.1.1
+[DEBUG] jakarta-ws-rs.version: 3.1.0
+[DEBUG] jakarta-xml-bind.version: 4.0.2
+[DEBUG] jakarta-xml-soap.version: 3.0.2
+[DEBUG] jakarta-xml-ws.version: 4.0.2
+[DEBUG] janino.version: 3.1.12
+[DEBUG] java.class.path: /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197/boot/plexus-classworlds-2.9.0.jar
+[DEBUG] java.class.version: 69.0
+[DEBUG] java.home: /Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home
+[DEBUG] java.io.tmpdir: /var/folders/ql/5gb81xwd78b0qf5nkj5pt1h00000gn/T/
+[DEBUG] java.library.path: /Users/shanichauhan/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+[DEBUG] java.runtime.name: Java(TM) SE Runtime Environment
+[DEBUG] java.runtime.version: 25.0.1+8-LTS-27
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 25
+[DEBUG] java.vendor: Oracle Corporation
+[DEBUG] java.vendor.url: https://java.oracle.com/
+[DEBUG] java.vendor.url.bug: https://bugreport.java.com/bugreport/
+[DEBUG] java.version: 25.0.1
+[DEBUG] java.version.date: 2025-10-21
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: Java HotSpot(TM) 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 25
+[DEBUG] java.vm.vendor: Oracle Corporation
+[DEBUG] java.vm.version: 25.0.1+8-LTS-27
+[DEBUG] javax-cache.version: 1.1.1
+[DEBUG] javax-money.version: 1.1
+[DEBUG] jaxen.version: 2.0.0
+[DEBUG] jaybird.version: 5.0.6.java11
+[DEBUG] jboss-logging.version: 3.6.1.Final
+[DEBUG] jdk.debug: release
+[DEBUG] jdom2.version: 2.0.6.1
+[DEBUG] jedis.version: 5.2.0
+[DEBUG] jersey.version: 3.1.10
+[DEBUG] jetty-reactive-httpclient.version: 4.0.8
+[DEBUG] jetty.version: 12.0.16
+[DEBUG] jmustache.version: 1.16
+[DEBUG] jooq.version: 3.19.18
+[DEBUG] json-path.version: 2.9.0
+[DEBUG] json-smart.version: 2.5.1
+[DEBUG] jsonassert.version: 1.5.3
+[DEBUG] jtds.version: 1.3.1
+[DEBUG] junit-jupiter.version: 5.11.4
+[DEBUG] junit.version: 4.13.2
+[DEBUG] kafka.version: 3.8.1
+[DEBUG] kotlin-coroutines.version: 1.8.1
+[DEBUG] kotlin-serialization.version: 1.6.3
+[DEBUG] kotlin.version: 1.9.25
+[DEBUG] lettuce.version: 6.4.2.RELEASE
+[DEBUG] library.jansi.path: /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197/lib/jansi-native
+[DEBUG] line.separator: 
+
+[DEBUG] liquibase.version: 4.29.2
+[DEBUG] log4j2.version: 2.24.3
+[DEBUG] logback.version: 1.5.16
+[DEBUG] lombok.version: 1.18.36
+[DEBUG] mariadb.version: 3.4.1
+[DEBUG] maven-antrun-plugin.version: 3.1.0
+[DEBUG] maven-assembly-plugin.version: 3.7.1
+[DEBUG] maven-clean-plugin.version: 3.4.0
+[DEBUG] maven-compiler-plugin.version: 3.13.0
+[DEBUG] maven-dependency-plugin.version: 3.8.1
+[DEBUG] maven-deploy-plugin.version: 3.1.3
+[DEBUG] maven-enforcer-plugin.version: 3.5.0
+[DEBUG] maven-failsafe-plugin.version: 3.5.2
+[DEBUG] maven-help-plugin.version: 3.5.1
+[DEBUG] maven-install-plugin.version: 3.1.3
+[DEBUG] maven-invoker-plugin.version: 3.8.1
+[DEBUG] maven-jar-plugin.version: 3.4.2
+[DEBUG] maven-javadoc-plugin.version: 3.10.1
+[DEBUG] maven-resources-plugin.version: 3.3.1
+[DEBUG] maven-shade-plugin.version: 3.6.0
+[DEBUG] maven-source-plugin.version: 3.3.1
+[DEBUG] maven-surefire-plugin.version: 3.5.2
+[DEBUG] maven-war-plugin.version: 3.4.0
+[DEBUG] maven.build.timestamp: 2026-03-06T14:25:08Z
+[DEBUG] maven.build.version: Apache Maven 3.9.12 (848fbb4bf2d427b72bdb2471c22fced7ebd9a7a1)
+[DEBUG] maven.compiler.release: 21
+[DEBUG] maven.conf: /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197/conf
+[DEBUG] maven.home: /Users/shanichauhan/.m2/wrapper/dists/apache-maven-3.9.12/6068d197
+[DEBUG] maven.multiModuleProjectDirectory: /Users/shanichauhan/Developer/mental-health-AI-payments/backend
+[DEBUG] maven.version: 3.9.12
+[DEBUG] micrometer-tracing.version: 1.4.2
+[DEBUG] micrometer.version: 1.14.3
+[DEBUG] mockito.version: 5.14.2
+[DEBUG] mongodb.version: 5.2.1
+[DEBUG] mssql-jdbc.version: 12.8.1.jre11
+[DEBUG] mysql.version: 9.1.0
+[DEBUG] native-build-tools-plugin.version: 0.10.4
+[DEBUG] native.encoding: UTF-8
+[DEBUG] nekohtml.version: 1.9.22
+[DEBUG] neo4j-java-driver.version: 5.25.0
+[DEBUG] netty.version: 4.1.117.Final
+[DEBUG] opentelemetry.version: 1.43.0
+[DEBUG] oracle-database.version: 23.5.0.24.07
+[DEBUG] oracle-r2dbc.version: 1.2.0
+[DEBUG] os.arch: aarch64
+[DEBUG] os.name: Mac OS X
+[DEBUG] os.version: 26.3
+[DEBUG] path.separator: :
+[DEBUG] pooled-jms.version: 3.1.7
+[DEBUG] postgresql.version: 42.7.5
+[DEBUG] project.baseUri: file:/Users/shanichauhan/Developer/mental-health-AI-payments/backend/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] project.reporting.outputEncoding: UTF-8
+[DEBUG] prometheus-client.version: 1.3.5
+[DEBUG] prometheus-simpleclient.version: 0.16.0
+[DEBUG] pulsar-reactive.version: 0.5.10
+[DEBUG] pulsar.version: 3.3.4
+[DEBUG] quartz.version: 2.3.2
+[DEBUG] querydsl.version: 5.1.0
+[DEBUG] r2dbc-h2.version: 1.0.0.RELEASE
+[DEBUG] r2dbc-mariadb.version: 1.2.2
+[DEBUG] r2dbc-mssql.version: 1.0.2.RELEASE
+[DEBUG] r2dbc-mysql.version: 1.3.1
+[DEBUG] r2dbc-pool.version: 1.0.2.RELEASE
+[DEBUG] r2dbc-postgresql.version: 1.0.7.RELEASE
+[DEBUG] r2dbc-proxy.version: 1.1.5.RELEASE
+[DEBUG] r2dbc-spi.version: 1.0.0.RELEASE
+[DEBUG] rabbit-amqp-client.version: 5.22.0
+[DEBUG] rabbit-stream-client.version: 0.18.0
+[DEBUG] reactive-streams.version: 1.0.4
+[DEBUG] reactor-bom.version: 2024.0.2
+[DEBUG] resource.delimiter: @
+[DEBUG] rest-assured.version: 5.5.0
+[DEBUG] rsocket.version: 1.1.3
+[DEBUG] rxjava3.version: 3.1.10
+[DEBUG] saaj-impl.version: 3.0.4
+[DEBUG] selenium-htmlunit.version: 4.25.0
+[DEBUG] selenium.version: 4.25.0
+[DEBUG] sendgrid.version: 4.10.3
+[DEBUG] skipTests: true
+[DEBUG] slf4j.version: 2.0.16
+[DEBUG] snakeyaml.version: 2.3
+[DEBUG] socksNonProxyHosts: local|*.local|169.254/16|*.169.254/16
+[DEBUG] spring-amqp.version: 3.2.2
+[DEBUG] spring-authorization-server.version: 1.4.1
+[DEBUG] spring-batch.version: 5.2.1
+[DEBUG] spring-boot.run.main-class: ${start-class}
+[DEBUG] spring-data-bom.version: 2024.1.2
+[DEBUG] spring-framework.version: 6.2.2
+[DEBUG] spring-graphql.version: 1.3.3
+[DEBUG] spring-hateoas.version: 2.4.1
+[DEBUG] spring-integration.version: 6.4.1
+[DEBUG] spring-kafka.version: 3.3.2
+[DEBUG] spring-ldap.version: 3.2.10
+[DEBUG] spring-pulsar.version: 1.2.2
+[DEBUG] spring-restdocs.version: 3.0.3
+[DEBUG] spring-retry.version: 2.0.11
+[DEBUG] spring-security.version: 6.4.2
+[DEBUG] spring-session.version: 3.4.1
+[DEBUG] spring-ws.version: 4.0.11
+[DEBUG] sqlite-jdbc.version: 3.47.2.0
+[DEBUG] stderr.encoding: UTF-8
+[DEBUG] stdin.encoding: UTF-8
+[DEBUG] stdout.encoding: UTF-8
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: /Library/Java/JavaVirtualMachines/jdk-25.jdk/Contents/Home/lib
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.io.unicode.encoding: UnicodeBig
+[DEBUG] sun.java.command: org.codehaus.plexus.classworlds.launcher.Launcher clean install -X -DskipTests
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: UTF-8
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] testcontainers-redis-module.version: 2.2.2
+[DEBUG] testcontainers.version: 1.20.4
+[DEBUG] thymeleaf-extras-data-attribute.version: 2.0.1
+[DEBUG] thymeleaf-extras-springsecurity.version: 3.1.3.RELEASE
+[DEBUG] thymeleaf-layout-dialect.version: 3.3.0
+[DEBUG] thymeleaf.version: 3.1.3.RELEASE
+[DEBUG] tomcat.version: 10.1.34
+[DEBUG] unboundid-ldapsdk.version: 6.0.11
+[DEBUG] undertow.version: 2.3.18.Final
+[DEBUG] user.country: IN
+[DEBUG] user.dir: /Users/shanichauhan/Developer/mental-health-AI-payments/backend
+[DEBUG] user.home: /Users/shanichauhan
+[DEBUG] user.language: en
+[DEBUG] user.name: shanichauhan
+[DEBUG] versions-maven-plugin.version: 2.17.1
+[DEBUG] webjars-locator-core.version: 0.59
+[DEBUG] webjars-locator-lite.version: 1.0.1
+[DEBUG] wsdl4j.version: 1.6.3
+[DEBUG] xml-maven-plugin.version: 1.1.0
+[DEBUG] xmlunit2.version: 2.10.0
+[DEBUG] yasson.version: 3.0.4
+[DEBUG] zipkin-reporter.version: 3.4.3
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources
+excludes []
+includes [**/application*.yml, **/application*.yaml, **/application*.properties]
+[DEBUG] ignoreDelta true
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[DEBUG] Copying file application-prod.yml
+[DEBUG] file application-prod.yml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'application-prod.yml'.
+[DEBUG] filtering /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources/application-prod.yml to /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/application-prod.yml
+[DEBUG] Copying file application-dev.yml
+[DEBUG] file application-dev.yml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'application-dev.yml'.
+[DEBUG] filtering /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources/application-dev.yml to /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/application-dev.yml
+[DEBUG] Copying file application.yml
+[DEBUG] file application.yml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'application.yml'.
+[DEBUG] filtering /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources/application.yml to /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/application.yml
+[DEBUG] resource with targetPath null
+directory /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources
+excludes [**/application*.yml, **/application*.yaml, **/application*.properties]
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[DEBUG] Copying file logback-spring.xml
+[DEBUG] file logback-spring.xml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'logback-spring.xml'.
+[DEBUG] copy /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/resources/logback-spring.xml to /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes/logback-spring.xml
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ app ---
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for apache.snapshots (http://repository.apache.org/snapshots).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=18958, ConflictMarker.markTime=12375, ConflictMarker.nodeCount=22, ConflictIdSorter.graphTime=7292, ConflictIdSorter.topsortTime=8166, ConflictIdSorter.conflictIdCount=14, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=114750, ConflictResolver.conflictItemCount=22, DfDependencyCollector.collectTime=14003208, DfDependencyCollector.transformTime=173125}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-java:jar:1.2.0:compile
+[DEBUG]       org.ow2.asm:asm:jar:9.6:compile
+[DEBUG]       com.thoughtworks.qdox:qdox:jar:2.0.3:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.15.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.codehaus.plexus:plexus-xml:jar:3.0.0:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.2.0
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.6
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.0.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.0
+[DEBUG] Loading mojo org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0, parent: jdk.internal.loader.ClassLoaders$AppClassLoader@5bc2b487]
+[DEBUG] Configuring mojo execution 'org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile:default-compile' with basic configurator -->
+[DEBUG]   (s) groupId = org.projectlombok
+[DEBUG]   (s) artifactId = lombok
+[DEBUG]   (s) version = 1.18.30
+[DEBUG]   (s) groupId = org.projectlombok
+[DEBUG]   (s) artifactId = lombok-mapstruct-binding
+[DEBUG]   (s) version = 0.2.0
+[DEBUG]   (s) groupId = org.mapstruct
+[DEBUG]   (s) artifactId = mapstruct-processor
+[DEBUG]   (s) version = 1.6.3
+[DEBUG]   (f) annotationProcessorPaths = [org.projectlombok:lombok:1.18.30.jar, org.projectlombok:lombok-mapstruct-binding:0.2.0.jar, org.mapstruct:mapstruct-processor:1.6.3.jar]
+[DEBUG]   (f) annotationProcessorPathsUseDepMgmt = false
+[DEBUG]   (f) basedir = /Users/shanichauhan/Developer/mental-health-AI-payments/backend
+[DEBUG]   (f) buildDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target
+[DEBUG]   (f) compilePath = [/Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.4.2/spring-boot-starter-data-jpa-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.2/spring-boot-starter-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.2/spring-boot-starter-logging-3.4.2.jar, /Users/shanichauhan/.m2/repository/ch/qos/logback/logback-classic/1.5.16/logback-classic-1.5.16.jar, /Users/shanichauhan/.m2/repository/ch/qos/logback/logback-core/1.5.16/logback-core-1.5.16.jar, /Users/shanichauhan/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar, /Users/shanichauhan/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar, /Users/shanichauhan/.m2/repository/org/slf4j/jul-to-slf4j/2.0.16/jul-to-slf4j-2.0.16.jar, /Users/shanichauhan/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar, /Users/shanichauhan/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.2/spring-boot-starter-jdbc-3.4.2.jar, /Users/shanichauhan/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-jdbc/6.2.2/spring-jdbc-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/hibernate/orm/hibernate-core/6.6.5.Final/hibernate-core-6.6.5.Final.jar, /Users/shanichauhan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar, /Users/shanichauhan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar, /Users/shanichauhan/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar, /Users/shanichauhan/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar, /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-jpa/3.4.2/spring-data-jpa-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-commons/3.4.2/spring-data-commons-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-orm/6.2.2/spring-orm-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-context/6.2.2/spring-context-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-tx/6.2.2/spring-tx-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-beans/6.2.2/spring-beans-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-aspects/6.2.2/spring-aspects-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.4.2/spring-boot-starter-security-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-aop/6.2.2/spring-aop-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-config/6.4.2/spring-security-config-6.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-web/6.4.2/spring-security-web-6.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-expression/6.2.2/spring-expression-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.4.2/spring-boot-starter-validation-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.34/tomcat-embed-el-10.1.34.jar, /Users/shanichauhan/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar, /Users/shanichauhan/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.2/spring-boot-starter-web-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.2/spring-boot-starter-json-3.4.2.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.2/jackson-module-parameter-names-2.18.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.2/spring-boot-starter-tomcat-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.34/tomcat-embed-core-10.1.34.jar, /Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.34/tomcat-embed-websocket-10.1.34.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-web/6.2.2/spring-web-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-webmvc/6.2.2/spring-webmvc-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.4.2/spring-boot-starter-data-redis-3.4.2.jar, /Users/shanichauhan/.m2/repository/io/lettuce/lettuce-core/6.4.2.RELEASE/lettuce-core-6.4.2.RELEASE.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-common/4.1.117.Final/netty-common-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-handler/4.1.117.Final/netty-handler-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-resolver/4.1.117.Final/netty-resolver-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-buffer/4.1.117.Final/netty-buffer-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.117.Final/netty-transport-native-unix-common-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-codec/4.1.117.Final/netty-codec-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/netty/netty-transport/4.1.117.Final/netty-transport-4.1.117.Final.jar, /Users/shanichauhan/.m2/repository/io/projectreactor/reactor-core/3.7.2/reactor-core-3.7.2.jar, /Users/shanichauhan/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar, /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-redis/3.4.2/spring-data-redis-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-keyvalue/3.4.2/spring-data-keyvalue-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-oxm/6.2.2/spring-oxm-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.4.2/spring-boot-starter-mail-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-context-support/6.2.2/spring-context-support-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/eclipse/angus/jakarta.mail/2.0.3/jakarta.mail-2.0.3.jar, /Users/shanichauhan/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar, /Users/shanichauhan/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar, /Users/shanichauhan/.m2/repository/org/mapstruct/mapstruct/1.6.3/mapstruct-1.6.3.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.4.2/spring-boot-starter-actuator-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.4.2/spring-boot-actuator-autoconfigure-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-actuator/3.4.2/spring-boot-actuator-3.4.2.jar, /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-observation/1.14.3/micrometer-observation-1.14.3.jar, /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-commons/1.14.3/micrometer-commons-1.14.3.jar, /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-jakarta9/1.14.3/micrometer-jakarta9-1.14.3.jar, /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-registry-prometheus/1.14.3/micrometer-registry-prometheus-1.14.3.jar, /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-core/1.14.3/micrometer-core-1.14.3.jar, /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-core/1.3.5/prometheus-metrics-core-1.3.5.jar, /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-model/1.3.5/prometheus-metrics-model-1.3.5.jar, /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-config/1.3.5/prometheus-metrics-config-1.3.5.jar, /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-tracer-common/1.3.5/prometheus-metrics-tracer-common-1.3.5.jar, /Users/shanichauhan/.m2/repository/net/logstash/logback/logstash-logback-encoder/7.4/logstash-logback-encoder-7.4.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.2/jackson-databind-2.18.2.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.2/jackson-annotations-2.18.2.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.2/jackson-core-2.18.2.jar, /Users/shanichauhan/.m2/repository/com/bucket4j/bucket4j-core/8.10.1/bucket4j-core-8.10.1.jar, /Users/shanichauhan/.m2/repository/com/razorpay/razorpay-java/1.4.3/razorpay-java-1.4.3.jar, /Users/shanichauhan/.m2/repository/org/json/json/20180130/json-20180130.jar, /Users/shanichauhan/.m2/repository/com/squareup/okhttp3/okhttp/3.10.0/okhttp-3.10.0.jar, /Users/shanichauhan/.m2/repository/com/squareup/okio/okio/1.14.0/okio-1.14.0.jar, /Users/shanichauhan/.m2/repository/com/squareup/okhttp3/logging-interceptor/3.10.0/logging-interceptor-3.10.0.jar, /Users/shanichauhan/.m2/repository/commons-codec/commons-codec/1.17.2/commons-codec-1.17.2.jar, /Users/shanichauhan/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.jar, /Users/shanichauhan/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/kernel/7.2.5/kernel-7.2.5.jar, /Users/shanichauhan/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.70/bcpkix-jdk15on-1.70.jar, /Users/shanichauhan/.m2/repository/org/bouncycastle/bcutil-jdk15on/1.70/bcutil-jdk15on-1.70.jar, /Users/shanichauhan/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.70/bcprov-jdk15on-1.70.jar, /Users/shanichauhan/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/layout/7.2.5/layout-7.2.5.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/io/7.2.5/io-7.2.5.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/commons/7.2.5/commons-7.2.5.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/html2pdf/4.0.5/html2pdf-4.0.5.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/forms/7.2.5/forms-7.2.5.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/svg/7.2.5/svg-7.2.5.jar, /Users/shanichauhan/.m2/repository/com/itextpdf/styled-xml-parser/7.2.5/styled-xml-parser-7.2.5.jar, /Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.8.5/springdoc-openapi-starter-webmvc-ui-2.8.5.jar, /Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.8.5/springdoc-openapi-starter-webmvc-api-2.8.5.jar, /Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.8.5/springdoc-openapi-starter-common-2.8.5.jar, /Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.28/swagger-core-jakarta-2.2.28.jar, /Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.28/swagger-annotations-jakarta-2.2.28.jar, /Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.28/swagger-models-jakarta-2.2.28.jar, /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.2/jackson-dataformat-yaml-2.18.2.jar, /Users/shanichauhan/.m2/repository/org/webjars/swagger-ui/5.18.3/swagger-ui-5.18.3.jar, /Users/shanichauhan/.m2/repository/org/webjars/webjars-locator-lite/1.0.1/webjars-locator-lite-1.0.1.jar, /Users/shanichauhan/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar, /Users/shanichauhan/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar, /Users/shanichauhan/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-core/6.2.2/spring-core-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/spring-jcl/6.2.2/spring-jcl-6.2.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-core/6.4.2/spring-security-core-6.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-crypto/6.4.2/spring-security-crypto-6.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-devtools/3.4.2/spring-boot-devtools-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot/3.4.2/spring-boot-3.4.2.jar, /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.2/spring-boot-autoconfigure-3.4.2.jar]
+[DEBUG]   (f) compileSourceRoots = [/Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) fileExtensions = [jar, class]
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) forceLegacyJavacApi = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[DEBUG]   (f) parameters = true
+[DEBUG]   (f) project = MavenProject: com.mentalhealth:app:0.0.1-SNAPSHOT @ /Users/shanichauhan/Developer/mental-health-AI-payments/backend/pom.xml
+[DEBUG]   (f) projectArtifact = com.mentalhealth:app:jar:0.0.1-SNAPSHOT
+[DEBUG]   (s) release = 21
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@29a98d9f
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 21
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 21
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Adding /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations to compile source roots:
+  /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java
+[DEBUG] New compile source roots:
+  /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java
+  /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=12208, ConflictMarker.markTime=6833, ConflictMarker.nodeCount=4, ConflictIdSorter.graphTime=7250, ConflictIdSorter.topsortTime=4333, ConflictIdSorter.conflictIdCount=3, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=42959, ConflictResolver.conflictItemCount=3, DfDependencyCollector.collectTime=3380333, DfDependencyCollector.transformTime=81000}
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/ApiResponse.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/DataInitializer.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeetingController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/LoginRateLimitFilter.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/JwtFilter.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/RiskLevel.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/JwtUtils.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/EmailService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/audit/AuditLogRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/ReviewController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/SchemaPatchRunner.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/SignupRequest.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/audit/AuditLog.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/UserStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiAssessment.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/InAppNotificationService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentTransaction.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PayoutStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/dashboard/DashboardController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentLedgerService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/ReminderTask.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/AuthController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeeting.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/ReviewService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/InAppNotification.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentTransactionRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/Booking.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PayoutRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/InvoiceService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/UserRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/audit/AuditService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiChatMessage.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/util/AttributeEncryptionConverter.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiChatMessageRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/Payout.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistApprovalStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/User.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/Role.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/TherapistReviewRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/Refund.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/MoodCheckin.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/RateLimitingFilter.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/RequestLoggingFilter.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistAvailabilityRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/Therapist.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistProfileRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeetingRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/storage/PublicFileController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/TherapistReview.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentVerificationRequest.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/exception/GlobalExceptionHandler.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/RefundStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/admin/AdminController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/util/EncryptionUtils.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/MentalHealthAppApplication.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/MoodCheckinRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeetingService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistProfile.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/LoginRequest.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/RefundRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/InAppNotificationRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/MeetingAttendanceStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/NotificationController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/ZoomService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/RedisConfig.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/SmsService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiAssessmentRepository.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentController.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/storage/FileStorageService.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/ReviewStatus.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/RestTemplateConfig.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/SecurityConfig.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistAvailability.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/JwtResponse.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/UserDetailsServiceImpl.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/TherapistSignupRequest.java
+[INFO] 	Stale source detected: /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/RefreshTokenRequest.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/MentalHealthAppApplication.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/admin/AdminController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiAssessment.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiAssessmentRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiChatMessage.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiChatMessageRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/AiService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/MoodCheckin.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/MoodCheckinRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/ai/RiskLevel.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/audit/AuditLog.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/audit/AuditLogRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/audit/AuditService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/AuthController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/JwtResponse.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/LoginRequest.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/RefreshTokenRequest.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/SignupRequest.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/auth/dto/TherapistSignupRequest.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/Booking.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/booking/BookingStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/ApiResponse.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/storage/FileStorageService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/storage/PublicFileController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/util/AttributeEncryptionConverter.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/common/util/EncryptionUtils.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/DataInitializer.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/RedisConfig.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/RestTemplateConfig.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/config/SchemaPatchRunner.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/dashboard/DashboardController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/exception/GlobalExceptionHandler.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/EmailService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/InAppNotification.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/InAppNotificationRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/InAppNotificationService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/NotificationController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/ReminderTask.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/notification/SmsService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/InvoiceService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentLedgerService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentTransaction.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentTransactionRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PaymentVerificationRequest.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/Payout.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PayoutRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/PayoutStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/Refund.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/RefundRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/payment/RefundStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/ReviewController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/ReviewService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/ReviewStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/TherapistReview.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/review/TherapistReviewRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/JwtFilter.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/JwtUtils.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/LoginRateLimitFilter.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/RateLimitingFilter.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/RequestLoggingFilter.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/SecurityConfig.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/security/UserDetailsServiceImpl.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/Therapist.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistApprovalStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistAvailability.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistAvailabilityRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistProfile.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistProfileRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/therapist/TherapistService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/Role.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/User.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/UserRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/user/UserStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/MeetingAttendanceStatus.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeeting.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeetingController.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeetingRepository.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/VideoMeetingService.java
+[INFO] 	Input tree files (+): /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java/com/mentalhealth/app/video/ZoomService.java
+[INFO] Recompiling the module because of changed source code.
+[DEBUG] Classpath:
+[DEBUG]  /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.4.2/spring-boot-starter-data-jpa-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.2/spring-boot-starter-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.2/spring-boot-starter-logging-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/ch/qos/logback/logback-classic/1.5.16/logback-classic-1.5.16.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/ch/qos/logback/logback-core/1.5.16/logback-core-1.5.16.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/slf4j/jul-to-slf4j/2.0.16/jul-to-slf4j-2.0.16.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.2/spring-boot-starter-jdbc-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-jdbc/6.2.2/spring-jdbc-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/hibernate/orm/hibernate-core/6.6.5.Final/hibernate-core-6.6.5.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-jpa/3.4.2/spring-data-jpa-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-commons/3.4.2/spring-data-commons-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-orm/6.2.2/spring-orm-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-context/6.2.2/spring-context-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-tx/6.2.2/spring-tx-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-beans/6.2.2/spring-beans-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-aspects/6.2.2/spring-aspects-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.4.2/spring-boot-starter-security-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-aop/6.2.2/spring-aop-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-config/6.4.2/spring-security-config-6.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-web/6.4.2/spring-security-web-6.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-expression/6.2.2/spring-expression-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.4.2/spring-boot-starter-validation-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.34/tomcat-embed-el-10.1.34.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.2/spring-boot-starter-web-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.2/spring-boot-starter-json-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.2/jackson-module-parameter-names-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.2/spring-boot-starter-tomcat-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.34/tomcat-embed-core-10.1.34.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.34/tomcat-embed-websocket-10.1.34.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-web/6.2.2/spring-web-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-webmvc/6.2.2/spring-webmvc-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.4.2/spring-boot-starter-data-redis-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/lettuce/lettuce-core/6.4.2.RELEASE/lettuce-core-6.4.2.RELEASE.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-common/4.1.117.Final/netty-common-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-handler/4.1.117.Final/netty-handler-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-resolver/4.1.117.Final/netty-resolver-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-buffer/4.1.117.Final/netty-buffer-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.117.Final/netty-transport-native-unix-common-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-codec/4.1.117.Final/netty-codec-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/netty/netty-transport/4.1.117.Final/netty-transport-4.1.117.Final.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/projectreactor/reactor-core/3.7.2/reactor-core-3.7.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-redis/3.4.2/spring-data-redis-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-keyvalue/3.4.2/spring-data-keyvalue-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-oxm/6.2.2/spring-oxm-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.4.2/spring-boot-starter-mail-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-context-support/6.2.2/spring-context-support-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/eclipse/angus/jakarta.mail/2.0.3/jakarta.mail-2.0.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/mapstruct/mapstruct/1.6.3/mapstruct-1.6.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.4.2/spring-boot-starter-actuator-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.4.2/spring-boot-actuator-autoconfigure-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-actuator/3.4.2/spring-boot-actuator-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-observation/1.14.3/micrometer-observation-1.14.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-commons/1.14.3/micrometer-commons-1.14.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-jakarta9/1.14.3/micrometer-jakarta9-1.14.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-registry-prometheus/1.14.3/micrometer-registry-prometheus-1.14.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/micrometer/micrometer-core/1.14.3/micrometer-core-1.14.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-core/1.3.5/prometheus-metrics-core-1.3.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-model/1.3.5/prometheus-metrics-model-1.3.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-config/1.3.5/prometheus-metrics-config-1.3.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-tracer-common/1.3.5/prometheus-metrics-tracer-common-1.3.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/net/logstash/logback/logstash-logback-encoder/7.4/logstash-logback-encoder-7.4.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.2/jackson-databind-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.2/jackson-annotations-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.2/jackson-core-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/bucket4j/bucket4j-core/8.10.1/bucket4j-core-8.10.1.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/razorpay/razorpay-java/1.4.3/razorpay-java-1.4.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/json/json/20180130/json-20180130.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/squareup/okhttp3/okhttp/3.10.0/okhttp-3.10.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/squareup/okio/okio/1.14.0/okio-1.14.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/squareup/okhttp3/logging-interceptor/3.10.0/logging-interceptor-3.10.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/commons-codec/commons-codec/1.17.2/commons-codec-1.17.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/kernel/7.2.5/kernel-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.70/bcpkix-jdk15on-1.70.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/bouncycastle/bcutil-jdk15on/1.70/bcutil-jdk15on-1.70.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.70/bcprov-jdk15on-1.70.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/layout/7.2.5/layout-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/io/7.2.5/io-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/commons/7.2.5/commons-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/html2pdf/4.0.5/html2pdf-4.0.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/forms/7.2.5/forms-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/svg/7.2.5/svg-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/itextpdf/styled-xml-parser/7.2.5/styled-xml-parser-7.2.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.8.5/springdoc-openapi-starter-webmvc-ui-2.8.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.8.5/springdoc-openapi-starter-webmvc-api-2.8.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.8.5/springdoc-openapi-starter-common-2.8.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.28/swagger-core-jakarta-2.2.28.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.28/swagger-annotations-jakarta-2.2.28.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.28/swagger-models-jakarta-2.2.28.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.2/jackson-dataformat-yaml-2.18.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/webjars/swagger-ui/5.18.3/swagger-ui-5.18.3.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/webjars/webjars-locator-lite/1.0.1/webjars-locator-lite-1.0.1.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-core/6.2.2/spring-core-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/spring-jcl/6.2.2/spring-jcl-6.2.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-core/6.4.2/spring-security-core-6.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-crypto/6.4.2/spring-security-crypto-6.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-devtools/3.4.2/spring-boot-devtools-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot/3.4.2/spring-boot-3.4.2.jar
+[DEBUG]  /Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.2/spring-boot-autoconfigure-3.4.2.jar
+[DEBUG] Source roots:
+[DEBUG]  /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java
+[DEBUG]  /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations
+[DEBUG] Command line options:
+[DEBUG] -d /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes -classpath /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/classes:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.4.2/spring-boot-starter-data-jpa-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter/3.4.2/spring-boot-starter-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.4.2/spring-boot-starter-logging-3.4.2.jar:/Users/shanichauhan/.m2/repository/ch/qos/logback/logback-classic/1.5.16/logback-classic-1.5.16.jar:/Users/shanichauhan/.m2/repository/ch/qos/logback/logback-core/1.5.16/logback-core-1.5.16.jar:/Users/shanichauhan/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/shanichauhan/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/shanichauhan/.m2/repository/org/slf4j/jul-to-slf4j/2.0.16/jul-to-slf4j-2.0.16.jar:/Users/shanichauhan/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/Users/shanichauhan/.m2/repository/org/yaml/snakeyaml/2.3/snakeyaml-2.3.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.4.2/spring-boot-starter-jdbc-3.4.2.jar:/Users/shanichauhan/.m2/repository/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-jdbc/6.2.2/spring-jdbc-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/hibernate/orm/hibernate-core/6.6.5.Final/hibernate-core-6.6.5.Final.jar:/Users/shanichauhan/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/Users/shanichauhan/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/shanichauhan/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/shanichauhan/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-jpa/3.4.2/spring-data-jpa-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-commons/3.4.2/spring-data-commons-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-orm/6.2.2/spring-orm-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-context/6.2.2/spring-context-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-tx/6.2.2/spring-tx-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-beans/6.2.2/spring-beans-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-aspects/6.2.2/spring-aspects-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.4.2/spring-boot-starter-security-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-aop/6.2.2/spring-aop-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-config/6.4.2/spring-security-config-6.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-web/6.4.2/spring-security-web-6.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-expression/6.2.2/spring-expression-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.4.2/spring-boot-starter-validation-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.34/tomcat-embed-el-10.1.34.jar:/Users/shanichauhan/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.2.Final/hibernate-validator-8.0.2.Final.jar:/Users/shanichauhan/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.4.2/spring-boot-starter-web-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.4.2/spring-boot-starter-json-3.4.2.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.18.2/jackson-datatype-jdk8-2.18.2.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.18.2/jackson-datatype-jsr310-2.18.2.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.18.2/jackson-module-parameter-names-2.18.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.4.2/spring-boot-starter-tomcat-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.34/tomcat-embed-core-10.1.34.jar:/Users/shanichauhan/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.34/tomcat-embed-websocket-10.1.34.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-web/6.2.2/spring-web-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-webmvc/6.2.2/spring-webmvc-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.4.2/spring-boot-starter-data-redis-3.4.2.jar:/Users/shanichauhan/.m2/repository/io/lettuce/lettuce-core/6.4.2.RELEASE/lettuce-core-6.4.2.RELEASE.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-common/4.1.117.Final/netty-common-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-handler/4.1.117.Final/netty-handler-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-resolver/4.1.117.Final/netty-resolver-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-buffer/4.1.117.Final/netty-buffer-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.117.Final/netty-transport-native-unix-common-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-codec/4.1.117.Final/netty-codec-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/netty/netty-transport/4.1.117.Final/netty-transport-4.1.117.Final.jar:/Users/shanichauhan/.m2/repository/io/projectreactor/reactor-core/3.7.2/reactor-core-3.7.2.jar:/Users/shanichauhan/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-redis/3.4.2/spring-data-redis-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/data/spring-data-keyvalue/3.4.2/spring-data-keyvalue-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-oxm/6.2.2/spring-oxm-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.4.2/spring-boot-starter-mail-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-context-support/6.2.2/spring-context-support-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/eclipse/angus/jakarta.mail/2.0.3/jakarta.mail-2.0.3.jar:/Users/shanichauhan/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/shanichauhan/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar:/Users/shanichauhan/.m2/repository/org/mapstruct/mapstruct/1.6.3/mapstruct-1.6.3.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.4.2/spring-boot-starter-actuator-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.4.2/spring-boot-actuator-autoconfigure-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-actuator/3.4.2/spring-boot-actuator-3.4.2.jar:/Users/shanichauhan/.m2/repository/io/micrometer/micrometer-observation/1.14.3/micrometer-observation-1.14.3.jar:/Users/shanichauhan/.m2/repository/io/micrometer/micrometer-commons/1.14.3/micrometer-commons-1.14.3.jar:/Users/shanichauhan/.m2/repository/io/micrometer/micrometer-jakarta9/1.14.3/micrometer-jakarta9-1.14.3.jar:/Users/shanichauhan/.m2/repository/io/micrometer/micrometer-registry-prometheus/1.14.3/micrometer-registry-prometheus-1.14.3.jar:/Users/shanichauhan/.m2/repository/io/micrometer/micrometer-core/1.14.3/micrometer-core-1.14.3.jar:/Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-core/1.3.5/prometheus-metrics-core-1.3.5.jar:/Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-model/1.3.5/prometheus-metrics-model-1.3.5.jar:/Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-config/1.3.5/prometheus-metrics-config-1.3.5.jar:/Users/shanichauhan/.m2/repository/io/prometheus/prometheus-metrics-tracer-common/1.3.5/prometheus-metrics-tracer-common-1.3.5.jar:/Users/shanichauhan/.m2/repository/net/logstash/logback/logstash-logback-encoder/7.4/logstash-logback-encoder-7.4.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.18.2/jackson-databind-2.18.2.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.18.2/jackson-annotations-2.18.2.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.18.2/jackson-core-2.18.2.jar:/Users/shanichauhan/.m2/repository/com/bucket4j/bucket4j-core/8.10.1/bucket4j-core-8.10.1.jar:/Users/shanichauhan/.m2/repository/com/razorpay/razorpay-java/1.4.3/razorpay-java-1.4.3.jar:/Users/shanichauhan/.m2/repository/org/json/json/20180130/json-20180130.jar:/Users/shanichauhan/.m2/repository/com/squareup/okhttp3/okhttp/3.10.0/okhttp-3.10.0.jar:/Users/shanichauhan/.m2/repository/com/squareup/okio/okio/1.14.0/okio-1.14.0.jar:/Users/shanichauhan/.m2/repository/com/squareup/okhttp3/logging-interceptor/3.10.0/logging-interceptor-3.10.0.jar:/Users/shanichauhan/.m2/repository/commons-codec/commons-codec/1.17.2/commons-codec-1.17.2.jar:/Users/shanichauhan/.m2/repository/org/apache/commons/commons-text/1.3/commons-text-1.3.jar:/Users/shanichauhan/.m2/repository/org/apache/commons/commons-lang3/3.17.0/commons-lang3-3.17.0.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/kernel/7.2.5/kernel-7.2.5.jar:/Users/shanichauhan/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.70/bcpkix-jdk15on-1.70.jar:/Users/shanichauhan/.m2/repository/org/bouncycastle/bcutil-jdk15on/1.70/bcutil-jdk15on-1.70.jar:/Users/shanichauhan/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.70/bcprov-jdk15on-1.70.jar:/Users/shanichauhan/.m2/repository/org/slf4j/slf4j-api/2.0.16/slf4j-api-2.0.16.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/layout/7.2.5/layout-7.2.5.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/io/7.2.5/io-7.2.5.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/commons/7.2.5/commons-7.2.5.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/html2pdf/4.0.5/html2pdf-4.0.5.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/forms/7.2.5/forms-7.2.5.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/svg/7.2.5/svg-7.2.5.jar:/Users/shanichauhan/.m2/repository/com/itextpdf/styled-xml-parser/7.2.5/styled-xml-parser-7.2.5.jar:/Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.8.5/springdoc-openapi-starter-webmvc-ui-2.8.5.jar:/Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.8.5/springdoc-openapi-starter-webmvc-api-2.8.5.jar:/Users/shanichauhan/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.8.5/springdoc-openapi-starter-common-2.8.5.jar:/Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.28/swagger-core-jakarta-2.2.28.jar:/Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.28/swagger-annotations-jakarta-2.2.28.jar:/Users/shanichauhan/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.28/swagger-models-jakarta-2.2.28.jar:/Users/shanichauhan/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.18.2/jackson-dataformat-yaml-2.18.2.jar:/Users/shanichauhan/.m2/repository/org/webjars/swagger-ui/5.18.3/swagger-ui-5.18.3.jar:/Users/shanichauhan/.m2/repository/org/webjars/webjars-locator-lite/1.0.1/webjars-locator-lite-1.0.1.jar:/Users/shanichauhan/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/shanichauhan/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/Users/shanichauhan/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-core/6.2.2/spring-core-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/spring-jcl/6.2.2/spring-jcl-6.2.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-core/6.4.2/spring-security-core-6.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/security/spring-security-crypto/6.4.2/spring-security-crypto-6.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-devtools/3.4.2/spring-boot-devtools-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot/3.4.2/spring-boot-3.4.2.jar:/Users/shanichauhan/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.4.2/spring-boot-autoconfigure-3.4.2.jar: -sourcepath /Users/shanichauhan/Developer/mental-health-AI-payments/backend/src/main/java:/Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations: -s /Users/shanichauhan/Developer/mental-health-AI-payments/backend/target/generated-sources/annotations -processorpath /Users/shanichauhan/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar:/Users/shanichauhan/.m2/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar:/Users/shanichauhan/.m2/repository/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar: -g -parameters --release 21 -encoding UTF-8 -XDuseUnsharedTable=true
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 88 source files with javac [debug parameters release 21] to target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.211 s
+[INFO] Finished at: 2026-03-06T19:55:09+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project app: Fatal error compiling: java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTag :: UNKNOWN -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project app: Fatal error compiling
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:333)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.apache.maven.plugin.MojoExecutionException: Fatal error compiling
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1231)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: org.codehaus.plexus.compiler.CompilerException: java.lang.ExceptionInInitializerError
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:179)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: java.lang.RuntimeException: java.lang.ExceptionInInitializerError
+    at com.sun.tools.javac.api.JavacTaskImpl.invocationHelper (JavacTaskImpl.java:168)
+    at com.sun.tools.javac.api.JavacTaskImpl.doCall (JavacTaskImpl.java:100)
+    at com.sun.tools.javac.api.JavacTaskImpl.call (JavacTaskImpl.java:94)
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:126)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: java.lang.ExceptionInInitializerError
+    at lombok.javac.apt.LombokProcessor.placePostCompileAndDontMakeForceRoundDummiesHook (LombokProcessor.java:174)
+    at lombok.javac.apt.LombokProcessor.init (LombokProcessor.java:96)
+    at lombok.core.AnnotationProcessor$JavacDescriptor.want (AnnotationProcessor.java:160)
+    at lombok.core.AnnotationProcessor.init (AnnotationProcessor.java:213)
+    at lombok.launch.AnnotationProcessorHider$AnnotationProcessor.init (AnnotationProcessor.java:64)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$ProcessorState.<init> (JavacProcessingEnvironment.java:635)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$DiscoveredProcessors$ProcessorStateIterator.next (JavacProcessingEnvironment.java:761)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs (JavacProcessingEnvironment.java:857)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run (JavacProcessingEnvironment.java:1188)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing (JavacProcessingEnvironment.java:1301)
+    at com.sun.tools.javac.main.JavaCompiler.processAnnotations (JavaCompiler.java:1262)
+    at com.sun.tools.javac.main.JavaCompiler.compile (JavaCompiler.java:938)
+    at com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0 (JavacTaskImpl.java:104)
+    at com.sun.tools.javac.api.JavacTaskImpl.invocationHelper (JavacTaskImpl.java:152)
+    at com.sun.tools.javac.api.JavacTaskImpl.doCall (JavacTaskImpl.java:100)
+    at com.sun.tools.javac.api.JavacTaskImpl.call (JavacTaskImpl.java:94)
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:126)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+Caused by: java.lang.NoSuchFieldException: com.sun.tools.javac.code.TypeTag :: UNKNOWN
+    at lombok.permit.Permit.getField (Permit.java:144)
+    at lombok.javac.JavacTreeMaker$SchroedingerType.getFieldCached (JavacTreeMaker.java:171)
+    at lombok.javac.JavacTreeMaker$TypeTag.typeTag (JavacTreeMaker.java:259)
+    at lombok.javac.Javac.<clinit> (Javac.java:186)
+    at lombok.javac.apt.LombokProcessor.placePostCompileAndDontMakeForceRoundDummiesHook (LombokProcessor.java:174)
+    at lombok.javac.apt.LombokProcessor.init (LombokProcessor.java:96)
+    at lombok.core.AnnotationProcessor$JavacDescriptor.want (AnnotationProcessor.java:160)
+    at lombok.core.AnnotationProcessor.init (AnnotationProcessor.java:213)
+    at lombok.launch.AnnotationProcessorHider$AnnotationProcessor.init (AnnotationProcessor.java:64)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$ProcessorState.<init> (JavacProcessingEnvironment.java:635)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$DiscoveredProcessors$ProcessorStateIterator.next (JavacProcessingEnvironment.java:761)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs (JavacProcessingEnvironment.java:857)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run (JavacProcessingEnvironment.java:1188)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing (JavacProcessingEnvironment.java:1301)
+    at com.sun.tools.javac.main.JavaCompiler.processAnnotations (JavaCompiler.java:1262)
+    at com.sun.tools.javac.main.JavaCompiler.compile (JavaCompiler.java:938)
+    at com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0 (JavacTaskImpl.java:104)
+    at com.sun.tools.javac.api.JavacTaskImpl.invocationHelper (JavacTaskImpl.java:152)
+    at com.sun.tools.javac.api.JavacTaskImpl.doCall (JavacTaskImpl.java:100)
+    at com.sun.tools.javac.api.JavacTaskImpl.call (JavacTaskImpl.java:94)
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:126)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:126)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:328)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:316)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:212)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:174)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.access$000 (MojoExecutor.java:75)
+    at org.apache.maven.lifecycle.internal.MojoExecutor$1.run (MojoExecutor.java:162)
+    at org.apache.maven.plugin.DefaultMojosExecutionStrategy.execute (DefaultMojosExecutionStrategy.java:39)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:159)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:105)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:73)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:53)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:118)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:261)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:173)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:101)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:919)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:285)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:207)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR] 
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[DEBUG] Shutting down adapter factory; available factories [file-lock, rwlock-local, semaphore-local, noop]; available name mappers [discriminating, file-gaecv, file-gav, file-hgaecv, file-hgav, file-static, gaecv, gav, static]
+[DEBUG] Shutting down 'file-lock' factory
+[DEBUG] Shutting down 'rwlock-local' factory
+[DEBUG] Shutting down 'semaphore-local' factory
+[DEBUG] Shutting down 'noop' factory

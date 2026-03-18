@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,7 +38,7 @@ public class ReviewController {
         if (rating < 1 || rating > 5) {
             throw new RuntimeException("Rating must be between 1 and 5.");
         }
-        return ResponseEntity.ok(reviewService.submitReview(bookingId, rating, comment, requester));
+        return ResponseEntity.ok(toReviewMap(reviewService.submitReview(bookingId, rating, comment, requester)));
     }
 
     @GetMapping("/therapist/{therapistId}")
@@ -54,12 +55,26 @@ public class ReviewController {
     @PutMapping("/admin/{reviewId}/approve")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> approveReview(@PathVariable UUID reviewId) {
-        return ResponseEntity.ok(reviewService.approveReview(reviewId));
+        return ResponseEntity.ok(toReviewMap(reviewService.approveReview(reviewId)));
     }
 
     @PutMapping("/admin/{reviewId}/reject")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> rejectReview(@PathVariable UUID reviewId) {
-        return ResponseEntity.ok(reviewService.rejectReview(reviewId));
+        return ResponseEntity.ok(toReviewMap(reviewService.rejectReview(reviewId)));
+    }
+
+    private Map<String, Object> toReviewMap(TherapistReview review) {
+        Map<String, Object> row = new HashMap<>();
+        row.put("id", review.getId());
+        row.put("bookingId", review.getBooking() == null ? null : review.getBooking().getId());
+        row.put("therapistId", review.getTherapist() == null ? null : review.getTherapist().getId());
+        row.put("userId", review.getUser() == null ? null : review.getUser().getId());
+        row.put("rating", review.getRating());
+        row.put("comment", review.getComment());
+        row.put("status", review.getStatus());
+        row.put("createdAt", review.getCreatedAt());
+        row.put("moderatedAt", review.getModeratedAt());
+        return row;
     }
 }

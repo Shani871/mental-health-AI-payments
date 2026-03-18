@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Calendar, Clock, Loader2, PlusCircle, Save, Wallet } from "lucide-react";
-import { apiFetch } from "../lib/api";
+import { apiFetch, apiFetchBlob } from "../lib/api";
 
 type Slot = {
   id: string;
@@ -13,6 +13,7 @@ type Slot = {
 type Booking = {
   id: string;
   status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" | "NO_SHOW";
+  meetingLink?: string | null;
   user?: {
     name: string;
     email: string;
@@ -52,10 +53,18 @@ type AiSummary = {
 type Meeting = {
   id: string;
   bookingId: string;
+  bookingStatus: string;
+  meetingId: string;
   joinUrl: string;
   hostUrl: string;
   provider: string;
   attendanceStatus: string;
+  userName: string;
+  userEmail: string;
+  therapistName: string;
+  therapistEmail: string;
+  startTime?: string;
+  endTime?: string;
 };
 
 function asDateTimeInputValue(value: string): string {
@@ -83,6 +92,28 @@ export default function TherapistSessions() {
   const [licenseDocument, setLicenseDocument] = useState<File | null>(null);
   const [idDocument, setIdDocument] = useState<File | null>(null);
   const [uploadingDocs, setUploadingDocs] = useState(false);
+  const [meetingModalBooking, setMeetingModalBooking] = useState<Booking | null>(null);
+  const [meetingModalMode, setMeetingModalMode] = useState<"accept" | "update">("update");
+  const [meetingLinkInput, setMeetingLinkInput] = useState("");
+  const [meetingSearch, setMeetingSearch] = useState("");
+  const [meetingProviderFilter, setMeetingProviderFilter] = useState("");
+  const [meetingAttendanceFilter, setMeetingAttendanceFilter] = useState("");
+  const [downloadingCalendarFor, setDownloadingCalendarFor] = useState<string | null>(null);
+
+  const buildMeetingUrl = (): string => {
+    const params = new URLSearchParams();
+    if (meetingSearch.trim()) {
+      params.set("q", meetingSearch.trim());
+    }
+    if (meetingProviderFilter) {
+      params.set("provider", meetingProviderFilter);
+    }
+    if (meetingAttendanceFilter) {
+      params.set("attendanceStatus", meetingAttendanceFilter);
+    }
+    const query = params.toString();
+    return query ? `/api/video/meetings/my?${query}` : "/api/video/meetings/my";
+  };
 
   const load = async () => {
     setLoading(true);
@@ -94,7 +125,7 @@ export default function TherapistSessions() {
         apiFetch<PayoutItem[]>("/api/payment/payouts/my"),
         apiFetch<Slot[]>("/api/therapists/me/slots"),
         apiFetch<AiSummary[]>("/api/ai/therapist/summaries"),
-        apiFetch<Meeting[]>("/api/video/meetings/my"),
+        apiFetch<Meeting[]>(buildMeetingUrl()),
       ]);
       setBookings(bookingRows);
       setEarnings(earningsResponse);
@@ -111,7 +142,8 @@ export default function TherapistSessions() {
 
   useEffect(() => {
     load();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meetingSearch, meetingProviderFilter, meetingAttendanceFilter]);
 
   const activeBookings = bookings.filter((booking) => booking.status === "PENDING" || booking.status === "CONFIRMED");
 
@@ -172,6 +204,47 @@ export default function TherapistSessions() {
     }
   };
 
+  const openMeetingModal = (booking: Booking, mode: "accept" | "update") => {
+    setMeetingModalBooking(booking);
+    setMeetingModalMode(mode);
+    setMeetingLinkInput(booking.meetingLink || "");
+  };
+
+  const closeMeetingModal = () => {
+    setMeetingModalBooking(null);
+    setMeetingLinkInput("");
+  };
+
+  const submitMeetingModal = async () => {
+    if (!meetingModalBooking) return;
+    const normalized = meetingLinkInput.trim();
+    if (!normalized) {
+      alert("Please enter Google Meet link.");
+      return;
+    }
+
+    setActionBookingId(meetingModalBooking.id);
+    try {
+      if (meetingModalMode === "accept") {
+        await apiFetch(`/api/bookings/${meetingModalBooking.id}/therapist-accept`, {
+          method: "PUT",
+          body: JSON.stringify({ meetingLink: normalized }),
+        });
+      } else {
+        await apiFetch(`/api/bookings/${meetingModalBooking.id}/therapist-meeting-link`, {
+          method: "PUT",
+          body: JSON.stringify({ meetingLink: normalized }),
+        });
+      }
+      closeMeetingModal();
+      await load();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to save Google Meet link.");
+    } finally {
+      setActionBookingId(null);
+    }
+  };
+
   const requestPayout = async () => {
     setRequestingPayout(true);
     try {
@@ -181,6 +254,25 @@ export default function TherapistSessions() {
       alert(err instanceof Error ? err.message : "Payout request failed.");
     } finally {
       setRequestingPayout(false);
+    }
+  };
+
+  const downloadCalendarInvite = async (bookingId: string) => {
+    setDownloadingCalendarFor(bookingId);
+    try {
+      const blob = await apiFetchBlob(`/api/bookings/${bookingId}/calendar.ics`);
+      const objectUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = objectUrl;
+      anchor.download = `mindtriage-session-${bookingId}.ics`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(objectUrl);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to download calendar invite.");
+    } finally {
+      setDownloadingCalendarFor(null);
     }
   };
 
@@ -436,28 +528,74 @@ export default function TherapistSessions() {
                             {new Date(booking.availabilitySlot.startTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
                         </div>
+                        {booking.meetingLink && (
+                          <div className="mt-2 text-xs text-slate-600 break-all">
+                            Meet: {booking.meetingLink}
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-wrap justify-end gap-2">
+                        {booking.status === "PENDING" && (
+                          <button
+                            disabled={actionBookingId === booking.id}
+                            onClick={() => openMeetingModal(booking, "accept")}
+                            className="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-xs font-medium hover:bg-indigo-700 disabled:opacity-60"
+                          >
+                            Accept Request
+                          </button>
+                        )}
+                        {booking.status === "CONFIRMED" && (
+                          <button
+                            disabled={actionBookingId === booking.id}
+                            onClick={() => openMeetingModal(booking, "update")}
+                            className="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-medium hover:bg-indigo-100 disabled:opacity-60"
+                          >
+                            {booking.meetingLink ? "Update Google Meet" : "Add Google Meet"}
+                          </button>
+                        )}
+                        {booking.status === "CONFIRMED" && booking.meetingLink && (
+                          <a
+                            href={booking.meetingLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-medium hover:bg-slate-800"
+                          >
+                            Open Meet
+                          </a>
+                        )}
+                        {(booking.status === "PENDING" || booking.status === "CONFIRMED") && (
+                          <button
+                            disabled={downloadingCalendarFor === booking.id}
+                            onClick={() => downloadCalendarInvite(booking.id)}
+                            className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium hover:bg-slate-50 disabled:opacity-60"
+                          >
+                            {downloadingCalendarFor === booking.id ? "Downloading..." : "Calendar .ics"}
+                          </button>
+                        )}
                         <button
                           onClick={() => openReschedule(booking)}
                           className="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium hover:bg-slate-50"
                         >
                           Reschedule
                         </button>
-                        <button
-                          disabled={actionBookingId === booking.id}
-                          onClick={() => markComplete(booking.id)}
-                          className="px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-medium hover:bg-emerald-100 disabled:opacity-60"
-                        >
-                          Complete
-                        </button>
-                        <button
-                          disabled={actionBookingId === booking.id}
-                          onClick={() => markNoShow(booking.id)}
-                          className="px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg text-xs font-medium hover:bg-amber-100 disabled:opacity-60"
-                        >
-                          No-show
-                        </button>
+                        {booking.status === "CONFIRMED" && (
+                          <>
+                            <button
+                              disabled={actionBookingId === booking.id}
+                              onClick={() => markComplete(booking.id)}
+                              className="px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-medium hover:bg-emerald-100 disabled:opacity-60"
+                            >
+                              Complete
+                            </button>
+                            <button
+                              disabled={actionBookingId === booking.id}
+                              onClick={() => markNoShow(booking.id)}
+                              className="px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg text-xs font-medium hover:bg-amber-100 disabled:opacity-60"
+                            >
+                              No-show
+                            </button>
+                          </>
+                        )}
                       </div>
                     </div>
                   </motion.div>
@@ -489,13 +627,50 @@ export default function TherapistSessions() {
 
             <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
               <h2 className="text-lg font-bold text-slate-900 mb-4">Meeting Metadata</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
+                <input
+                  value={meetingSearch}
+                  onChange={(e) => setMeetingSearch(e.target.value)}
+                  placeholder="Search by patient, email, or meeting id"
+                  className="w-full p-2 border border-slate-200 rounded-lg text-xs"
+                />
+                <select
+                  value={meetingProviderFilter}
+                  onChange={(e) => setMeetingProviderFilter(e.target.value)}
+                  className="w-full p-2 border border-slate-200 rounded-lg text-xs"
+                >
+                  <option value="">All providers</option>
+                  <option value="GOOGLE_MEET">Google Meet</option>
+                  <option value="ZOOM">Zoom</option>
+                </select>
+                <select
+                  value={meetingAttendanceFilter}
+                  onChange={(e) => setMeetingAttendanceFilter(e.target.value)}
+                  className="w-full p-2 border border-slate-200 rounded-lg text-xs"
+                >
+                  <option value="">All attendance states</option>
+                  <option value="SCHEDULED">Scheduled</option>
+                  <option value="ATTENDED">Attended</option>
+                  <option value="NO_SHOW">No-show</option>
+                </select>
+              </div>
               {meetings.length === 0 ? (
                 <p className="text-sm text-slate-500">No meetings generated yet.</p>
               ) : (
                 <div className="space-y-3 mb-5">
-                  {meetings.slice(0, 6).map((meeting) => (
+                  {meetings.slice(0, 12).map((meeting) => (
                     <div key={meeting.id} className="p-3 border border-slate-200 rounded-xl text-xs">
-                      <div className="font-semibold text-slate-900">{meeting.provider} • {meeting.attendanceStatus}</div>
+                      <div className="font-semibold text-slate-900">
+                        {meeting.provider} • {meeting.attendanceStatus} • {meeting.bookingStatus}
+                      </div>
+                      <div className="text-slate-600 mt-1">
+                        Patient: <span className="font-medium text-slate-700">{meeting.userName}</span> ({meeting.userEmail})
+                      </div>
+                      {meeting.startTime && (
+                        <div className="text-slate-600 mt-1">
+                          Slot: {new Date(meeting.startTime).toLocaleString()}
+                        </div>
+                      )}
                       <div className="text-slate-600 mt-1 break-all">Host URL: {meeting.hostUrl || "-"}</div>
                       <div className="text-slate-600 mt-1 break-all">Join URL: {meeting.joinUrl}</div>
                     </div>
@@ -561,6 +736,40 @@ export default function TherapistSessions() {
                 className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium disabled:opacity-60"
               >
                 Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {meetingModalBooking && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-20">
+          <div className="w-full max-w-xl bg-white rounded-2xl border border-slate-200 p-5">
+            <h3 className="text-lg font-bold text-slate-900 mb-2">
+              {meetingModalMode === "accept" ? "Accept Request & Add Google Meet" : "Add / Update Google Meet"}
+            </h3>
+            <p className="text-sm text-slate-600 mb-3">
+              Enter link like: <span className="font-semibold">https://meet.google.com/abc-defg-hij</span>
+            </p>
+            <input
+              value={meetingLinkInput}
+              onChange={(e) => setMeetingLinkInput(e.target.value)}
+              placeholder="https://meet.google.com/..."
+              className="w-full p-2 border border-slate-200 rounded-lg text-sm"
+            />
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                onClick={closeMeetingModal}
+                className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium"
+              >
+                Close
+              </button>
+              <button
+                disabled={actionBookingId === meetingModalBooking.id}
+                onClick={submitMeetingModal}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium disabled:opacity-60"
+              >
+                {actionBookingId === meetingModalBooking.id ? "Saving..." : "Save"}
               </button>
             </div>
           </div>

@@ -10,16 +10,15 @@ services:
       - "4173:4173"
 
   db:
-    image: postgres:15
+    image: mysql:8.4
     container_name: mental_health_db
     environment:
-      POSTGRES_DB: mental_health_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      MYSQL_DATABASE: Health
+      MYSQL_ROOT_PASSWORD: password
     ports:
-      - "5432:5432"
+      - "3306:3306"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -uroot -ppassword --silent" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,9 +46,11 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DB_URL: jdbc:postgresql://db:5432/mental_health_db
-      DB_USERNAME: postgres
+      DB_URL: jdbc:mysql://db:3306/Health?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      DB_USERNAME: root
       DB_PASSWORD: password
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      DB_DIALECT: org.hibernate.dialect.MySQLDialect
       REDIS_HOST: redis
       REDIS_PORT: 6379
       # Fill these with your actual keys

@@ -9,4 +9,6 @@ public interface InAppNotificationRepository extends JpaRepository<InAppNotifica
     List<InAppNotification> findByUserIdOrderByCreatedAtDesc(UUID userId);
 
     long countByUserIdAndReadFalse(UUID userId);
+
+    boolean existsByUserIdAndTypeAndPayloadContaining(UUID userId, String type, String payloadPart);
 }

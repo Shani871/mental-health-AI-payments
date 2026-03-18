@@ -9,9 +9,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/ai")
@@ -29,21 +31,21 @@ public class AiController {
 
     @PostMapping("/start")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<AiAssessment> startAssessment() {
+    public ResponseEntity<?> startAssessment() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AiAssessment assessment = new AiAssessment(user);
-        return ResponseEntity.ok(assessmentRepository.save(assessment));
+        return ResponseEntity.ok(toAssessmentMap(assessmentRepository.save(assessment)));
     }
 
     @PostMapping("/accept-disclaimer/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<AiAssessment> acceptDisclaimer(@PathVariable UUID id) {
+    public ResponseEntity<?> acceptDisclaimer(@PathVariable UUID id) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AiAssessment assessment = assessmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assessment not found"));
         ensureAssessmentOwnership(assessment, user);
         assessment.setAiDisclaimerAccepted(true);
-        return ResponseEntity.ok(assessmentRepository.save(assessment));
+        return ResponseEntity.ok(toAssessmentMap(assessmentRepository.save(assessment)));
     }
 
     @PostMapping("/chat/{id}")
@@ -81,14 +83,14 @@ public class AiController {
 
     @PostMapping("/structured/start")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<AiAssessment> startStructuredAssessment(
+    public ResponseEntity<?> startStructuredAssessment(
             @RequestParam(defaultValue = "COMBINED") String tool) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         AiAssessment assessment = new AiAssessment(user);
         assessment.setAssessmentTool(tool.toUpperCase());
         assessment.setAiDisclaimerAccepted(false);
         assessment.setCompleted(false);
-        return ResponseEntity.ok(assessmentRepository.save(assessment));
+        return ResponseEntity.ok(toAssessmentMap(assessmentRepository.save(assessment)));
     }
 
     @GetMapping("/structured/questions")
@@ -100,7 +102,7 @@ public class AiController {
 
     @PostMapping("/structured/{id}/submit")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<AiAssessment> submitStructuredAssessment(
+    public ResponseEntity<?> submitStructuredAssessment(
             @PathVariable UUID id,
             @RequestBody Map<String, Object> request) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -117,7 +119,7 @@ public class AiController {
                         entry -> String.valueOf(entry.getKey()),
                         entry -> Integer.parseInt(String.valueOf(entry.getValue()))));
         String note = request.get("note") == null ? null : String.valueOf(request.get("note"));
-        return ResponseEntity.ok(aiService.submitStructuredAssessment(id, responses, note));
+        return ResponseEntity.ok(toAssessmentMap(aiService.submitStructuredAssessment(id, responses, note)));
     }
 
     @PostMapping("/mood/checkin")
@@ -126,7 +128,12 @@ public class AiController {
             @RequestParam @Min(1) @Max(10) int score,
             @RequestParam(required = false) String note) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(aiService.recordMoodCheckin(user, score, note));
+        MoodCheckin checkin = aiService.recordMoodCheckin(user, score, note);
+        return ResponseEntity.ok(Map.of(
+                "id", checkin.getId(),
+                "score", checkin.getMoodScore(),
+                "note", checkin.getNote(),
+                "createdAt", checkin.getCreatedAt()));
     }
 
     @GetMapping("/mood/history")
@@ -143,6 +150,13 @@ public class AiController {
         return ResponseEntity.ok(aiService.getMoodTrend(user.getId(), days));
     }
 
+    @GetMapping("/care-insights")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getCareInsights() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(aiService.getUserCareInsights(user.getId()));
+    }
+
     @GetMapping("/therapist/summaries")
     @PreAuthorize("hasRole('THERAPIST')")
     public ResponseEntity<?> getTherapistSummaries() {
@@ -152,14 +166,34 @@ public class AiController {
 
     @GetMapping("/my")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<AiAssessment>> getMyAssessments() {
+    public ResponseEntity<?> getMyAssessments() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(assessmentRepository.findAllByUserId(user.getId()));
+        return ResponseEntity.ok(assessmentRepository.findAllByUserId(user.getId()).stream()
+                .map(this::toAssessmentMap)
+                .collect(Collectors.toList()));
     }
 
     private void ensureAssessmentOwnership(AiAssessment assessment, User user) {
         if (!assessment.getUser().getId().equals(user.getId())) {
             throw new RuntimeException("You can only access your own assessments.");
         }
+    }
+
+    private Map<String, Object> toAssessmentMap(AiAssessment assessment) {
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("id", assessment.getId());
+        payload.put("riskLevel", assessment.getRiskLevel());
+        payload.put("aiDisclaimerAccepted", assessment.getAiDisclaimerAccepted());
+        payload.put("score", assessment.getScore());
+        payload.put("summary", assessment.getSummary());
+        payload.put("phq9Score", assessment.getPhq9Score());
+        payload.put("gad7Score", assessment.getGad7Score());
+        payload.put("assessmentTool", assessment.getAssessmentTool());
+        payload.put("responsePayload", assessment.getResponsePayload());
+        payload.put("emergencyAlerted", assessment.getEmergencyAlerted());
+        payload.put("createdAt", assessment.getCreatedAt());
+        payload.put("completed", assessment.getCompleted());
+        payload.put("userId", assessment.getUser() == null ? null : assessment.getUser().getId());
+        return payload;
     }
 }

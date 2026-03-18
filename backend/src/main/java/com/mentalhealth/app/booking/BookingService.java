@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 public class BookingService {
@@ -32,6 +33,7 @@ public class BookingService {
     private final InAppNotificationService notificationService;
     private final VideoMeetingService videoMeetingService;
     private static final int PENDING_PAYMENT_WINDOW_MINUTES = 5;
+    private static final Pattern GOOGLE_MEET_LINK_PATTERN = Pattern.compile("^https://meet\\.google\\.com/[a-z0-9-]+(?:\\?.*)?$", Pattern.CASE_INSENSITIVE);
 
     public BookingService(BookingRepository bookingRepository,
             TherapistAvailabilityRepository availabilityRepository,
@@ -251,6 +253,71 @@ public class BookingService {
     }
 
     @Transactional
+    public Booking therapistAcceptBooking(UUID bookingId, UUID therapistUserId, String meetingLink) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        if (!booking.getTherapist().getUser().getId().equals(therapistUserId)) {
+            throw new RuntimeException("Only assigned therapist can accept booking requests.");
+        }
+        if (booking.getStatus() != BookingStatus.PENDING) {
+            throw new RuntimeException("Only pending booking requests can be accepted.");
+        }
+
+        String normalizedMeetingLink = normalizeMeetingLink(meetingLink);
+        if (normalizedMeetingLink == null) {
+            throw new RuntimeException("Google Meet link is required to accept the booking.");
+        }
+        validateGoogleMeetLink(normalizedMeetingLink);
+
+        booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setMeetingLink(normalizedMeetingLink);
+        Booking saved = bookingRepository.save(booking);
+        videoMeetingService.upsertGoogleMeetForBooking(saved, normalizedMeetingLink);
+
+        auditService.log("BOOKING_ACCEPTED_BY_THERAPIST", booking.getTherapist().getUser().getEmail(),
+                "Booking ID: " + bookingId + " accepted with Google Meet link.");
+        notificationService.create(
+                booking.getUser(),
+                "BOOKING_ACCEPTED",
+                "Your booking request has been accepted by therapist.",
+                java.util.Map.of("bookingId", booking.getId().toString(), "meetingLink", normalizedMeetingLink));
+        return saved;
+    }
+
+    @Transactional
+    public Booking updateTherapistMeetingLink(UUID bookingId, UUID therapistUserId, String meetingLink) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        if (!booking.getTherapist().getUser().getId().equals(therapistUserId)) {
+            throw new RuntimeException("Only assigned therapist can update meeting link.");
+        }
+        if (booking.getStatus() == BookingStatus.CANCELLED
+                || booking.getStatus() == BookingStatus.COMPLETED
+                || booking.getStatus() == BookingStatus.NO_SHOW) {
+            throw new RuntimeException("Meeting link can only be updated for pending or confirmed bookings.");
+        }
+
+        String normalizedMeetingLink = normalizeMeetingLink(meetingLink);
+        if (normalizedMeetingLink == null) {
+            throw new RuntimeException("Google Meet link is required.");
+        }
+        validateGoogleMeetLink(normalizedMeetingLink);
+
+        booking.setMeetingLink(normalizedMeetingLink);
+        Booking saved = bookingRepository.save(booking);
+        videoMeetingService.upsertGoogleMeetForBooking(saved, normalizedMeetingLink);
+
+        auditService.log("BOOKING_MEETING_LINK_UPDATED", booking.getTherapist().getUser().getEmail(),
+                "Booking ID: " + bookingId + " Google Meet link updated.");
+        notificationService.create(
+                booking.getUser(),
+                "MEETING_LINK_UPDATED",
+                "Therapist updated your Google Meet link.",
+                java.util.Map.of("bookingId", booking.getId().toString(), "meetingLink", normalizedMeetingLink));
+        return saved;
+    }
+
+    @Transactional
     public Booking overrideCancellationFee(UUID bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
@@ -303,5 +370,19 @@ public class BookingService {
                     "Booking was cancelled because payment was not completed in time.",
                     java.util.Map.of("bookingId", booking.getId().toString()));
         }
+    }
+
+    private void validateGoogleMeetLink(String meetingLink) {
+        if (!GOOGLE_MEET_LINK_PATTERN.matcher(meetingLink).matches()) {
+            throw new RuntimeException("Please provide a valid Google Meet link (https://meet.google.com/...).");
+        }
+    }
+
+    private String normalizeMeetingLink(String meetingLink) {
+        if (meetingLink == null) {
+            return null;
+        }
+        String normalized = meetingLink.trim();
+        return normalized.isBlank() ? null : normalized;
     }
 }
