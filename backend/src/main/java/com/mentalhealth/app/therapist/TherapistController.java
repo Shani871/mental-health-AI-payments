@@ -1,5 +1,8 @@
 package com.mentalhealth.app.therapist;
 
+import com.mentalhealth.app.booking.Booking;
+import com.mentalhealth.app.booking.BookingRepository;
+import com.mentalhealth.app.booking.BookingStatus;
 import com.mentalhealth.app.common.storage.FileStorageService;
 import com.mentalhealth.app.user.User;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +26,18 @@ public class TherapistController {
     private final TherapistService therapistService;
     private final TherapistRepository therapistRepository;
     private final FileStorageService fileStorageService;
+    private final TherapistProfileRepository therapistProfileRepository;
+    private final BookingRepository bookingRepository;
 
     public TherapistController(TherapistService therapistService, TherapistRepository therapistRepository,
-            FileStorageService fileStorageService) {
+            FileStorageService fileStorageService,
+            TherapistProfileRepository therapistProfileRepository,
+            BookingRepository bookingRepository) {
         this.therapistService = therapistService;
         this.therapistRepository = therapistRepository;
         this.fileStorageService = fileStorageService;
+        this.therapistProfileRepository = therapistProfileRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @PostMapping("/profile")
@@ -119,6 +128,59 @@ public class TherapistController {
         return ResponseEntity.ok(therapistService.getTherapistSlots(therapist.getId()).stream()
                 .map(this::toSlotMap)
                 .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/me/dashboard")
+    @PreAuthorize("hasRole('THERAPIST')")
+    public ResponseEntity<?> getMyDashboard() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Therapist therapist = therapistRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Therapist record not found for user"));
+        TherapistProfile profile = therapistProfileRepository.findByTherapistId(therapist.getId())
+                .orElse(new TherapistProfile());
+        List<TherapistAvailability> slots = therapistService.getTherapistSlots(therapist.getId());
+        List<Booking> bookings = bookingRepository.findByTherapist_User_Id(user.getId());
+
+        long pendingBookings = bookings.stream().filter(booking -> booking.getStatus() == BookingStatus.PENDING).count();
+        long confirmedBookings = bookings.stream().filter(booking -> booking.getStatus() == BookingStatus.CONFIRMED).count();
+        long completedBookings = bookings.stream().filter(booking -> booking.getStatus() == BookingStatus.COMPLETED).count();
+        long noShows = bookings.stream().filter(booking -> booking.getStatus() == BookingStatus.NO_SHOW).count();
+        long openSlots = slots.stream().filter(slot -> !Boolean.TRUE.equals(slot.getBooked())).count();
+        long bookedSlots = slots.stream().filter(slot -> Boolean.TRUE.equals(slot.getBooked())).count();
+
+        Map<String, Object> metrics = new HashMap<>();
+        metrics.put("totalSlots", slots.size());
+        metrics.put("openSlots", openSlots);
+        metrics.put("bookedSlots", bookedSlots);
+        metrics.put("pendingBookings", pendingBookings);
+        metrics.put("confirmedBookings", confirmedBookings);
+        metrics.put("completedBookings", completedBookings);
+        metrics.put("noShows", noShows);
+
+        Map<String, Object> onboarding = new HashMap<>();
+        onboarding.put("accountCreated", true);
+        onboarding.put("profileCompleted", profile.getBio() != null && !profile.getBio().isBlank()
+                && therapist.getLanguage() != null && !therapist.getLanguage().isBlank());
+        onboarding.put("documentsUploaded",
+                profile.getLicenseDocumentUrl() != null && !profile.getLicenseDocumentUrl().isBlank()
+                        && profile.getIdDocumentUrl() != null && !profile.getIdDocumentUrl().isBlank());
+        onboarding.put("verified", therapist.getApprovalStatus() == TherapistApprovalStatus.VERIFIED);
+        onboarding.put("slotsPublished", !slots.isEmpty());
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("therapistId", therapist.getId());
+        payload.put("name", therapist.getUser().getName());
+        payload.put("email", therapist.getUser().getEmail());
+        payload.put("specialization", therapist.getSpecialization());
+        payload.put("language", therapist.getLanguage());
+        payload.put("experienceYears", therapist.getExperienceYears());
+        payload.put("hourlyRate", therapist.getHourlyRate());
+        payload.put("verified", therapist.getVerified());
+        payload.put("approvalStatus", therapist.getApprovalStatus());
+        payload.put("profile", toProfileMap(profile));
+        payload.put("metrics", metrics);
+        payload.put("onboarding", onboarding);
+        return ResponseEntity.ok(payload);
     }
 
     @GetMapping("/{id}/slots")

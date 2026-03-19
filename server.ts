@@ -3,6 +3,10 @@ import { createServer as createViteServer } from 'vite';
 import Database from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { GoogleGenAI } from '@google/genai';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -140,6 +144,57 @@ async function startServer() {
     db.prepare('INSERT INTO ai_chat_sessions (id, user_id, summary, risk_level) VALUES (?, ?, ?, ?)')
       .run(id, user_id, summary, risk_level);
     res.json({ id });
+  });
+
+  // Chatbot Integration
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { messages } = req.body;
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: 'Messages array is required' });
+      }
+
+      const systemPrompt = `You are a helpful, empathetic, and professional mental health support assistant for "MindTriage". 
+Your goal is to provide supportive, helpful responses, check in on user well-being, and clarify what kind of help they might need.
+Do NOT attempt to diagnose or treat medical conditions. Encourage users to speak to a licensed therapist on the platform for clinical help.
+Keep your responses concise, readable, and highly empathetic.`;
+
+      const ollamaMessages = [
+        { role: 'system', content: systemPrompt },
+        ...messages.map((m: any) => ({
+          role: m.role === 'assistant' ? 'assistant' : m.role || 'user',
+          content: m.text
+        }))
+      ];
+
+      const ollamaRes = await fetch('http://localhost:11434/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'llama3',
+          messages: ollamaMessages,
+          stream: false
+        })
+      });
+
+      if (!ollamaRes.ok) {
+        throw new Error(`Ollama API error: ${ollamaRes.status} ${ollamaRes.statusText}`);
+      }
+
+      const data = await ollamaRes.json() as any;
+      const responseText = data.message?.content || "I'm sorry, I couldn't process that.";
+      
+      const lastUserText = messages[messages.length - 1]?.text?.toLowerCase() || "";
+      const isUrgent = lastUserText.match(/\b(suicide|kill|die|harm|emergency|urgent|panic)\b/);
+
+      res.json({ 
+        text: responseText, 
+        sentiment: isUrgent ? "URGENT" : "NORMAL" 
+      });
+    } catch (e: any) {
+      console.error("Chat API Error:", e);
+      res.status(500).json({ error: e.message || 'Failed to process chat' });
+    }
   });
 
   // Predictions

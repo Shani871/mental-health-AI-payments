@@ -163,6 +163,7 @@ export default function Payments() {
           </div>
           <Link
             to="/dashboard"
+            data-voice="back to dashboard|dashboard"
             className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800"
           >
             Back to Dashboard
@@ -230,6 +231,7 @@ export default function Payments() {
                           <button
                             disabled={downloadingId === item.bookingId}
                             onClick={() => downloadInvoice(item.bookingId)}
+                            data-voice={`invoice|download invoice|${item.therapistName} invoice`}
                             className="inline-flex items-center gap-1.5 px-3 py-2 bg-teal-50 text-teal-800 rounded-lg text-sm font-medium hover:bg-teal-100 disabled:opacity-60"
                           >
                             <Download className="w-4 h-4" />
@@ -250,6 +252,7 @@ export default function Payments() {
                   <select
                     value={refundBookingId}
                     onChange={(e) => setRefundBookingId(e.target.value)}
+                    data-voice="eligible booking|refund booking"
                     className="w-full p-2 border border-slate-200 rounded-lg text-sm"
                   >
                     <option value="">Select eligible booking</option>
@@ -263,12 +266,14 @@ export default function Payments() {
                     value={refundAmount}
                     onChange={(e) => setRefundAmount(e.target.value)}
                     placeholder="Refund amount"
+                    data-voice="refund amount"
                     className="w-full p-2 border border-slate-200 rounded-lg text-sm"
                   />
                   <textarea
                     value={refundReason}
                     onChange={(e) => setRefundReason(e.target.value)}
                     placeholder="Reason"
+                    data-voice="refund reason"
                     className="w-full p-2 border border-slate-200 rounded-lg text-sm min-h-[88px]"
                   />
                   {selectedEligibleBooking && (
@@ -285,6 +290,7 @@ export default function Payments() {
                   <button
                     type="submit"
                     disabled={!refundBookingId || !refundAmount || !refundReason.trim() || requestingRefund}
+                    data-voice="submit refund request|request refund"
                     className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium disabled:opacity-60"
                   >
                     <RotateCcw className="w-4 h-4" />
