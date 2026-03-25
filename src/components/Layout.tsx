@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import { Bell, Brain, Calendar, LayoutDashboard, MessageSquareHeart, ShieldCheck, Stethoscope, Wallet } from "lucide-react";
+import { Bell, Brain, BrainCircuit, Calendar, LayoutDashboard, MessageSquareHeart, ShieldCheck, Stethoscope, Wallet } from "lucide-react";
 import { cn } from "../lib/utils";
 import { clearAuthUser, getAuthUser, type AuthUser } from "../lib/auth";
 import { apiFetch } from "../lib/api";
+import Chatbot from "./Chatbot";
+import VoiceAssistant from "./VoiceAssistant";
 
 type NotificationItem = {
   id: string;
@@ -59,6 +61,7 @@ export default function Layout() {
       return [
         ...common,
         { path: "/triage", label: "AI Triage", icon: MessageSquareHeart },
+        { path: "/predict", label: "Predict Risk", icon: BrainCircuit },
         { path: "/therapists", label: "Therapists", icon: Calendar },
         { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
         { path: "/payments", label: "Payments", icon: Wallet },
@@ -98,110 +101,120 @@ export default function Layout() {
     : "U";
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center gap-2">
-                <div className="bg-indigo-600 p-2 rounded-lg">
-                  <Brain className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-xl font-bold text-slate-900 tracking-tight">MindTriage</span>
-              </Link>
-            </div>
-            <nav className="flex items-center space-x-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                      isActive
-                        ? "bg-indigo-50 text-indigo-700"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                    )}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{item.label}</span>
-                  </Link>
-                );
-              })}
-              {authUser && (
-                <div className="relative ml-1">
+    <div className="min-h-screen flex flex-col relative">
+      <header className="sticky top-0 z-20 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="shell-card rounded-3xl px-4 py-3 md:px-6">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between gap-4">
+                <Link to="/" className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-teal-700 text-teal-50 flex items-center justify-center shadow-sm">
+                    <Brain className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="display-font text-lg md:text-xl font-bold tracking-tight text-slate-900">MindTriage</span>
+                    <p className="text-[11px] text-slate-500 leading-none">AI + human care platform</p>
+                  </div>
+                </Link>
+                {authUser ? (
                   <button
-                    onClick={() => setNotificationsOpen((prev) => !prev)}
-                    className="relative p-2 rounded-md text-slate-600 hover:bg-slate-100"
-                    aria-label="Notifications"
+                    onClick={logout}
+                    data-voice="logout|sign out"
+                    className="px-3 py-2 rounded-xl text-sm font-semibold text-red-700 bg-red-50 border border-red-100 hover:bg-red-100"
                   >
-                    <Bell className="w-5 h-5" />
-                    {unreadCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 min-w-4 h-4 px-1 rounded-full bg-red-600 text-white text-[10px] leading-4 text-center">
-                        {unreadCount > 9 ? "9+" : unreadCount}
-                      </span>
-                    )}
+                    Logout
                   </button>
-                  {notificationsOpen && (
-                    <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-lg p-2 z-20">
-                      <div className="px-2 py-1 text-xs font-semibold text-slate-600">Notifications</div>
-                      {notifications.length === 0 ? (
-                        <div className="px-2 py-4 text-xs text-slate-500">No notifications.</div>
-                      ) : (
-                        <div className="max-h-80 overflow-auto space-y-1">
-                          {notifications.map((item) => (
-                            <button
-                              key={item.id}
-                              onClick={() => markNotificationRead(item.id)}
-                              className={cn(
-                                "w-full text-left px-2 py-2 rounded-lg border",
-                                item.read
-                                  ? "bg-white border-slate-200 text-slate-600"
-                                  : "bg-indigo-50 border-indigo-100 text-slate-800"
-                              )}
-                            >
-                              <div className="text-xs font-medium">{item.message}</div>
-                              <div className="text-[11px] mt-1 opacity-70">{new Date(item.createdAt).toLocaleString()}</div>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <Link to="/login" data-voice="login|sign in" className="outline-button px-3 py-2 rounded-xl text-sm font-semibold">Login</Link>
+                    <Link to="/signup" data-voice="sign up|create account" className="brand-button px-3 py-2 rounded-xl text-sm font-semibold">Sign Up</Link>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between gap-3">
+                <nav className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                  {navItems.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = location.pathname === item.path;
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        data-voice={item.label}
+                        className={cn(
+                          "inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors",
+                          isActive
+                            ? "bg-teal-100 text-teal-800 border border-teal-200"
+                            : "bg-white/80 text-slate-700 border border-slate-200 hover:border-teal-200 hover:text-teal-800"
+                        )}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    );
+                  })}
+                  {!authUser && (
+                    <Link to="/therapist-signup" data-voice="therapist sign up|therapist register" className="inline-flex items-center px-3 py-2 rounded-xl text-sm font-semibold border border-amber-200 bg-amber-50 text-amber-800 whitespace-nowrap">
+                      Therapist Sign Up
+                    </Link>
                   )}
-                </div>
-              )}
-              {authUser ? (
-                <button
-                  onClick={logout}
-                  className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-red-700 hover:bg-red-50"
-                >
-                  Logout
-                </button>
-              ) : (
-                <>
-                  <Link to="/login" className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-slate-700 hover:bg-slate-100">
-                    Login
-                  </Link>
-                  <Link to="/signup" className="px-3 py-2 rounded-md text-sm font-medium text-indigo-700 hover:bg-indigo-50">
-                    Sign Up
-                  </Link>
-                  <Link to="/therapist-signup" className="px-3 py-2 rounded-md text-sm font-medium text-indigo-700 hover:bg-indigo-50">
-                    Therapist Sign Up
-                  </Link>
-                </>
-              )}
-            </nav>
+                </nav>
+
+                {authUser && (
+                  <div className="relative shrink-0">
+                    <button
+                      onClick={() => setNotificationsOpen((prev) => !prev)}
+                      data-voice="notifications"
+                      className="relative p-2 rounded-xl text-slate-700 border border-slate-200 bg-white hover:border-teal-200"
+                      aria-label="Notifications"
+                    >
+                      <Bell className="w-5 h-5" />
+                      {unreadCount > 0 && (
+                        <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-rose-600 text-white text-[10px] leading-5 text-center">
+                          {unreadCount > 9 ? "9+" : unreadCount}
+                        </span>
+                      )}
+                    </button>
+                    {notificationsOpen && (
+                      <div className="absolute right-0 mt-2 w-80 shell-card rounded-2xl p-2 z-30">
+                        <div className="px-2 py-1 text-xs font-semibold text-slate-700">Notifications</div>
+                        {notifications.length === 0 ? (
+                          <div className="px-2 py-4 text-xs text-slate-500">No notifications.</div>
+                        ) : (
+                          <div className="max-h-80 overflow-auto space-y-1">
+                            {notifications.map((item) => (
+                              <button
+                                key={item.id}
+                                onClick={() => markNotificationRead(item.id)}
+                                className={cn(
+                                  "w-full text-left px-2 py-2 rounded-lg border transition-colors",
+                                  item.read
+                                    ? "bg-white border-slate-200 text-slate-600"
+                                    : "bg-teal-50 border-teal-100 text-slate-800"
+                                )}
+                              >
+                                <div className="text-xs font-semibold">{item.message}</div>
+                                <div className="text-[11px] mt-1 opacity-70">{new Date(item.createdAt).toLocaleString()}</div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {authUser && (
-          <div className="mb-6 bg-white border border-slate-200 rounded-2xl p-4 flex items-center justify-between">
+          <div className="mb-6 shell-card rounded-2xl p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-800 flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center font-bold">
                 {profileInitials}
               </div>
               <div>
@@ -209,7 +222,7 @@ export default function Layout() {
                 <div className="text-xs text-slate-600">{authUser.email}</div>
               </div>
             </div>
-            <span className="px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-100">
               {authUser.role}
             </span>
           </div>
@@ -217,14 +230,18 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="bg-white border-t border-slate-200 py-8 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
-          <p>© 2026 MindTriage SaaS. This is a demonstration platform.</p>
-          <p className="mt-2 text-xs">
-            Disclaimer: The AI triage is not a substitute for professional medical advice, diagnosis, or treatment.
-          </p>
+      <footer className="py-8 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="shell-card rounded-2xl px-4 py-5 text-center text-slate-600 text-sm">
+            <p className="font-semibold">© 2026 MindTriage SaaS</p>
+            <p className="mt-1 text-xs">
+              AI triage supports decisions but does not replace professional diagnosis or treatment.
+            </p>
+          </div>
         </div>
       </footer>
+      <Chatbot />
+      <VoiceAssistant />
     </div>
   );
 }

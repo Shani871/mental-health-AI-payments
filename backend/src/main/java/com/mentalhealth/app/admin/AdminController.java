@@ -43,9 +43,27 @@ public class AdminController {
 
     @GetMapping("/therapists/unverified")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Therapist>> getUnverifiedTherapists() {
-        List<Therapist> unverified = therapistRepository.findAll().stream()
+    public ResponseEntity<?> getUnverifiedTherapists() {
+        List<Map<String, Object>> unverified = therapistRepository.findAll().stream()
                 .filter(t -> t.getApprovalStatus() == TherapistApprovalStatus.PENDING)
+                .map(therapist -> {
+                    TherapistProfile profile = therapistProfileRepository.findByTherapistId(therapist.getId())
+                            .orElse(new TherapistProfile());
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("therapistId", therapist.getId());
+                    row.put("name", therapist.getUser().getName());
+                    row.put("email", therapist.getUser().getEmail());
+                    row.put("specialization", therapist.getSpecialization());
+                    row.put("language", therapist.getLanguage());
+                    row.put("experienceYears", therapist.getExperienceYears());
+                    row.put("hourlyRate", therapist.getHourlyRate());
+                    row.put("verified", therapist.getVerified());
+                    row.put("approvalStatus", therapist.getApprovalStatus());
+                    row.put("licenseDocumentUrl", profile.getLicenseDocumentUrl());
+                    row.put("idDocumentUrl", profile.getIdDocumentUrl());
+                    row.put("profilePictureUrl", profile.getProfilePictureUrl());
+                    return row;
+                })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(unverified);
     }

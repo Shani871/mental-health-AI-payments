@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp />
-                <logLevel />
-                <threadName />
-                <loggerName />
-                <pattern>
-                    <pattern>
-                        {
-                        "message":"%message",
-                        "context":"mindbridge-backend"
-                        }
-                    </pattern>
-                </pattern>
-                <stackTrace />
-            </providers>
-        </encoder>
-    </appender>
+    <springProfile name="dev">
+        <appender name="CONSOLE_DEV" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{40} - %msg%n%ex</pattern>
+            </encoder>
+        </appender>
 
-    <root level="INFO">
-        <appender-ref ref="JSON_CONSOLE" />
-    </root>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE_DEV" />
+        </root>
+    </springProfile>
+
+    <springProfile name="!dev">
+        <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp />
+                    <logLevel />
+                    <threadName />
+                    <loggerName />
+                    <pattern>
+                        <pattern>
+                            {
+                            "message":"%message",
+                            "context":"mindbridge-backend"
+                            }
+                        </pattern>
+                    </pattern>
+                    <stackTrace />
+                </providers>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="JSON_CONSOLE" />
+        </root>
+    </springProfile>
 </configuration>

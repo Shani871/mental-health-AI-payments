@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { Download, Loader2, RotateCcw, Wallet } from "lucide-react";
 import { apiFetch, apiFetchBlob } from "../lib/api";
 
@@ -8,9 +9,12 @@ type PaymentHistoryItem = {
   therapistName: string;
   amount: number;
   platformCommission: number;
+  gateway: string;
   gatewayPaymentId?: string;
+  refundableRemaining: number;
   status: "PENDING" | "SUCCESS" | "FAILED" | "REFUNDED";
   createdAt: string;
+  updatedAt: string;
 };
 
 type RefundItem = {
@@ -22,9 +26,42 @@ type RefundItem = {
   createdAt: string;
 };
 
+type RefundEligibleBooking = {
+  bookingId: string;
+  therapistName: string;
+  bookingStatus: string;
+  sessionStart: string;
+  paidAmount: number;
+  refundableRemaining: number;
+  lateCancellationFee: number;
+  message: string;
+};
+
+type PaymentOverview = {
+  totalPaid: number;
+  totalRefunded: number;
+  netSpend: number;
+  successfulPayments: number;
+  refundRequests: number;
+  processedRefunds: number;
+  pendingBookings: number;
+  paymentMethods: Record<string, number>;
+};
+
+function formatCurrency(value?: number | string | null) {
+  const amount = Number(value ?? 0);
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 2,
+  }).format(Number.isFinite(amount) ? amount : 0);
+}
+
 export default function Payments() {
   const [history, setHistory] = useState<PaymentHistoryItem[]>([]);
   const [refunds, setRefunds] = useState<RefundItem[]>([]);
+  const [overview, setOverview] = useState<PaymentOverview | null>(null);
+  const [eligibleBookings, setEligibleBookings] = useState<RefundEligibleBooking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
@@ -33,16 +70,30 @@ export default function Payments() {
   const [refundReason, setRefundReason] = useState("");
   const [requestingRefund, setRequestingRefund] = useState(false);
 
+  const selectedEligibleBooking = useMemo(
+    () => eligibleBookings.find((item) => item.bookingId === refundBookingId) || null,
+    [eligibleBookings, refundBookingId]
+  );
+
+  const refundableBalance = useMemo(
+    () => eligibleBookings.reduce((sum, item) => sum + Number(item.refundableRemaining), 0),
+    [eligibleBookings]
+  );
+
   const load = async () => {
     setLoading(true);
     setError(null);
     try {
-      const [historyData, refundsData] = await Promise.all([
+      const [historyData, refundsData, overviewData, eligibleData] = await Promise.all([
         apiFetch<PaymentHistoryItem[]>("/api/payment/history"),
         apiFetch<RefundItem[]>("/api/payment/refunds/my"),
+        apiFetch<PaymentOverview>("/api/payment/overview"),
+        apiFetch<RefundEligibleBooking[]>("/api/payment/refund-eligible"),
       ]);
       setHistory(historyData);
       setRefunds(refundsData);
+      setOverview(overviewData);
+      setEligibleBookings(eligibleData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load payment data.");
     } finally {
@@ -54,14 +105,10 @@ export default function Payments() {
     load();
   }, []);
 
-  const totals = useMemo(() => {
-    const successful = history.filter((item) => item.status === "SUCCESS");
-    const refunded = history.filter((item) => item.status === "REFUNDED");
-    return {
-      paid: successful.reduce((sum, item) => sum + Number(item.amount), 0),
-      refunded: refunded.reduce((sum, item) => sum + Number(item.amount), 0),
-    };
-  }, [history]);
+  useEffect(() => {
+    if (!selectedEligibleBooking) return;
+    setRefundAmount(String(selectedEligibleBooking.refundableRemaining));
+  }, [selectedEligibleBooking]);
 
   const downloadInvoice = async (bookingId: string) => {
     setDownloadingId(bookingId);
@@ -105,120 +152,191 @@ export default function Payments() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">Payment History</h1>
-        <p className="text-slate-600 mt-2">Track payments, invoices, and refund requests.</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-white border border-slate-200 rounded-2xl p-5">
-          <div className="text-sm text-slate-500">Total Successful Payments</div>
-          <div className="text-2xl font-bold text-slate-900 mt-1">${totals.paid.toFixed(2)}</div>
+    <div className="max-w-6xl mx-auto space-y-6">
+      <section className="shell-card rounded-[2rem] p-6 md:p-8">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+          <div>
+            <h1 className="display-font text-3xl md:text-4xl font-extrabold text-slate-900">Payments & Refunds</h1>
+            <p className="text-slate-600 mt-2 max-w-2xl">
+              Transparent session pricing, ledger visibility, invoice downloads, and refund workflows built around real booking eligibility.
+            </p>
+          </div>
+          <Link
+            to="/dashboard"
+            data-voice="back to dashboard|dashboard"
+            className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800"
+          >
+            Back to Dashboard
+          </Link>
         </div>
-        <div className="bg-white border border-slate-200 rounded-2xl p-5">
-          <div className="text-sm text-slate-500">Total Refunded</div>
-          <div className="text-2xl font-bold text-slate-900 mt-1">${totals.refunded.toFixed(2)}</div>
-        </div>
-      </div>
+      </section>
 
       {loading ? (
         <div className="py-14 flex justify-center">
-          <Loader2 className="w-7 h-7 animate-spin text-indigo-600" />
+          <Loader2 className="w-7 h-7 animate-spin text-teal-700" />
         </div>
       ) : (
         <>
-          {error && <div className="mb-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3">{error}</div>}
+          {error && <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3">{error}</div>}
 
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 mb-6">
-            <h2 className="text-lg font-bold text-slate-900 mb-4">Transactions</h2>
-            {history.length === 0 ? (
-              <div className="text-center py-10 text-slate-500">No transactions yet.</div>
-            ) : (
-              <div className="space-y-3">
-                {history.map((item) => (
-                  <div key={item.id} className="p-4 border border-slate-200 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3">
-                    <div>
-                      <div className="font-semibold text-slate-900">{item.therapistName}</div>
-                      <div className="text-xs text-slate-500 mt-1">{new Date(item.createdAt).toLocaleString()}</div>
-                      <div className="text-xs text-slate-600 mt-1 inline-flex items-center gap-1">
-                        <Wallet className="w-3.5 h-3.5" />
-                        Payment ID: {item.gatewayPaymentId || "N/A"}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-1 text-xs rounded-full bg-slate-100 text-slate-700">{item.status}</span>
-                      <div className="text-sm font-semibold text-slate-900">${Number(item.amount).toFixed(2)}</div>
-                      {(item.status === "SUCCESS" || item.status === "REFUNDED") && (
-                        <button
-                          disabled={downloadingId === item.bookingId}
-                          onClick={() => downloadInvoice(item.bookingId)}
-                          className="inline-flex items-center gap-1.5 px-3 py-2 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-medium hover:bg-indigo-100 disabled:opacity-60"
-                        >
-                          <Download className="w-4 h-4" />
-                          {downloadingId === item.bookingId ? "Downloading..." : "Invoice"}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
-              <h2 className="text-lg font-bold text-slate-900 mb-4">Request Refund</h2>
-              <form onSubmit={submitRefundRequest} className="space-y-3">
-                <input
-                  value={refundBookingId}
-                  onChange={(e) => setRefundBookingId(e.target.value)}
-                  placeholder="Booking ID"
-                  className="w-full p-2 border border-slate-200 rounded-lg text-sm"
-                />
-                <input
-                  value={refundAmount}
-                  onChange={(e) => setRefundAmount(e.target.value)}
-                  placeholder="Amount"
-                  className="w-full p-2 border border-slate-200 rounded-lg text-sm"
-                />
-                <textarea
-                  value={refundReason}
-                  onChange={(e) => setRefundReason(e.target.value)}
-                  placeholder="Reason"
-                  className="w-full p-2 border border-slate-200 rounded-lg text-sm min-h-[88px]"
-                />
-                <button
-                  type="submit"
-                  disabled={!refundBookingId || !refundAmount || !refundReason.trim() || requestingRefund}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium disabled:opacity-60"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  {requestingRefund ? "Submitting..." : "Submit Refund Request"}
-                </button>
-              </form>
+          <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <div className="text-sm text-slate-500">Total Paid</div>
+              <div className="text-2xl font-bold text-slate-900 mt-1">{formatCurrency(overview?.totalPaid)}</div>
+              <div className="text-xs text-slate-500 mt-2">{overview?.successfulPayments ?? 0} completed transactions</div>
             </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <div className="text-sm text-slate-500">Total Refunded</div>
+              <div className="text-2xl font-bold text-slate-900 mt-1">{formatCurrency(overview?.totalRefunded)}</div>
+              <div className="text-xs text-slate-500 mt-2">{overview?.processedRefunds ?? 0} processed refunds</div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <div className="text-sm text-slate-500">Refundable Balance</div>
+              <div className="text-2xl font-bold text-slate-900 mt-1">{formatCurrency(refundableBalance)}</div>
+              <div className="text-xs text-slate-500 mt-2">{eligibleBookings.length} bookings currently eligible</div>
+            </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <div className="text-sm text-slate-500">Pending Session Payments</div>
+              <div className="text-2xl font-bold text-slate-900 mt-1">{overview?.pendingBookings ?? 0}</div>
+              <div className="text-xs text-slate-500 mt-2">Complete them from the dashboard to confirm sessions</div>
+            </div>
+          </section>
 
+          <section className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6">
             <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
-              <h2 className="text-lg font-bold text-slate-900 mb-4">My Refund Requests</h2>
-              {refunds.length === 0 ? (
-                <div className="text-sm text-slate-500">No refund requests.</div>
+              <h2 className="text-lg font-bold text-slate-900 mb-4">Transactions</h2>
+              {history.length === 0 ? (
+                <div className="text-center py-10 text-slate-500">No transactions yet.</div>
               ) : (
                 <div className="space-y-3">
-                  {refunds.map((item) => (
-                    <div key={item.id} className="p-3 border border-slate-200 rounded-xl">
-                      <div className="text-sm font-semibold text-slate-900">${Number(item.amount).toFixed(2)}</div>
-                      <div className="text-xs text-slate-600 mt-1">{item.reason}</div>
-                      <div className="mt-2 flex items-center justify-between">
-                        <span className="text-xs text-slate-500">{new Date(item.createdAt).toLocaleString()}</span>
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-700">{item.status}</span>
+                  {history.map((item) => (
+                    <div key={item.id} className="p-4 border border-slate-200 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                      <div>
+                        <div className="font-semibold text-slate-900">{item.therapistName}</div>
+                        <div className="text-xs text-slate-500 mt-1">{new Date(item.createdAt).toLocaleString()}</div>
+                        <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-slate-600">
+                          <div className="inline-flex items-center gap-1">
+                            <Wallet className="w-3.5 h-3.5" />
+                            Gateway: {item.gateway || "N/A"}
+                          </div>
+                          <div>Payment ID: {item.gatewayPaymentId || "N/A"}</div>
+                          <div>Platform fee: {formatCurrency(item.platformCommission)}</div>
+                          <div>Refundable remaining: {formatCurrency(item.refundableRemaining)}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="px-2.5 py-1 text-xs rounded-full bg-slate-100 text-slate-700">{item.status}</span>
+                        <div className="text-sm font-semibold text-slate-900">{formatCurrency(item.amount)}</div>
+                        {(item.status === "SUCCESS" || item.status === "REFUNDED") && (
+                          <button
+                            disabled={downloadingId === item.bookingId}
+                            onClick={() => downloadInvoice(item.bookingId)}
+                            data-voice={`invoice|download invoice|${item.therapistName} invoice`}
+                            className="inline-flex items-center gap-1.5 px-3 py-2 bg-teal-50 text-teal-800 rounded-lg text-sm font-medium hover:bg-teal-100 disabled:opacity-60"
+                          >
+                            <Download className="w-4 h-4" />
+                            {downloadingId === item.bookingId ? "Downloading..." : "Invoice"}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-          </div>
+
+            <div className="space-y-6">
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+                <h2 className="text-lg font-bold text-slate-900 mb-4">Refund Request</h2>
+                <form onSubmit={submitRefundRequest} className="space-y-3">
+                  <select
+                    value={refundBookingId}
+                    onChange={(e) => setRefundBookingId(e.target.value)}
+                    data-voice="eligible booking|refund booking"
+                    className="w-full p-2 border border-slate-200 rounded-lg text-sm"
+                  >
+                    <option value="">Select eligible booking</option>
+                    {eligibleBookings.map((booking) => (
+                      <option key={booking.bookingId} value={booking.bookingId}>
+                        {booking.therapistName} · {new Date(booking.sessionStart).toLocaleDateString()} · {formatCurrency(booking.refundableRemaining)}
+                      </option>
+                    ))}
+                  </select>
+                  <input
+                    value={refundAmount}
+                    onChange={(e) => setRefundAmount(e.target.value)}
+                    placeholder="Refund amount"
+                    data-voice="refund amount"
+                    className="w-full p-2 border border-slate-200 rounded-lg text-sm"
+                  />
+                  <textarea
+                    value={refundReason}
+                    onChange={(e) => setRefundReason(e.target.value)}
+                    placeholder="Reason"
+                    data-voice="refund reason"
+                    className="w-full p-2 border border-slate-200 rounded-lg text-sm min-h-[88px]"
+                  />
+                  {selectedEligibleBooking && (
+                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+                      <div className="font-semibold text-slate-900">{selectedEligibleBooking.therapistName}</div>
+                      <div className="mt-1">Session: {new Date(selectedEligibleBooking.sessionStart).toLocaleString()}</div>
+                      <div className="mt-1">Remaining refundable amount: {formatCurrency(selectedEligibleBooking.refundableRemaining)}</div>
+                      {selectedEligibleBooking.lateCancellationFee > 0 && (
+                        <div className="mt-1">Late cancellation fee: {formatCurrency(selectedEligibleBooking.lateCancellationFee)}</div>
+                      )}
+                      <div className="mt-2 text-slate-600">{selectedEligibleBooking.message}</div>
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={!refundBookingId || !refundAmount || !refundReason.trim() || requestingRefund}
+                    data-voice="submit refund request|request refund"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium disabled:opacity-60"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    {requestingRefund ? "Submitting..." : "Submit Refund Request"}
+                  </button>
+                </form>
+              </div>
+
+              <div className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+                <h2 className="text-lg font-bold text-slate-900 mb-4">Payment Methods In Use</h2>
+                {Object.keys(overview?.paymentMethods || {}).length === 0 ? (
+                  <div className="text-sm text-slate-500">No payment methods recorded yet.</div>
+                ) : (
+                  <div className="space-y-2">
+                    {Object.entries(overview?.paymentMethods || {}).map(([method, count]) => (
+                      <div key={method} className="flex items-center justify-between text-sm border border-slate-200 rounded-xl px-3 py-2">
+                        <span className="font-medium text-slate-900">{method}</span>
+                        <span className="text-slate-600">{count} payment(s)</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
+            <h2 className="text-lg font-bold text-slate-900 mb-4">My Refund Requests</h2>
+            {refunds.length === 0 ? (
+              <div className="text-sm text-slate-500">No refund requests.</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {refunds.map((item) => (
+                  <div key={item.id} className="p-4 border border-slate-200 rounded-xl">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="text-sm font-semibold text-slate-900">{formatCurrency(item.amount)}</div>
+                      <span className="px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-700">{item.status}</span>
+                    </div>
+                    <div className="text-xs text-slate-500 mt-1">Booking {item.bookingId}</div>
+                    <div className="text-sm text-slate-600 mt-3">{item.reason}</div>
+                    <div className="text-xs text-slate-500 mt-3">{new Date(item.createdAt).toLocaleString()}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
         </>
       )}
     </div>

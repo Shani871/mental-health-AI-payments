@@ -56,6 +56,14 @@ public class InAppNotificationService {
         return Map.of("count", notificationRepository.countByUserIdAndReadFalse(userId));
     }
 
+    @Transactional(readOnly = true)
+    public boolean existsForBooking(UUID userId, String type, UUID bookingId) {
+        return notificationRepository.existsByUserIdAndTypeAndPayloadContaining(
+                userId,
+                type,
+                bookingId == null ? "" : bookingId.toString());
+    }
+
     @Transactional
     public InAppNotification markRead(UUID notificationId, UUID userId) {
         InAppNotification notification = notificationRepository.findById(notificationId)

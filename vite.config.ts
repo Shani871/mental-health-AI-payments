@@ -18,6 +18,18 @@ export default defineConfig(({ mode }) => {
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
       proxy: {
+        '/api/chat': {
+          target: 'https://integrate.api.nvidia.com',
+          changeOrigin: true,
+          secure: true,
+          rewrite: (path) => path.replace(/^\/api\/chat/, '/v1/chat/completions'),
+          configure: (proxy) => {
+            proxy.on('proxyReq', (proxyReq) => {
+              const apiKey = env.VITE_NVIDIA_API_KEY || env.NVIDIA_API_KEY;
+              if (apiKey) proxyReq.setHeader('Authorization', `Bearer ${apiKey}`);
+            });
+          }
+        },
         '/api': {
           target: 'http://localhost:8080',
           changeOrigin: true,

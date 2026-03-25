@@ -1,1 +1,201 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
+
+:root {
+  --app-bg: #f4f7f2;
+  --app-bg-accent: #e7efe6;
+  --app-card: #ffffffd9;
+  --app-card-strong: #ffffff;
+  --app-ink: #172426;
+  --app-muted: #4f5f62;
+  --app-border: #c9d7cf;
+  --app-brand: #0f766e;
+  --app-brand-strong: #115e59;
+  --app-brand-soft: #dff4ef;
+  --app-warn: #d97706;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  color: var(--app-ink);
+  background:
+    radial-gradient(1000px 500px at -5% -5%, #b8ead8 0%, transparent 60%),
+    radial-gradient(900px 420px at 105% 0%, #f6dfb7 0%, transparent 62%),
+    radial-gradient(720px 380px at 50% 110%, #d9efe7 0%, transparent 65%),
+    linear-gradient(180deg, var(--app-bg-accent) 0%, var(--app-bg) 45%, #f8faf7 100%);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.display-font {
+  font-family: "Sora", "Trebuchet MS", sans-serif;
+}
+
+.shell-card {
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 40px -24px rgba(15, 118, 110, 0.45);
+}
+
+.brand-button {
+  background: linear-gradient(135deg, var(--app-brand) 0%, #0891b2 100%);
+  color: #f8fffe;
+  border: 1px solid transparent;
+  transition: 220ms ease;
+}
+
+.brand-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -16px rgba(8, 145, 178, 0.8);
+}
+
+.outline-button {
+  background: #ffffffc7;
+  color: var(--app-ink);
+  border: 1px solid var(--app-border);
+  transition: 220ms ease;
+}
+
+.outline-button:hover {
+  border-color: #8bb6a2;
+  background: #fff;
+}
+
+.auth-shell {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.auth-card {
+  display: grid;
+  gap: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid #b7cdc2;
+  background: var(--app-card-strong);
+  box-shadow: 0 20px 60px -34px rgba(21, 94, 89, 0.6);
+}
+
+@media (min-width: 900px) {
+  .auth-card {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.auth-aside {
+  padding: 1.75rem;
+  background:
+    linear-gradient(145deg, #0f766e 0%, #0e7490 100%);
+  color: #ecfffb;
+}
+
+.auth-main {
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .auth-main {
+    padding: 2rem;
+  }
+}
+
+.field-input {
+  width: 100%;
+  border: 1px solid #bfd3c8;
+  background: #fcfffe;
+  border-radius: 0.9rem;
+  padding: 0.68rem 0.84rem;
+  font-size: 0.95rem;
+  color: #1c2d2f;
+  transition: 180ms ease;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px #0f766e22;
+}
+
+/* Markdown Custom Styles */
+.markdown-body {
+  word-wrap: break-word;
+}
+.markdown-body p {
+  margin-bottom: 0.75rem;
+}
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+.markdown-body strong {
+  font-weight: 700;
+  color: #134e4a;
+}
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.markdown-body ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.markdown-body li {
+  margin-bottom: 0.25rem;
+}
+.markdown-body h1 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+.markdown-body h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+}
+.markdown-body code {
+  background-color: #f1f5f9;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  color: #115e59;
+  font-family: monospace;
+  font-size: 13px;
+}
+.markdown-body pre {
+  background-color: #1e293b;
+  color: #f8fafc;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); /* shadow-inner */
+}
+.markdown-body pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+.markdown-body a {
+  color: #0d9488;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

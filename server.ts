@@ -3,6 +3,10 @@ import { createServer as createViteServer } from 'vite';
 import Database from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { GoogleGenAI } from '@google/genai';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -140,6 +144,110 @@ async function startServer() {
     db.prepare('INSERT INTO ai_chat_sessions (id, user_id, summary, risk_level) VALUES (?, ?, ?, ?)')
       .run(id, user_id, summary, risk_level);
     res.json({ id });
+  });
+
+  // Chatbot Integration
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { messages } = req.body;
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: 'Messages array is required' });
+      }
+
+      const systemPrompt = `You are a helpful, empathetic, and professional mental health support assistant for "MindTriage". 
+Your goal is to provide supportive, helpful responses, check in on user well-being, and clarify what kind of help they might need.
+Do NOT attempt to diagnose or treat medical conditions. Encourage users to speak to a licensed therapist on the platform for clinical help.
+Keep your responses concise, readable, and highly empathetic.`;
+
+      const nvidiaMessages = [
+        { role: 'system', content: systemPrompt },
+        ...messages.map((m: any) => ({
+          role: m.role === 'assistant' ? 'assistant' : m.role || 'user',
+          content: m.text
+        }))
+      ];
+
+      if (!process.env.NVIDIA_API_KEY) {
+        throw new Error("NVIDIA_API_KEY is not set in the environment variables.");
+      }
+
+      const nvidiaRes = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NVIDIA_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'meta/llama-3.1-70b-instruct',
+          messages: nvidiaMessages,
+          temperature: 0.7,
+          top_p: 1,
+          max_tokens: 1024,
+          stream: false
+        })
+      });
+
+      if (!nvidiaRes.ok) {
+        throw new Error(`NVIDIA API error: ${nvidiaRes.status} ${nvidiaRes.statusText}`);
+      }
+
+      const data = await nvidiaRes.json() as any;
+      const responseText = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't process that.";
+      
+      const lastUserText = messages[messages.length - 1]?.text?.toLowerCase() || "";
+      const isUrgent = lastUserText.match(/\b(suicide|kill|die|harm|emergency|urgent|panic)\b/);
+
+      res.json({ 
+        text: responseText, 
+        sentiment: isUrgent ? "URGENT" : "NORMAL" 
+      });
+    } catch (e: any) {
+      console.error("Chat API Error:", e);
+      res.status(500).json({ error: e.message || 'Failed to process chat' });
+    }
+  });
+
+  // Predictions
+  app.post('/api/predict', (req, res) => {
+    import('child_process').then(cp => {
+      // Use the python executable from the virtual environment if it exists, otherwise fallback to python3
+      const isWin = process.platform === "win32";
+      const pythonExe = process.env.NODE_ENV === 'production' ? 'python3' : (isWin ? '.\\venv\\Scripts\\python.exe' : './venv/bin/python');
+
+      const scriptPath = path.join(__dirname, 'api', 'predict.py');
+      const inputData = JSON.stringify(req.body);
+
+      // Escape single quotes in JSON string to avoid shell injection
+      const escapedInput = inputData.replace(/'/g, "'\\''");
+
+      const cmd = `${pythonExe} ${scriptPath} '${escapedInput}'`;
+
+      cp.exec(cmd, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Prediction error: ${error.message}`);
+          return res.status(500).json({ error: 'Failed to run prediction model', details: error.message });
+        }
+        if (stderr) {
+          console.warn(`Prediction stderr: ${stderr}`);
+        }
+
+        try {
+          // Find the JSON block from output (in case pandas outputs some warning)
+          const outputLines = stdout.trim().split('\n');
+          const jsonLine = outputLines[outputLines.length - 1]; // We expect the last line to be the JSON prediction
+          const result = JSON.parse(jsonLine);
+
+          if (result.error) {
+            return res.status(400).json({ error: result.error });
+          }
+
+          res.json(result);
+        } catch (e) {
+          console.error(`Parse output error: ${e.message}`, stdout);
+          res.status(500).json({ error: 'Failed to parse prediction result' });
+        }
+      });
+    });
   });
 
   // Vite middleware for development

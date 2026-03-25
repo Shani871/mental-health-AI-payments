@@ -100,6 +100,7 @@ public class AiService {
         String tool = normalizeTool(assessment.getAssessmentTool());
         int phq9Score = sumResponses(responses, PHQ9_QUESTIONS, "PHQ-9");
         int gad7Score = sumResponses(responses, GAD7_QUESTIONS, "GAD-7");
+        int selfHarmSignal = responses.getOrDefault("phq9", 0);
 
         if ("PHQ9".equals(tool)) {
             gad7Score = 0;
@@ -108,7 +109,7 @@ public class AiService {
         }
 
         int riskInputScore = "GAD7".equals(tool) ? gad7Score : Math.max(phq9Score, gad7Score);
-        RiskLevel risk = classifyRiskFromPhqLikeScore(riskInputScore);
+        RiskLevel risk = classifyStructuredRisk(phq9Score, gad7Score, selfHarmSignal);
 
         assessment.setAssessmentTool(tool);
         assessment.setPhq9Score(phq9Score);
@@ -171,6 +172,53 @@ public class AiService {
         result.put("entries", checkins.size());
         result.put("history", getMoodHistory(userId, days));
         return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> getUserCareInsights(UUID userId) {
+        Map<String, Object> moodTrend = getMoodTrend(userId, 30);
+        Optional<AiAssessment> latestAssessment = assessmentRepository.findTopByUserIdAndCompletedTrueOrderByCreatedAtDesc(userId);
+        RiskLevel riskLevel = latestAssessment.map(AiAssessment::getRiskLevel).orElse(null);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("latestAssessment", latestAssessment.map(this::toAssessmentSnapshot).orElse(null));
+        result.put("moodTrend", moodTrend);
+        result.put("recommendedActions", getRecommendedActions(userId));
+        result.put("safetyPlanTemplate", buildSafetyPlanTemplate(riskLevel));
+        result.put("carePath", buildCarePath(riskLevel, moodTrend));
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getRecommendedActions(UUID userId) {
+        Optional<AiAssessment> latestAssessment = assessmentRepository.findTopByUserIdAndCompletedTrueOrderByCreatedAtDesc(userId);
+        Map<String, Object> moodTrend = getMoodTrend(userId, 14);
+        double averageMood = moodTrend.get("averageMood") instanceof Number number ? number.doubleValue() : 0.0;
+
+        List<Map<String, Object>> actions = new ArrayList<>();
+        RiskLevel riskLevel = latestAssessment.map(AiAssessment::getRiskLevel).orElse(null);
+
+        if (riskLevel == RiskLevel.EMERGENCY) {
+            actions.add(action("Use emergency support now", "Contact local emergency services or a crisis helpline immediately and avoid staying alone.", "critical"));
+        } else if (riskLevel == RiskLevel.HIGH) {
+            actions.add(action("Book a therapist today", "High-risk screening should trigger same-day or next-available clinician follow-up.", "high"));
+        } else if (riskLevel == RiskLevel.MODERATE) {
+            actions.add(action("Schedule follow-up within a week", "Moderate scores benefit from close monitoring and measurement-based follow-up.", "medium"));
+        }
+
+        if (averageMood > 0 && averageMood <= 4.5) {
+            actions.add(action("Increase check-in cadence", "Recent mood trend is low. Add daily mood tracking until the trend stabilizes.", "high"));
+        } else if (averageMood > 0 && averageMood <= 6.5) {
+            actions.add(action("Maintain weekly progress review", "Mood is mixed. Keep tracking symptoms and review changes with your therapist.", "medium"));
+        } else {
+            actions.add(action("Keep the current routine", "Current mood trend is stable enough for maintenance check-ins and preventive monitoring.", "low"));
+        }
+
+        if (latestAssessment.isEmpty()) {
+            actions.add(action("Complete a structured assessment", "Run PHQ-9 and GAD-7 screening to create a measurable baseline.", "medium"));
+        }
+
+        return actions;
     }
 
     @Transactional(readOnly = true)
@@ -372,11 +420,22 @@ public class AiService {
         return RiskLevel.LOW;
     }
 
+    private RiskLevel classifyStructuredRisk(int phq9Score, int gad7Score, int selfHarmSignal) {
+        int maxScore = Math.max(phq9Score, gad7Score);
+        if (selfHarmSignal >= 2) {
+            return RiskLevel.EMERGENCY;
+        }
+        if (selfHarmSignal == 1) {
+            return RiskLevel.HIGH;
+        }
+        return classifyRiskFromPhqLikeScore(maxScore);
+    }
+
     private String buildStructuredSummary(String tool, int phq9Score, int gad7Score, RiskLevel risk, String note) {
         StringBuilder sb = new StringBuilder();
         sb.append("Structured ").append(tool).append(" assessment completed. ");
         sb.append("PHQ-9: ").append(phq9Score).append(", GAD-7: ").append(gad7Score).append(". ");
-        sb.append("Risk level: ").append(risk).append(". ");
+        sb.append("Risk level: ").append(risk).append(" (").append(describeSeverity(risk)).append("). ");
         if (note != null && !note.isBlank()) {
             sb.append("User note: ").append(note.trim());
         } else {
@@ -402,5 +461,76 @@ public class AiService {
         } catch (JsonProcessingException e) {
             return "{}";
         }
+    }
+
+    private Map<String, Object> toAssessmentSnapshot(AiAssessment assessment) {
+        Map<String, Object> snapshot = new HashMap<>();
+        snapshot.put("id", assessment.getId());
+        snapshot.put("riskLevel", assessment.getRiskLevel());
+        snapshot.put("score", assessment.getScore());
+        snapshot.put("phq9Score", assessment.getPhq9Score());
+        snapshot.put("gad7Score", assessment.getGad7Score());
+        snapshot.put("summary", assessment.getSummary());
+        snapshot.put("createdAt", assessment.getCreatedAt());
+        snapshot.put("assessmentTool", assessment.getAssessmentTool());
+        return snapshot;
+    }
+
+    private Map<String, Object> action(String title, String detail, String priority) {
+        Map<String, Object> action = new HashMap<>();
+        action.put("title", title);
+        action.put("detail", detail);
+        action.put("priority", priority);
+        return action;
+    }
+
+    private Map<String, Object> buildSafetyPlanTemplate(RiskLevel riskLevel) {
+        Map<String, Object> plan = new HashMap<>();
+        plan.put("riskLevel", riskLevel == null ? "UNKNOWN" : riskLevel.name());
+        plan.put("warningSigns", List.of(
+                "Rapid drop in mood, sleep, or energy for several days",
+                "Feeling overwhelmed, trapped, or unable to calm down",
+                "Withdrawing from support or skipping planned care"));
+        plan.put("copingSteps", List.of(
+                "Use one short grounding routine such as paced breathing or a 10-minute walk",
+                "Delay major decisions and move to a safer, less isolating environment",
+                "Open your care notes and message a trusted person before symptoms escalate"));
+        plan.put("supportOptions", List.of(
+                "Contact a trusted friend, family member, or therapist and say you need active support",
+                "Use a local crisis helpline or emergency number if you feel unsafe",
+                "Reduce access to anything you could use to harm yourself and stay near another person if risk rises"));
+        plan.put("clinicalFollowUp", switch (riskLevel == null ? RiskLevel.MODERATE : riskLevel) {
+            case EMERGENCY -> "Immediate crisis support and urgent clinical intervention.";
+            case HIGH -> "Same-day or next-available therapist follow-up is recommended.";
+            case MODERATE -> "Schedule a clinician review within 7 days and continue mood tracking.";
+            case LOW -> "Continue routine monitoring and reassess if symptoms worsen.";
+        });
+        return plan;
+    }
+
+    private Map<String, Object> buildCarePath(RiskLevel riskLevel, Map<String, Object> moodTrend) {
+        double averageMood = moodTrend.get("averageMood") instanceof Number number ? number.doubleValue() : 0.0;
+        Map<String, Object> carePath = new HashMap<>();
+        carePath.put("severityLabel", describeSeverity(riskLevel));
+        carePath.put("nextCheckInDays", switch (riskLevel == null ? RiskLevel.MODERATE : riskLevel) {
+            case EMERGENCY -> 0;
+            case HIGH -> 1;
+            case MODERATE -> 7;
+            case LOW -> averageMood > 0 && averageMood < 6 ? 7 : 14;
+        });
+        carePath.put("measurementBasedCare", "Track repeat PHQ-9, GAD-7, and mood scores over time to measure change instead of relying on memory alone.");
+        return carePath;
+    }
+
+    private String describeSeverity(RiskLevel riskLevel) {
+        if (riskLevel == null) {
+            return "No recent assessment";
+        }
+        return switch (riskLevel) {
+            case LOW -> "monitor and maintain";
+            case MODERATE -> "active follow-up advised";
+            case HIGH -> "urgent follow-up advised";
+            case EMERGENCY -> "immediate safety support required";
+        };
     }
 }

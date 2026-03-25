@@ -1,6 +1,7 @@
 package com.mentalhealth.app.payment;
 
 import com.mentalhealth.app.booking.Booking;
+import com.mentalhealth.app.booking.BookingStatus;
 import com.mentalhealth.app.booking.BookingRepository;
 import com.mentalhealth.app.therapist.TherapistRepository;
 import com.mentalhealth.app.user.User;
@@ -146,8 +147,9 @@ public class PaymentLedgerService {
         if (tx.getStatus() != PaymentStatus.SUCCESS && tx.getStatus() != PaymentStatus.REFUNDED) {
             throw new RuntimeException("Refund is available only for successful payments.");
         }
-        if (amount.compareTo(BigDecimal.ZERO) <= 0 || amount.compareTo(tx.getAmount()) > 0) {
-            throw new RuntimeException("Refund amount must be greater than 0 and not exceed payment amount.");
+        BigDecimal refundableRemaining = getRefundableRemaining(tx);
+        if (amount.compareTo(BigDecimal.ZERO) <= 0 || amount.compareTo(refundableRemaining) > 0) {
+            throw new RuntimeException("Refund amount must be greater than 0 and within the refundable remaining balance.");
         }
 
         Refund refund = new Refund();
@@ -165,6 +167,95 @@ public class PaymentLedgerService {
         return refundRepository.findByRequestedByIdOrderByCreatedAtDesc(userId).stream()
                 .map(this::toRefundMap)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> getUserPaymentOverview(UUID userId) {
+        List<PaymentTransaction> transactions = paymentTransactionRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        List<Refund> refunds = refundRepository.findByRequestedByIdOrderByCreatedAtDesc(userId);
+
+        BigDecimal totalPaid = sumAmounts(transactions.stream()
+                .filter(tx -> tx.getStatus() == PaymentStatus.SUCCESS || tx.getStatus() == PaymentStatus.REFUNDED)
+                .map(PaymentTransaction::getAmount)
+                .toList());
+        BigDecimal totalRefunded = sumAmounts(refunds.stream()
+                .filter(refund -> refund.getStatus() == RefundStatus.PROCESSED)
+                .map(Refund::getAmount)
+                .toList());
+
+        Map<String, Long> byGateway = transactions.stream()
+                .collect(Collectors.groupingBy(tx -> {
+                    String gateway = tx.getGateway();
+                    return gateway == null || gateway.isBlank() ? "UNKNOWN" : gateway;
+                }, Collectors.counting()));
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalPaid", totalPaid);
+        result.put("totalRefunded", totalRefunded);
+        result.put("netSpend", totalPaid.subtract(totalRefunded));
+        result.put("successfulPayments", transactions.stream().filter(tx -> tx.getStatus() == PaymentStatus.SUCCESS).count());
+        result.put("refundRequests", refunds.size());
+        result.put("processedRefunds", refunds.stream().filter(refund -> refund.getStatus() == RefundStatus.PROCESSED).count());
+        result.put("paymentMethods", byGateway);
+        result.put("pendingBookings", bookingRepository.findByUserId(userId).stream()
+                .filter(booking -> booking.getStatus() == BookingStatus.PENDING)
+                .count());
+        result.put("refundableBookings", getRefundEligibleBookings(userId));
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getRefundEligibleBookings(UUID userId) {
+        return paymentTransactionRepository.findByUserIdOrderByCreatedAtDesc(userId).stream()
+                .filter(tx -> tx.getStatus() == PaymentStatus.SUCCESS || tx.getStatus() == PaymentStatus.REFUNDED)
+                .map(tx -> {
+                    BigDecimal refundableRemaining = getRefundableRemaining(tx);
+                    if (refundableRemaining.compareTo(BigDecimal.ZERO) <= 0) {
+                        return null;
+                    }
+
+                    Booking booking = tx.getBooking();
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("bookingId", booking.getId());
+                    row.put("paymentId", tx.getId());
+                    row.put("therapistName", booking.getTherapist().getUser().getName());
+                    row.put("bookingStatus", booking.getStatus());
+                    row.put("sessionStart", booking.getAvailabilitySlot().getStartTime());
+                    row.put("paidAmount", tx.getAmount());
+                    row.put("refundableRemaining", refundableRemaining);
+                    row.put("lateCancellationFee", booking.getCancellationFeeAmount());
+                    row.put("message", booking.getStatus() == BookingStatus.CANCELLED
+                            ? "Cancelled bookings may keep late-cancellation fees according to platform policy."
+                            : "Refund eligibility depends on review status and the therapist session state.");
+                    return row;
+                })
+                .filter(row -> row != null)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> getBookingQuote(UUID bookingId, User requester) {
+        PaymentTransaction existing = paymentTransactionRepository.findByBookingId(bookingId).orElse(null);
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        if (!booking.getUser().getId().equals(requester.getId())) {
+            throw new RuntimeException("You can only access payment quotes for your own bookings.");
+        }
+
+        BigDecimal sessionFee = existing != null ? existing.getAmount() : booking.getTherapist().getHourlyRate();
+        BigDecimal therapistEarning = paymentService.calculateTherapistPayout(sessionFee);
+        BigDecimal platformFee = sessionFee.subtract(therapistEarning);
+
+        Map<String, Object> quote = new HashMap<>();
+        quote.put("bookingId", booking.getId());
+        quote.put("bookingStatus", booking.getStatus());
+        quote.put("therapistName", booking.getTherapist().getUser().getName());
+        quote.put("sessionFee", sessionFee);
+        quote.put("platformFee", platformFee);
+        quote.put("therapistEarning", therapistEarning);
+        quote.put("supportedMethods", List.of("RAZORPAY", "STRIPE", "CASH"));
+        quote.put("cancellationPolicy", "Sessions cancelled within 24 hours may incur a 50% cancellation fee.");
+        return quote;
     }
 
     @Transactional(readOnly = true)
@@ -293,6 +384,8 @@ public class PaymentLedgerService {
         row.put("gateway", tx.getGateway());
         row.put("status", tx.getStatus());
         row.put("createdAt", tx.getCreatedAt());
+        row.put("updatedAt", tx.getUpdatedAt());
+        row.put("refundableRemaining", getRefundableRemaining(tx));
         return row;
     }
 
@@ -318,5 +411,17 @@ public class PaymentLedgerService {
         row.put("createdAt", payout.getCreatedAt());
         row.put("processedAt", payout.getProcessedAt());
         return row;
+    }
+
+    private BigDecimal getRefundableRemaining(PaymentTransaction tx) {
+        BigDecimal reserved = sumAmounts(refundRepository.findByBookingIdOrderByCreatedAtDesc(tx.getBooking().getId()).stream()
+                .filter(refund -> refund.getStatus() == RefundStatus.PENDING || refund.getStatus() == RefundStatus.PROCESSED)
+                .map(Refund::getAmount)
+                .toList());
+        return tx.getAmount().subtract(reserved).max(BigDecimal.ZERO);
+    }
+
+    private BigDecimal sumAmounts(List<BigDecimal> amounts) {
+        return amounts.stream().reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

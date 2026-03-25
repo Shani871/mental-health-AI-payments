@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Loader2, ShieldAlert, Sparkles } from "lucide-react";
 import { apiFetch } from "../lib/api";
 
 type Question = {
@@ -25,12 +25,48 @@ type MoodTrend = {
   history: Array<{ id: string; score: number; note?: string; createdAt: string }>;
 };
 
+type CareAction = {
+  title: string;
+  detail: string;
+  priority: "critical" | "high" | "medium" | "low";
+};
+
+type CareInsights = {
+  latestAssessment: Assessment | null;
+  moodTrend: MoodTrend;
+  recommendedActions: CareAction[];
+  safetyPlanTemplate: {
+    clinicalFollowUp: string;
+    warningSigns: string[];
+    copingSteps: string[];
+    supportOptions: string[];
+  };
+  carePath: {
+    severityLabel: string;
+    nextCheckInDays: number;
+    measurementBasedCare: string;
+  };
+};
+
 const answerOptions = [
   { value: 0, label: "Not at all" },
   { value: 1, label: "Several days" },
   { value: 2, label: "More than half the days" },
   { value: 3, label: "Nearly every day" },
 ];
+
+function riskClasses(risk?: string | null) {
+  switch (risk) {
+    case "EMERGENCY":
+      return "bg-red-100 border-red-200 text-red-900";
+    case "HIGH":
+      return "bg-amber-100 border-amber-200 text-amber-900";
+    case "MODERATE":
+      return "bg-yellow-100 border-yellow-200 text-yellow-900";
+    default:
+      return "bg-emerald-100 border-emerald-200 text-emerald-900";
+  }
+}
 
 export default function TriageChat() {
   const [tool, setTool] = useState<"COMBINED" | "PHQ9" | "GAD7">("COMBINED");
@@ -42,7 +78,7 @@ export default function TriageChat() {
   const [result, setResult] = useState<Assessment | null>(null);
   const [moodScore, setMoodScore] = useState(7);
   const [moodNote, setMoodNote] = useState("");
-  const [moodTrend, setMoodTrend] = useState<MoodTrend | null>(null);
+  const [careInsights, setCareInsights] = useState<CareInsights | null>(null);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,17 +88,17 @@ export default function TriageChat() {
     [questions, answers]
   );
 
-  const loadMoodTrend = async () => {
+  const loadCareInsights = async () => {
     try {
-      const trend = await apiFetch<MoodTrend>("/api/ai/mood/trend?days=30");
-      setMoodTrend(trend);
+      const insights = await apiFetch<CareInsights>("/api/ai/care-insights");
+      setCareInsights(insights);
     } catch {
-      // keep page functional even if mood endpoints fail
+      // keep the form usable even if care insights fail
     }
   };
 
   useEffect(() => {
-    loadMoodTrend();
+    loadCareInsights();
   }, []);
 
   const start = async () => {
@@ -98,7 +134,7 @@ export default function TriageChat() {
         body: JSON.stringify({ responses: answers, note }),
       });
       setResult(completed);
-      await loadMoodTrend();
+      await loadCareInsights();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit assessment.");
     } finally {
@@ -113,22 +149,24 @@ export default function TriageChat() {
         method: "POST",
       });
       setMoodNote("");
-      await loadMoodTrend();
+      await loadCareInsights();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save mood check-in.");
     }
   };
 
+  const effectiveRisk = result?.riskLevel ?? careInsights?.latestAssessment?.riskLevel ?? null;
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <section className="bg-white border border-slate-200 rounded-2xl p-6">
-        <h1 className="text-3xl font-bold text-slate-900">AI Structured Assessment</h1>
-        <p className="text-slate-600 mt-2">
-          This assistant is not a medical diagnosis tool. It provides triage guidance and recommends professional help.
+      <section className="shell-card rounded-[2rem] p-6 md:p-8">
+        <h1 className="display-font text-3xl md:text-4xl font-extrabold text-slate-900">AI Structured Assessment</h1>
+        <p className="text-slate-600 mt-2 max-w-3xl">
+          Use PHQ-9 and GAD-7 style screening to establish a measurable baseline, then pair the result with mood trend tracking and therapist follow-up.
         </p>
 
         <div className="mt-4 p-4 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-sm">
-          If you are in immediate danger or having self-harm thoughts, call your local emergency number or 988 (US).
+          If you are in immediate danger or feel unable to stay safe, contact your local emergency number or crisis support line now.
         </div>
 
         {error && <div className="mt-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3">{error}</div>}
@@ -138,7 +176,8 @@ export default function TriageChat() {
             <button
               key={option}
               onClick={() => setTool(option)}
-              className={`px-4 py-3 rounded-xl border text-sm font-medium ${tool === option ? "border-indigo-300 bg-indigo-50 text-indigo-700" : "border-slate-200 bg-white text-slate-700"}`}
+              data-voice={option === "COMBINED" ? "phq 9 and gad 7|combined assessment" : option}
+              className={`px-4 py-3 rounded-xl border text-sm font-medium ${tool === option ? "border-teal-300 bg-teal-50 text-teal-800" : "border-slate-200 bg-white text-slate-700"}`}
             >
               {option === "COMBINED" ? "PHQ-9 + GAD-7" : option}
             </button>
@@ -150,15 +189,17 @@ export default function TriageChat() {
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
+            data-voice="ai disclaimer|consent disclaimer|consent"
             className="mt-1"
           />
-          I understand this AI does not provide medical diagnosis and I consent to use it for triage only.
+          I understand this AI does not provide a medical diagnosis and I consent to use it for triage and screening support only.
         </label>
 
         <button
           onClick={start}
           disabled={loading}
-          className="mt-5 px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium disabled:opacity-60"
+          data-voice="start assessment|begin assessment|start triage"
+          className="mt-5 px-5 py-2.5 bg-slate-900 text-white rounded-lg text-sm font-medium disabled:opacity-60"
         >
           {loading ? "Starting..." : "Start Assessment"}
         </button>
@@ -175,10 +216,16 @@ export default function TriageChat() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
                   {answerOptions.map((option) => (
-                    <label key={option.value} className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 flex items-center gap-2">
+                    <label
+                      key={option.value}
+                      data-voice={`${question.text}|${option.label}`}
+                      data-voice-action="true"
+                      className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 flex items-center gap-2"
+                    >
                       <input
                         type="radio"
                         name={question.key}
+                        data-voice={`${question.text}|${option.label}`}
                         checked={answers[question.key] === option.value}
                         onChange={() => setAnswers((prev) => ({ ...prev, [question.key]: option.value }))}
                       />
@@ -194,13 +241,15 @@ export default function TriageChat() {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Optional note for therapist summary..."
+            data-voice="therapist summary note|assessment note"
             className="w-full mt-5 p-3 border border-slate-200 rounded-lg text-sm min-h-[88px]"
           />
 
           <button
             onClick={submit}
             disabled={!allAnswered || submitting}
-            className="mt-4 px-5 py-2.5 bg-slate-900 text-white rounded-lg text-sm font-medium disabled:opacity-60 inline-flex items-center gap-2"
+            data-voice="submit assessment|finish assessment"
+            className="mt-4 px-5 py-2.5 bg-teal-700 text-white rounded-lg text-sm font-medium disabled:opacity-60 inline-flex items-center gap-2"
           >
             {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
             {submitting ? "Submitting..." : "Submit Assessment"}
@@ -208,39 +257,114 @@ export default function TriageChat() {
         </section>
       )}
 
-      {result && (
-        <section className="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 className="text-xl font-bold text-slate-900 inline-flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-            Assessment Result
-          </h2>
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+      {(result || careInsights?.latestAssessment) && (
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900 inline-flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+                Assessment Result
+              </h2>
+              <p className="text-sm text-slate-600 mt-2">
+                This result is meant for triage, not diagnosis. Use it to drive follow-up intensity and symptom monitoring.
+              </p>
+            </div>
+            <span className={`inline-flex px-3 py-1 rounded-full text-sm font-semibold border ${riskClasses(effectiveRisk)}`}>
+              {effectiveRisk || "NO RISK SCORE"}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
             <div className="p-3 border border-slate-200 rounded-lg">
               <div className="text-slate-500">Risk</div>
-              <div className="font-semibold text-slate-900">{result.riskLevel || "-"}</div>
+              <div className="font-semibold text-slate-900">{effectiveRisk || "-"}</div>
             </div>
             <div className="p-3 border border-slate-200 rounded-lg">
               <div className="text-slate-500">PHQ-9</div>
-              <div className="font-semibold text-slate-900">{result.phq9Score ?? "-"}</div>
+              <div className="font-semibold text-slate-900">{(result ?? careInsights?.latestAssessment)?.phq9Score ?? "-"}</div>
             </div>
             <div className="p-3 border border-slate-200 rounded-lg">
               <div className="text-slate-500">GAD-7</div>
-              <div className="font-semibold text-slate-900">{result.gad7Score ?? "-"}</div>
+              <div className="font-semibold text-slate-900">{(result ?? careInsights?.latestAssessment)?.gad7Score ?? "-"}</div>
             </div>
             <div className="p-3 border border-slate-200 rounded-lg">
-              <div className="text-slate-500">Computed Score</div>
-              <div className="font-semibold text-slate-900">{result.score ?? "-"}</div>
+              <div className="text-slate-500">Next review</div>
+              <div className="font-semibold text-slate-900">
+                {careInsights?.carePath.nextCheckInDays === 0
+                  ? "Now"
+                  : `${careInsights?.carePath.nextCheckInDays ?? 7} day(s)`}
+              </div>
             </div>
           </div>
 
-          <p className="mt-4 text-sm text-slate-700">{result.summary || "No summary available."}</p>
+          <p className="text-sm text-slate-700">
+            {(result ?? careInsights?.latestAssessment)?.summary || "No summary available."}
+          </p>
 
-          {result.riskLevel === "HIGH" || result.riskLevel === "EMERGENCY" ? (
-            <div className="mt-4 p-4 rounded-xl border border-red-200 bg-red-50 text-red-900 text-sm inline-flex gap-2">
-              <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-              High-risk detected. Please book a therapist immediately. Emergency resources should be used if needed.
-            </div>
-          ) : null}
+          {careInsights && (
+            <>
+              <div className="rounded-2xl border border-slate-200 p-4 bg-slate-50">
+                <h3 className="text-base font-bold text-slate-900 inline-flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-teal-700" />
+                  Recommended next steps
+                </h3>
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {careInsights.recommendedActions.map((action) => (
+                    <div key={action.title} className="rounded-xl border border-slate-200 bg-white p-4">
+                      <div className="text-sm font-semibold text-slate-900">{action.title}</div>
+                      <div className="text-sm text-slate-600 mt-2">{action.detail}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 text-sm text-slate-600">
+                  {careInsights.carePath.measurementBasedCare}
+                </div>
+              </div>
+
+              {(effectiveRisk === "HIGH" || effectiveRisk === "EMERGENCY") && (
+                <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
+                  <h3 className="text-lg font-bold text-red-900 inline-flex items-center gap-2">
+                    <ShieldAlert className="w-5 h-5" />
+                    Safety Plan Template
+                  </h3>
+                  <p className="text-sm text-red-900 mt-2">{careInsights.safetyPlanTemplate.clinicalFollowUp}</p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-sm">
+                    <div>
+                      <div className="font-semibold text-slate-900">Warning signs</div>
+                      <ul className="mt-2 space-y-1 text-slate-700">
+                        {careInsights.safetyPlanTemplate.warningSigns.map((item) => (
+                          <li key={item}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-900">Coping steps</div>
+                      <ul className="mt-2 space-y-1 text-slate-700">
+                        {careInsights.safetyPlanTemplate.copingSteps.map((item) => (
+                          <li key={item}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-900">Support options</div>
+                      <ul className="mt-2 space-y-1 text-slate-700">
+                        {careInsights.safetyPlanTemplate.supportOptions.map((item) => (
+                          <li key={item}>• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {effectiveRisk === "HIGH" || effectiveRisk === "EMERGENCY" ? (
+                <div className="p-4 rounded-xl border border-red-200 bg-red-50 text-red-900 text-sm inline-flex gap-2">
+                  <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+                  Elevated-risk detected. Do not wait for the next automated check-in if your symptoms worsen or you feel unsafe.
+                </div>
+              ) : null}
+            </>
+          )}
         </section>
       )}
 
@@ -253,35 +377,45 @@ export default function TriageChat() {
             max={10}
             value={moodScore}
             onChange={(e) => setMoodScore(Number(e.target.value))}
+            data-voice="mood score|daily mood score"
             className="p-2 border border-slate-200 rounded-lg text-sm"
           />
           <input
             value={moodNote}
             onChange={(e) => setMoodNote(e.target.value)}
             placeholder="Optional note"
+            data-voice="mood note|daily mood note"
             className="md:col-span-2 p-2 border border-slate-200 rounded-lg text-sm"
           />
-          <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium">Save Mood</button>
+          <button data-voice="save mood|submit mood" className="px-4 py-2 bg-teal-700 text-white rounded-lg text-sm font-medium">Save Mood</button>
         </form>
 
-        {moodTrend && (
+        {careInsights?.moodTrend && (
           <div className="mt-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
               <div className="p-3 border border-slate-200 rounded-lg">
                 <div className="text-slate-500">Average (30d)</div>
-                <div className="font-semibold text-slate-900">{moodTrend.averageMood}</div>
+                <div className="font-semibold text-slate-900">{careInsights.moodTrend.averageMood}</div>
               </div>
               <div className="p-3 border border-slate-200 rounded-lg">
                 <div className="text-slate-500">Min / Max</div>
-                <div className="font-semibold text-slate-900">{moodTrend.minMood} / {moodTrend.maxMood}</div>
+                <div className="font-semibold text-slate-900">
+                  {careInsights.moodTrend.minMood} / {careInsights.moodTrend.maxMood}
+                </div>
               </div>
               <div className="p-3 border border-slate-200 rounded-lg">
                 <div className="text-slate-500">Entries</div>
-                <div className="font-semibold text-slate-900">{moodTrend.entries}</div>
+                <div className="font-semibold text-slate-900">{careInsights.moodTrend.entries}</div>
+              </div>
+              <div className="p-3 border border-slate-200 rounded-lg">
+                <div className="text-slate-500">Next review</div>
+                <div className="font-semibold text-slate-900">
+                  {careInsights.carePath.nextCheckInDays === 0 ? "Now" : `${careInsights.carePath.nextCheckInDays} day(s)`}
+                </div>
               </div>
             </div>
             <div className="mt-4 space-y-2">
-              {moodTrend.history.slice(-7).reverse().map((item) => (
+              {careInsights.moodTrend.history.slice(-7).reverse().map((item) => (
                 <div key={item.id} className="p-3 border border-slate-200 rounded-lg text-sm">
                   <div className="font-semibold text-slate-900">Score: {item.score}</div>
                   {item.note && <div className="text-slate-600 mt-1">{item.note}</div>}

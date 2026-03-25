@@ -19,5 +19,5 @@ INSERT INTO therapists (id, user_id, specialization, experience_years, hourly_ra
 
 -- 3. Insert Availability Slots
 INSERT INTO therapist_availability (id, therapist_id, start_time, end_time, is_booked) VALUES 
-(gen_random_uuid(), 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', CURRENT_TIMESTAMP + interval '1 day', CURRENT_TIMESTAMP + interval '1 day 1 hour', false),
-(gen_random_uuid(), 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', CURRENT_TIMESTAMP + interval '1 day 2 hours', CURRENT_TIMESTAMP + interval '1 day 3 hours', false);
+(UUID(), 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 DAY), DATE_ADD(DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 DAY), INTERVAL 1 HOUR), false),
+(UUID(), 'f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12', DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 26 HOUR), DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 27 HOUR), false);
