@@ -75,6 +75,7 @@ export default function Signup() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Full name"
+              data-voice="full name|name"
               required
               className="field-input"
             />
@@ -83,6 +84,7 @@ export default function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+              data-voice="email|signup email"
               required
               className="field-input"
             />
@@ -91,6 +93,7 @@ export default function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              data-voice="password|signup password"
               required
               className="field-input"
             />
@@ -99,6 +102,7 @@ export default function Signup() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm password"
+              data-voice="confirm password|password confirmation"
               required
               className="field-input"
             />
@@ -107,6 +111,7 @@ export default function Signup() {
             <button
               type="submit"
               disabled={loading}
+              data-voice="create account|sign up|submit signup"
               className="brand-button w-full py-2.5 rounded-xl text-sm font-semibold disabled:opacity-60"
             >
               {loading ? "Creating..." : "Create Account"}
@@ -114,7 +119,7 @@ export default function Signup() {
           </form>
 
           <div className="mt-4 text-sm text-slate-600">
-            Already have an account? <Link to="/login" className="text-teal-700 font-semibold hover:underline">Login</Link>
+            Already have an account? <Link to="/login" data-voice="login|sign in" className="text-teal-700 font-semibold hover:underline">Login</Link>
           </div>
         </div>
       </div>

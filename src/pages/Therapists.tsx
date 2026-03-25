@@ -158,36 +158,42 @@ export default function Therapists() {
             value={filters.keyword}
             onChange={(e) => setFilters((prev) => ({ ...prev, keyword: e.target.value }))}
             placeholder="Keyword"
+            data-voice="keyword|therapist keyword"
             className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
           />
           <input
             value={filters.specialization}
             onChange={(e) => setFilters((prev) => ({ ...prev, specialization: e.target.value }))}
             placeholder="Specialization"
+            data-voice="specialization"
             className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
           />
           <input
             value={filters.language}
             onChange={(e) => setFilters((prev) => ({ ...prev, language: e.target.value }))}
             placeholder="Language"
+            data-voice="language"
             className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
           />
           <input
             value={filters.minRating}
             onChange={(e) => setFilters((prev) => ({ ...prev, minRating: e.target.value }))}
             placeholder="Min rating"
+            data-voice="minimum rating|min rating"
             className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
           />
           <input
             value={filters.maxPrice}
             onChange={(e) => setFilters((prev) => ({ ...prev, maxPrice: e.target.value }))}
             placeholder="Max price"
+            data-voice="maximum price|max price"
             className="px-3 py-2 rounded-lg border border-slate-200 text-sm"
           />
         </div>
         <div className="mt-4 flex gap-3">
           <button
             type="submit"
+            data-voice="search therapists|search"
             className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700"
           >
             <Search className="w-4 h-4" />
@@ -197,6 +203,7 @@ export default function Therapists() {
             <button
               type="button"
               onClick={clearFilters}
+              data-voice="clear filters|clear search"
               className="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50"
             >
               Clear
@@ -222,6 +229,8 @@ export default function Therapists() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => loadSlots(therapist.therapistId)}
+                data-voice={`${therapist.therapistName}|${therapist.specialization}|select therapist`}
+                data-voice-action="true"
                 className={`w-full text-left bg-white p-5 rounded-2xl border shadow-sm transition-all ${selectedTherapistId === therapist.therapistId ? "border-indigo-500 ring-1 ring-indigo-200" : "border-slate-200 hover:border-indigo-300"}`}
               >
                 <div className="flex items-start gap-4">
@@ -293,6 +302,7 @@ export default function Therapists() {
                   <select
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
+                    data-voice="select date|available date"
                     className="w-full mb-4 p-2 border border-slate-200 rounded-lg text-sm"
                   >
                     {availableDates.map((date) => (
@@ -315,6 +325,7 @@ export default function Therapists() {
                         <button
                           disabled={bookingSlotId === slot.id}
                           onClick={() => bookSlot(slot.id)}
+                          data-voice={`book session|${new Date(slot.startTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`}
                           className="w-full py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-60"
                         >
                           {bookingSlotId === slot.id ? "Booking..." : "Book Session"}

@@ -3,6 +3,10 @@ import { createServer as createViteServer } from 'vite';
 import Database from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { GoogleGenAI } from '@google/genai';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -140,6 +144,67 @@ async function startServer() {
     db.prepare('INSERT INTO ai_chat_sessions (id, user_id, summary, risk_level) VALUES (?, ?, ?, ?)')
       .run(id, user_id, summary, risk_level);
     res.json({ id });
+  });
+
+  // Chatbot Integration
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { messages } = req.body;
+      if (!messages || !Array.isArray(messages)) {
+        return res.status(400).json({ error: 'Messages array is required' });
+      }
+
+      const systemPrompt = `You are a helpful, empathetic, and professional mental health support assistant for "MindTriage". 
+Your goal is to provide supportive, helpful responses, check in on user well-being, and clarify what kind of help they might need.
+Do NOT attempt to diagnose or treat medical conditions. Encourage users to speak to a licensed therapist on the platform for clinical help.
+Keep your responses concise, readable, and highly empathetic.`;
+
+      const nvidiaMessages = [
+        { role: 'system', content: systemPrompt },
+        ...messages.map((m: any) => ({
+          role: m.role === 'assistant' ? 'assistant' : m.role || 'user',
+          content: m.text
+        }))
+      ];
+
+      if (!process.env.NVIDIA_API_KEY) {
+        throw new Error("NVIDIA_API_KEY is not set in the environment variables.");
+      }
+
+      const nvidiaRes = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NVIDIA_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'meta/llama-3.1-70b-instruct',
+          messages: nvidiaMessages,
+          temperature: 0.7,
+          top_p: 1,
+          max_tokens: 1024,
+          stream: false
+        })
+      });
+
+      if (!nvidiaRes.ok) {
+        throw new Error(`NVIDIA API error: ${nvidiaRes.status} ${nvidiaRes.statusText}`);
+      }
+
+      const data = await nvidiaRes.json() as any;
+      const responseText = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't process that.";
+      
+      const lastUserText = messages[messages.length - 1]?.text?.toLowerCase() || "";
+      const isUrgent = lastUserText.match(/\b(suicide|kill|die|harm|emergency|urgent|panic)\b/);
+
+      res.json({ 
+        text: responseText, 
+        sentiment: isUrgent ? "URGENT" : "NORMAL" 
+      });
+    } catch (e: any) {
+      console.error("Chat API Error:", e);
+      res.status(500).json({ error: e.message || 'Failed to process chat' });
+    }
   });
 
   // Predictions

@@ -187,7 +187,7 @@ export default function Prediction() {
                             <div className="space-y-4">
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Gender</label>
-                                    <select name="gender" value={formData.gender} onChange={handleChange} className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
+                                    <select name="gender" value={formData.gender} onChange={handleChange} data-voice="gender" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
                                         {options.genderOptions.map((option) => (
                                             <option key={option} value={option}>{option}</option>
                                         ))}
@@ -196,12 +196,12 @@ export default function Prediction() {
 
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Age</label>
-                                    <input type="number" name="age" value={formData.age} onChange={handleChange} min="15" max="40" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all" />
+                                    <input type="number" name="age" value={formData.age} onChange={handleChange} min="15" max="40" data-voice="age" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all" />
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Course of Study</label>
-                                    <select name="course" value={formData.course} onChange={handleChange} className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
+                                    <select name="course" value={formData.course} onChange={handleChange} data-voice="course|course of study" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
                                         {options.courseOptions.map((option) => (
                                             <option key={option} value={option}>{option}</option>
                                         ))}
@@ -211,7 +211,7 @@ export default function Prediction() {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Academic Year</label>
-                                        <select name="year" value={formData.year} onChange={handleChange} className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
+                                        <select name="year" value={formData.year} onChange={handleChange} data-voice="academic year|year" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
                                             {options.yearOptions.map((option) => (
                                                 <option key={option} value={option}>{option}</option>
                                             ))}
@@ -219,13 +219,13 @@ export default function Prediction() {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">CGPA</label>
-                                        <input type="number" name="cgpa" value={formData.cgpa} onChange={handleChange} step="0.01" min="0" max="4.0" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all" />
+                                        <input type="number" name="cgpa" value={formData.cgpa} onChange={handleChange} step="0.01" min="0" max="4.0" data-voice="cgpa" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all" />
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Marital Status</label>
-                                    <select name="marital" value={formData.marital} onChange={handleChange} className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
+                                    <select name="marital" value={formData.marital} onChange={handleChange} data-voice="marital status|marital" className="w-full bg-slate-50 rounded-xl border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 text-slate-900 font-medium p-3 transition-all cursor-pointer">
                                         {options.maritalOptions.map((option) => (
                                             <option key={option} value={option}>{option}</option>
                                         ))}
@@ -236,6 +236,7 @@ export default function Prediction() {
                             <button
                                 type="submit"
                                 disabled={loading}
+                                data-voice="run ai diagnostic|run prediction|submit prediction"
                                 className="w-full flex items-center justify-center gap-3 py-4 px-6 rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 active:scale-95 shadow-lg shadow-indigo-200 font-bold transition-all disabled:opacity-50"
                             >
                                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Run AI Diagnostic <ArrowRight className="w-5 h-5" /></>}

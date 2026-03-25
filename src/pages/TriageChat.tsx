@@ -176,6 +176,7 @@ export default function TriageChat() {
             <button
               key={option}
               onClick={() => setTool(option)}
+              data-voice={option === "COMBINED" ? "phq 9 and gad 7|combined assessment" : option}
               className={`px-4 py-3 rounded-xl border text-sm font-medium ${tool === option ? "border-teal-300 bg-teal-50 text-teal-800" : "border-slate-200 bg-white text-slate-700"}`}
             >
               {option === "COMBINED" ? "PHQ-9 + GAD-7" : option}
@@ -188,6 +189,7 @@ export default function TriageChat() {
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
+            data-voice="ai disclaimer|consent disclaimer|consent"
             className="mt-1"
           />
           I understand this AI does not provide a medical diagnosis and I consent to use it for triage and screening support only.
@@ -196,6 +198,7 @@ export default function TriageChat() {
         <button
           onClick={start}
           disabled={loading}
+          data-voice="start assessment|begin assessment|start triage"
           className="mt-5 px-5 py-2.5 bg-slate-900 text-white rounded-lg text-sm font-medium disabled:opacity-60"
         >
           {loading ? "Starting..." : "Start Assessment"}
@@ -215,11 +218,14 @@ export default function TriageChat() {
                   {answerOptions.map((option) => (
                     <label
                       key={option.value}
+                      data-voice={`${question.text}|${option.label}`}
+                      data-voice-action="true"
                       className="border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 flex items-center gap-2"
                     >
                       <input
                         type="radio"
                         name={question.key}
+                        data-voice={`${question.text}|${option.label}`}
                         checked={answers[question.key] === option.value}
                         onChange={() => setAnswers((prev) => ({ ...prev, [question.key]: option.value }))}
                       />
@@ -235,12 +241,14 @@ export default function TriageChat() {
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Optional note for therapist summary..."
+            data-voice="therapist summary note|assessment note"
             className="w-full mt-5 p-3 border border-slate-200 rounded-lg text-sm min-h-[88px]"
           />
 
           <button
             onClick={submit}
             disabled={!allAnswered || submitting}
+            data-voice="submit assessment|finish assessment"
             className="mt-4 px-5 py-2.5 bg-teal-700 text-white rounded-lg text-sm font-medium disabled:opacity-60 inline-flex items-center gap-2"
           >
             {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -369,15 +377,17 @@ export default function TriageChat() {
             max={10}
             value={moodScore}
             onChange={(e) => setMoodScore(Number(e.target.value))}
+            data-voice="mood score|daily mood score"
             className="p-2 border border-slate-200 rounded-lg text-sm"
           />
           <input
             value={moodNote}
             onChange={(e) => setMoodNote(e.target.value)}
             placeholder="Optional note"
+            data-voice="mood note|daily mood note"
             className="md:col-span-2 p-2 border border-slate-200 rounded-lg text-sm"
           />
-          <button className="px-4 py-2 bg-teal-700 text-white rounded-lg text-sm font-medium">Save Mood</button>
+          <button data-voice="save mood|submit mood" className="px-4 py-2 bg-teal-700 text-white rounded-lg text-sm font-medium">Save Mood</button>
         </form>
 
         {careInsights?.moodTrend && (

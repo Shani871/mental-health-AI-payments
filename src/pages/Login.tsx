@@ -84,6 +84,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
+              data-voice="email|login email"
               required
               className="field-input"
             />
@@ -92,6 +93,7 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
+              data-voice="password|login password"
               required
               className="field-input"
             />
@@ -99,6 +101,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
+              data-voice="login|sign in|submit login"
               className="brand-button w-full py-2.5 rounded-xl text-sm font-semibold disabled:opacity-60"
             >
               {loading ? "Logging in..." : "Login"}
@@ -110,7 +113,7 @@ export default function Login() {
               New user? <Link to="/signup" className="text-teal-700 font-semibold hover:underline">Create account</Link>
             </div>
             <div>
-              Therapist? <Link to="/therapist-signup" className="text-teal-700 font-semibold hover:underline">Register as therapist</Link>
+              Therapist? <Link to="/therapist-signup" data-voice="register as therapist|therapist sign up" className="text-teal-700 font-semibold hover:underline">Register as therapist</Link>
             </div>
           </div>
         </div>

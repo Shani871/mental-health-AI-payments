@@ -4,6 +4,8 @@ import { Bell, Brain, BrainCircuit, Calendar, LayoutDashboard, MessageSquareHear
 import { cn } from "../lib/utils";
 import { clearAuthUser, getAuthUser, type AuthUser } from "../lib/auth";
 import { apiFetch } from "../lib/api";
+import Chatbot from "./Chatbot";
+import VoiceAssistant from "./VoiceAssistant";
 
 type NotificationItem = {
   id: string;
@@ -117,14 +119,15 @@ export default function Layout() {
                 {authUser ? (
                   <button
                     onClick={logout}
+                    data-voice="logout|sign out"
                     className="px-3 py-2 rounded-xl text-sm font-semibold text-red-700 bg-red-50 border border-red-100 hover:bg-red-100"
                   >
                     Logout
                   </button>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <Link to="/login" className="outline-button px-3 py-2 rounded-xl text-sm font-semibold">Login</Link>
-                    <Link to="/signup" className="brand-button px-3 py-2 rounded-xl text-sm font-semibold">Sign Up</Link>
+                    <Link to="/login" data-voice="login|sign in" className="outline-button px-3 py-2 rounded-xl text-sm font-semibold">Login</Link>
+                    <Link to="/signup" data-voice="sign up|create account" className="brand-button px-3 py-2 rounded-xl text-sm font-semibold">Sign Up</Link>
                   </div>
                 )}
               </div>
@@ -138,6 +141,7 @@ export default function Layout() {
                       <Link
                         key={item.path}
                         to={item.path}
+                        data-voice={item.label}
                         className={cn(
                           "inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-colors",
                           isActive
@@ -151,7 +155,7 @@ export default function Layout() {
                     );
                   })}
                   {!authUser && (
-                    <Link to="/therapist-signup" className="inline-flex items-center px-3 py-2 rounded-xl text-sm font-semibold border border-amber-200 bg-amber-50 text-amber-800 whitespace-nowrap">
+                    <Link to="/therapist-signup" data-voice="therapist sign up|therapist register" className="inline-flex items-center px-3 py-2 rounded-xl text-sm font-semibold border border-amber-200 bg-amber-50 text-amber-800 whitespace-nowrap">
                       Therapist Sign Up
                     </Link>
                   )}
@@ -161,6 +165,7 @@ export default function Layout() {
                   <div className="relative shrink-0">
                     <button
                       onClick={() => setNotificationsOpen((prev) => !prev)}
+                      data-voice="notifications"
                       className="relative p-2 rounded-xl text-slate-700 border border-slate-200 bg-white hover:border-teal-200"
                       aria-label="Notifications"
                     >
@@ -235,6 +240,8 @@ export default function Layout() {
           </div>
         </div>
       </footer>
+      <Chatbot />
+      <VoiceAssistant />
     </div>
   );
 }

@@ -43,6 +43,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
                 to="/triage"
+                data-voice="start ai triage|triage|start assessment"
                 className="brand-button inline-flex items-center justify-center px-6 py-3 rounded-xl text-base font-semibold"
               >
                 Start AI Triage
@@ -50,12 +51,14 @@ export default function Home() {
               </Link>
               <Link
                 to="/therapists"
+                data-voice="browse therapists|find therapist"
                 className="outline-button inline-flex items-center justify-center px-6 py-3 rounded-xl text-base font-semibold"
               >
                 Browse Therapists
               </Link>
               <Link
                 to={accountCta.to}
+                data-voice={accountCta.label}
                 className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-base font-semibold bg-slate-900 text-white hover:bg-slate-800"
               >
                 {accountCta.label}
