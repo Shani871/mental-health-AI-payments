@@ -66,12 +66,46 @@ export default function Chatbot() {
         content: m.text
       }));
 
-      const res = await fetch("http://localhost:11434/api/chat", {
+      const systemPrompt = `You are a helpful, empathetic, and professional mental health support assistant for "MindTriage" (also known as MindBridge Health Platform). 
+Your goal is to provide supportive, helpful responses, check in on user well-being, and clarify what kind of help they might need.
+Do NOT attempt to diagnose or treat medical conditions. Encourage users to speak to a licensed therapist on the platform for clinical help.
+Keep your responses concise, readable, and highly empathetic.
+
+When the user asks ANYTHING about this project/platform, you MUST know everything about it based on the following context:
+
+PROJECT CONTEXT:
+MindTriage is a full-stack mental health SaaS.
+Key Features include:
+- Phase 1: JWT auth, role-based guards, rate limiting, global API responses.
+- Phase 2: Therapist profiles, slot management, Redis slot locking, booking lifecycle.
+- Phase 3: Payments (Razorpay, Stripe-style), invoices, refunds, commission engine.
+- Phase 4: AI Triage (structured PHQ-9/GAD-7 assessment), Risk classification, emergency alerts, encrypted AI chat history, daily mood tracking.
+- Phase 5: Zoom meetings, attendance tracking, email reminders, SMS mock service, in-app notifications.
+- Phase 6: Metrics, Docker + Nginx setup.
+- Voice Assistant: Custom voice dictation, navigation, and form-filling (accessible via the microphone icon).
+- Risk Prediction: Python machine learning model predicting depression/anxiety risks based on user inputs.
+- Tech Stack: React, Vite, TailwindCSS (Frontend), Spring Boot / Node.js Express (Backend), SQLite/MySQL (Database), Python (Model), NVIDIA LLM APIs instead of Ollama.
+- User Roles: USER (patient), THERAPIST, and ADMIN.
+
+If users ask about what this app is, its tech stack, its components, features, or how it works, answer confidently using the context above. For non-project questions, offer empathetic mental health support.`;
+
+      const nvidiaMessages = [
+        { role: 'system', content: systemPrompt },
+        ...messages.map((m: any) => ({
+          role: m.role === 'assistant' ? 'assistant' : 'user',
+          content: m.text
+        }))
+      ];
+
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          model: "llama3",
-          messages: conversationHistory,
+          model: "meta/llama-3.1-70b-instruct",
+          messages: nvidiaMessages,
+          temperature: 0.7,
+          top_p: 1,
+          max_tokens: 1024,
           stream: false
         })
       });
@@ -79,7 +113,7 @@ export default function Chatbot() {
       if (!res.ok) throw new Error("Network response was not ok");
       const data = await res.json();
       
-      const botReply = data?.message?.content || "I couldn't generate a response.";
+      const botReply = data?.choices?.[0]?.message?.content || "I couldn't generate a response.";
       
       const botMessage: Message = { 
         id: (Date.now() + 1).toString(), 
@@ -95,10 +129,10 @@ export default function Chatbot() {
       console.error("Chat error:", error);
       setMessages(prev => [
         ...prev, 
-        { id: (Date.now() + 1).toString(), role: "assistant", text: "I'm sorry, I'm having trouble connecting to Ollama right now. Please ensure it's running locally on port 11434." }
+        { id: (Date.now() + 1).toString(), role: "assistant", text: "I'm sorry, I'm having trouble connecting to the chat service. Please try again later." }
       ]);
       if (speechEnabled) {
-        speakText("I'm sorry, I'm having trouble connecting to Ollama right now. Please ensure it's running locally.");
+        speakText("I'm sorry, I'm having trouble connecting to the chat service. Please try again later.");
       }
     } finally {
       setIsLoading(false);

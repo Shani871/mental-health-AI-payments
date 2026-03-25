@@ -159,7 +159,7 @@ Your goal is to provide supportive, helpful responses, check in on user well-bei
 Do NOT attempt to diagnose or treat medical conditions. Encourage users to speak to a licensed therapist on the platform for clinical help.
 Keep your responses concise, readable, and highly empathetic.`;
 
-      const ollamaMessages = [
+      const nvidiaMessages = [
         { role: 'system', content: systemPrompt },
         ...messages.map((m: any) => ({
           role: m.role === 'assistant' ? 'assistant' : m.role || 'user',
@@ -167,22 +167,32 @@ Keep your responses concise, readable, and highly empathetic.`;
         }))
       ];
 
-      const ollamaRes = await fetch('http://localhost:11434/api/chat', {
+      if (!process.env.NVIDIA_API_KEY) {
+        throw new Error("NVIDIA_API_KEY is not set in the environment variables.");
+      }
+
+      const nvidiaRes = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.NVIDIA_API_KEY}`
+        },
         body: JSON.stringify({
-          model: 'llama3',
-          messages: ollamaMessages,
+          model: 'meta/llama-3.1-70b-instruct',
+          messages: nvidiaMessages,
+          temperature: 0.7,
+          top_p: 1,
+          max_tokens: 1024,
           stream: false
         })
       });
 
-      if (!ollamaRes.ok) {
-        throw new Error(`Ollama API error: ${ollamaRes.status} ${ollamaRes.statusText}`);
+      if (!nvidiaRes.ok) {
+        throw new Error(`NVIDIA API error: ${nvidiaRes.status} ${nvidiaRes.statusText}`);
       }
 
-      const data = await ollamaRes.json() as any;
-      const responseText = data.message?.content || "I'm sorry, I couldn't process that.";
+      const data = await nvidiaRes.json() as any;
+      const responseText = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't process that.";
       
       const lastUserText = messages[messages.length - 1]?.text?.toLowerCase() || "";
       const isUrgent = lastUserText.match(/\b(suicide|kill|die|harm|emergency|urgent|panic)\b/);
